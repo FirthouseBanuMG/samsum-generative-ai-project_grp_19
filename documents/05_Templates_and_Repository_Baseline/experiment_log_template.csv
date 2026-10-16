@@ -1,0 +1,1 @@
+run_id,date,owner,git_commit,dataset_source,split,sample_ids,model_id,model_revision,prompt_id,prompt_version,do_sample,temperature,top_k,top_p,max_new_tokens,seed,python_version,torch_version,transformers_version,requirements_lock_hash,output_path,rouge1,rouge2,rougeL,faithfulness_score,coverage_score,conciseness_score,action_item_score,json_valid,latency_seconds,notes,status

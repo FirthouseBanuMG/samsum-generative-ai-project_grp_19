@@ -1,0 +1,20 @@
+SAMSum Generative AI Group Project — Repository Baseline Record 001
+Recorded: 15 October 2026 (initial state)
+
+Initial verified repository state:
+- Remote: https://github.com/FirthouseBanuMG/samsum-generative-ai-project_grp_19.git
+- Branch: main
+- Initial commit: bc1b6bd (Initial commit)
+- Root listing initially showed README.md only (188 bytes).
+- Python 3.13.9 from Anaconda was the chosen interpreter for the repository-local virtual environment; Python 3.14 also existed.
+
+Update 002 — 15 October 2026:
+- Active project path: D:\BITS-Projects\samsum-generative-ai-project_grp_19
+- The D: copy's Git repository is accessible and `git log -1 --oneline` reports `bc1b6bd`.
+- Python 3.13.9 runs from D:\BITS-Projects\samsum-generative-ai-project_grp_19\.venv\Scripts\python.exe.
+- Verified imports: torch 2.13.0+cpu, NumPy 2.5.4, pandas 3.0.6, Transformers 5.19.0, Accelerate 1.15.0, jsonschema 4.26.0.
+- `pip check`: No broken requirements found.
+- `requirements-lock.txt` exists in the D: project root and is untracked in Git.
+- Jupyter kernel `samsum-generative-ai` points to the D: virtual-environment executable.
+- Qwen model access/load/generation and SAMSum data placement remain unverified.
+- Do not delete the original C: folder until the D: copy and required files have been checked.

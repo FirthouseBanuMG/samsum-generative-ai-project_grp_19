@@ -1,0 +1,39 @@
+﻿# Python environment
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Model and dataset caches
+.cache/
+.cache_huggingface/
+data/raw/
+data/processed/
+
+# Downloaded model files
+models/
+
+# Experiment outputs and logs
+mlruns/
+mlflow.db
+outputs/
+logs/
+*.log
+
+# Local environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
