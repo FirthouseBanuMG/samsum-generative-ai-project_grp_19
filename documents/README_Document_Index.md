@@ -63,3 +63,7 @@ Markdown conversions of earlier project plans, requirements, and checklists are 
 - UTF-8 content checks passed for the assignment brief and experiment log.
 - Full content, table, image, and formatting verification remains pending for the complete set.
 - Word originals have not been deleted.
+
+## Dataset Reproducibility
+
+- [Dataset Acquisition and Reproducibility](03_Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md) — expected raw files, source and license checks, checksums, validation/preprocessing commands, split-use policy, and current baseline limitations.

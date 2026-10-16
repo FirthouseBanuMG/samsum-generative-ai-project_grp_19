@@ -178,3 +178,11 @@ Before starting a task, check the project plan and experiment log. Coordinate ch
 ## Known handover limitation
 
 The dataset CSVs and processed metadata are not included in this repository. Teammates must obtain the source dataset and regenerate the processed files locally before running the model smoke test. Dataset redistribution should not be assumed permitted without checking the applicable terms.
+
+## Reproducibility and remaining work
+
+The raw and processed SAMSum CSV files are excluded from Git. See the [dataset acquisition and reproducibility guide](documents/03_Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md) for expected files, verification steps, preprocessing commands, and split-use policy.
+
+The current Qwen baseline is a small qualitative smoke test, not a formal performance evaluation. Its outputs include examples of unsupported details, so they must not be presented as proof of reliable summarization.
+
+The repository currently contains preprocessing and validation scripts plus baseline smoke-test evidence. The integrated notebook/demo, systematic model and prompt comparisons, action-item extraction evaluation, final test-set evaluation, and presentation evidence remain to be implemented and verified.
