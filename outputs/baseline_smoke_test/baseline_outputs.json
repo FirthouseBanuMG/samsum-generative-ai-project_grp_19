@@ -1,0 +1,35 @@
+[
+  {
+    "sample_id": "13818513",
+    "dataset_split": "train",
+    "dialogue": "Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)",
+    "rendered_prompt": "<|im_start|>system\nSummarize the conversation accurately in one or two sentences. Include important decisions and action items. Do not invent information.<|im_end|>\n<|im_start|>user\nSummarize this conversation:\nAmanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)<|im_end|>\n<|im_start|>assistant\n",
+    "reference_summary": "Amanda baked cookies and will bring Jerry some tomorrow.",
+    "generated_summary": "Amanda baked cookies for Jerry, who agreed to have them tomorrow.",
+    "selection_category": "simple request and agreement",
+    "selection_reason": "Check preservation of the key event and future action.",
+    "generation_seconds": 9.152
+  },
+  {
+    "sample_id": "13681000",
+    "dataset_split": "train",
+    "dialogue": "Tim: Hi, what's up?\r\nKim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating\r\nTim: What did you plan on doing?\r\nKim: Oh you know, uni stuff and unfucking my room\r\nKim: Maybe tomorrow I'll move my ass and do everything\r\nKim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies\r\nTim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores\r\nTim: It really helps\r\nKim: thanks, maybe I'll do that\r\nTim: I also like using post-its in kaban style",
+    "rendered_prompt": "<|im_start|>system\nSummarize the conversation accurately in one or two sentences. Include important decisions and action items. Do not invent information.<|im_end|>\n<|im_start|>user\nSummarize this conversation:\nTim: Hi, what's up?\r\nKim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating\r\nTim: What did you plan on doing?\r\nKim: Oh you know, uni stuff and unfucking my room\r\nKim: Maybe tomorrow I'll move my ass and do everything\r\nKim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies\r\nTim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores\r\nTim: It really helps\r\nKim: thanks, maybe I'll do that\r\nTim: I also like using post-its in kaban style<|im_end|>\n<|im_start|>assistant\n",
+    "reference_summary": "Kim may try the pomodoro technique recommended by Tim to get more stuff done.",
+    "generated_summary": "Kim decided to start moving her things tomorrow after Tim suggested the Pomodoro technique for better time management. Kim will also try using post-it notes in a kanban-style system.",
+    "selection_category": "advice and tentative action",
+    "selection_reason": "Check whether a suggestion is distinguished from a confirmed decision.",
+    "generation_seconds": 9.462
+  },
+  {
+    "sample_id": "13728094",
+    "dataset_split": "train",
+    "dialogue": "Sam: hey  overheard rick say something\r\nSam: i don't know what to do :-/\r\nNaomi: what did he say??\r\nSam: he was talking on the phone with someone\r\nSam: i don't know who\r\nSam: and he was telling them that he wasn't very happy here\r\nNaomi: damn!!!\r\nSam: he was saying he doesn't like being my roommate\r\nNaomi: wow, how do you feel about it?\r\nSam: i thought i was a good rommate\r\nSam: and that we have a nice place\r\nNaomi: that's true man!!!\r\nNaomi: i used to love living with you before i moved in with me boyfriend\r\nNaomi: i don't know why he's saying that\r\nSam: what should i do???\r\nNaomi: honestly if it's bothering you that much you should talk to him\r\nNaomi: see what's going on\r\nSam: i don't want to get in any kind of confrontation though\r\nSam: maybe i'll just let it go\r\nSam: and see how it goes in the future\r\nNaomi: it's your choice sam\r\nNaomi: if i were you i would just talk to him and clear the air",
+    "rendered_prompt": "<|im_start|>system\nSummarize the conversation accurately in one or two sentences. Include important decisions and action items. Do not invent information.<|im_end|>\n<|im_start|>user\nSummarize this conversation:\nSam: hey  overheard rick say something\r\nSam: i don't know what to do :-/\r\nNaomi: what did he say??\r\nSam: he was talking on the phone with someone\r\nSam: i don't know who\r\nSam: and he was telling them that he wasn't very happy here\r\nNaomi: damn!!!\r\nSam: he was saying he doesn't like being my roommate\r\nNaomi: wow, how do you feel about it?\r\nSam: i thought i was a good rommate\r\nSam: and that we have a nice place\r\nNaomi: that's true man!!!\r\nNaomi: i used to love living with you before i moved in with me boyfriend\r\nNaomi: i don't know why he's saying that\r\nSam: what should i do???\r\nNaomi: honestly if it's bothering you that much you should talk to him\r\nNaomi: see what's going on\r\nSam: i don't want to get in any kind of confrontation though\r\nSam: maybe i'll just let it go\r\nSam: and see how it goes in the future\r\nNaomi: it's your choice sam\r\nNaomi: if i were you i would just talk to him and clear the air<|im_end|>\n<|im_start|>assistant\n",
+    "reference_summary": "Sam is confused, because he overheard Rick complaining about him as a roommate. Naomi thinks Sam should talk to Rick. Sam is not sure what to do.",
+    "generated_summary": "Sam overhears Rick expressing dissatisfaction with Sam as his roommate. Naomi advises Sam to discuss the issue directly with Rick to resolve their disagreement. Sam decides against confronting Rick due to potential conflict but plans to address the situation in the future.",
+    "selection_category": "longer multi-speaker discussion",
+    "selection_reason": "Check preservation of the main problem and advice without speaker confusion.",
+    "generation_seconds": 11.996
+  }
+]

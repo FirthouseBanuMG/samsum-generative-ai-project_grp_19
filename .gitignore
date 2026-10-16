@@ -37,3 +37,11 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+
+# Track selected baseline evidence for the group project
+!outputs/
+outputs/*
+!outputs/baseline_smoke_test/
+outputs/baseline_smoke_test/*
+!outputs/baseline_smoke_test/baseline_outputs.json
+!outputs/baseline_smoke_test/run_metadata.json

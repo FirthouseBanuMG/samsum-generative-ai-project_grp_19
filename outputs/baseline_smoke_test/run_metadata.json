@@ -1,0 +1,26 @@
+{
+  "experiment": "initial_baseline_smoke_test",
+  "run_timestamp_utc": "2026-10-15T21:38:31.107375+00:00",
+  "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+  "dataset_split": "train",
+  "sample_ids": [
+    "13818513",
+    "13681000",
+    "13728094"
+  ],
+  "system_prompt": "Summarize the conversation accurately in one or two sentences. Include important decisions and action items. Do not invent information.",
+  "decoding": {
+    "do_sample": false,
+    "max_new_tokens": 100,
+    "temperature": null,
+    "top_k": null,
+    "top_p": null,
+    "note": "Greedy decoding; sampling parameters are not applied."
+  },
+  "device": "cpu",
+  "torch_version": "2.13.0+cpu",
+  "cuda_available": false,
+  "model_load_seconds": 12.07,
+  "total_generation_seconds": 30.61,
+  "purpose": "Qualitative pipeline verification only, not a performance estimate."
+}
