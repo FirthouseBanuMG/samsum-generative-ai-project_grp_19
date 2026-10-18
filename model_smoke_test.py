@@ -1,4 +1,13 @@
-﻿import json
+﻿# Run a baseline smoke test for a conversational summarization model.
+
+# The script loads selected SAMSum training examples, generates summaries
+# using a pretrained causal language model, and saves the outputs along
+# with experiment metadata.
+
+# This test verifies pipeline functionality and is not intended to measure
+# summarization quality or benchmark model performance.
+
+import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
@@ -7,24 +16,30 @@ import pandas as pd
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
+# Model configuration and input/output paths for the baseline experiment.
 MODEL_NAME = "Qwen/Qwen2.5-1.5B-Instruct"
 MANIFEST_PATH = Path("data/processed/baseline_sample_manifest.json")
 TRAIN_PATH = Path("data/processed/samsum-train-processed.csv")
 OUTPUT_DIR = Path("outputs/baseline_smoke_test")
 
+# Define the summarization instructions passed to the model.
 SYSTEM_PROMPT = (
     "Summarize the conversation accurately in one or two sentences. "
     "Include important decisions and action items. Do not invent information."
 )
+
+# Limit the summary length and use deterministic greedy decoding.
 MAX_NEW_TOKENS = 100
 DO_SAMPLE = False
 
 def main():
+# Confirm that all required input files exist before processing.
     if not MANIFEST_PATH.exists():
         raise FileNotFoundError(f"Manifest not found: {MANIFEST_PATH}")
     if not TRAIN_PATH.exists():
         raise FileNotFoundError(f"Processed training data not found: {TRAIN_PATH}")
 
+# Load the sample manifest and ensure that only training examples are selected.
     manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
 
     if manifest.get("dataset_split") != "train":
@@ -73,6 +88,7 @@ def main():
         dialogue = str(row["dialogue"])
         reference = str(row["summary"])
 
+# Build the system and user messages for the selected conversation.
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
             {
@@ -81,15 +97,19 @@ def main():
             }
         ]
 
+# Apply the model-specific chat template to format the input prompt.
         prompt = tokenizer.apply_chat_template(
             messages,
             tokenize=False,
             add_generation_prompt=True
         )
+# Convert the formatted prompt into token IDs for model inference.
         inputs = tokenizer(prompt, return_tensors="pt")
 
         print(f"\nGenerating summary for {sample_id}...")
         generation_start = time.time()
+
+# Generate the summary without tracking gradients to reduce inference overhead.
         with torch.inference_mode():
             output_ids = model.generate(
                 **inputs,
@@ -99,6 +119,7 @@ def main():
         generation_seconds = time.time() - generation_start
         total_generation_seconds += generation_seconds
 
+# Remove the input prompt tokens so that only the generated summary is decoded.
         new_tokens = output_ids[0][inputs["input_ids"].shape[1]:]
         generated_summary = tokenizer.decode(
             new_tokens,
