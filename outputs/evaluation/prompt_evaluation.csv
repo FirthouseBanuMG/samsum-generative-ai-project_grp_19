@@ -1,0 +1,141 @@
+sample_id,prompt_strategy,dialogue,reference_summary,generated_summary,generation_seconds,summary_word_count,output_nonempty,relevance_score,coverage_score,factual_consistency_score,output_reliability_score,unsupported_claims,missing_information,comments
+13818513,zero_shot,"Amanda: I baked  cookies. Do you want some?
+Jerry: Sure!
+Amanda: I'll bring you tomorrow :-)",Amanda baked cookies and will bring Jerry some tomorrow.,The conversation is about Amanda baking cookies for Jerry. They agree that Jerry will have them tomorrow.,604.612,17,TRUE,5,4,4,4,,No major information is missing. The summary captures Amanda's offer and Jerry's agreement.,
+13818513,few_shot,"Amanda: I baked  cookies. Do you want some?
+Jerry: Sure!
+Amanda: I'll bring you tomorrow :-)",Amanda baked cookies and will bring Jerry some tomorrow.,"Summary: Amanda baked cookies, offered them to Jerry, and said she would bring them to him tomorrow.",755.499,17,TRUE,5,5,5,4,,"No significant information is missing. The summary captures the offer, Jerry's acceptance, and the plan to bring cookies tomorrow",
+13818513,role_based,"Amanda: I baked  cookies. Do you want some?
+Jerry: Sure!
+Amanda: I'll bring you tomorrow :-)",Amanda baked cookies and will bring Jerry some tomorrow.,Summary: Amanda baked cookies and invited Jerry to have them tomorrow.,398.65,11,TRUE,5,4,5,4,,No major information is missing. The summary preserves the main event and planned action.,
+13818513,constraint_based,"Amanda: I baked  cookies. Do you want some?
+Jerry: Sure!
+Amanda: I'll bring you tomorrow :-)",Amanda baked cookies and will bring Jerry some tomorrow.,Amanda baked cookies and offered them to Jerry who agreed to take them tomorrow.,507.151,14,TRUE,5,4,4,5,,No major information is missing. The summary captures the cookie offer and the plan for tomorrow.,
+13681000,zero_shot,"Tim: Hi, what's up?
+Kim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating
+Tim: What did you plan on doing?
+Kim: Oh you know, uni stuff and unfucking my room
+Kim: Maybe tomorrow I'll move my ass and do everything
+Kim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies
+Tim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores
+Tim: It really helps
+Kim: thanks, maybe I'll do that
+Tim: I also like using post-its in kaban style",Kim may try the pomodoro technique recommended by Tim to get more stuff done.,The conversation is about Kim feeling down due to procrastination and plans to tackle her tasks more effectively. She mentions considering the Pomodoro technique for organizing her work and suggests using sticky notes (post-its) in a Kanban-style system. Tim agrees with these suggestions and offers his support.,1594.565,47,TRUE,4,4,2,3,Attributes the sticky-note suggestion to Kim rather than Tim; implies a more definite plan.,Kim's uncertainty about whether she will try the Pomodoro technique is not clearly preserved. The summary also needs to distinguish Tim's sticky-note suggestion from Kim's own plans.,Contains speaker-attribution and factual-consistency problems.
+13681000,few_shot,"Tim: Hi, what's up?
+Kim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating
+Tim: What did you plan on doing?
+Kim: Oh you know, uni stuff and unfucking my room
+Kim: Maybe tomorrow I'll move my ass and do everything
+Kim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies
+Tim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores
+Tim: It really helps
+Kim: thanks, maybe I'll do that
+Tim: I also like using post-its in kaban style",Kim may try the pomodoro technique recommended by Tim to get more stuff done.,Kim had a bad day due to procrastination. She plans to move her ass tomorrow and complete her tasks. Tim suggests using the Pomodoro technique for better productivity. Kim is considering trying it out.,1095.134,34,TRUE,5,4,4,4,,"The summary omits some context about Kim's procrastination and university work, as well as the plan to eat defrosted vegetables instead of shopping.",
+13681000,role_based,"Tim: Hi, what's up?
+Kim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating
+Tim: What did you plan on doing?
+Kim: Oh you know, uni stuff and unfucking my room
+Kim: Maybe tomorrow I'll move my ass and do everything
+Kim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies
+Tim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores
+Tim: It really helps
+Kim: thanks, maybe I'll do that
+Tim: I also like using post-its in kaban style",Kim may try the pomodoro technique recommended by Tim to get more stuff done.,"The conversation involves Tim and Kim discussing their current state of mind and plans. Kim is feeling down due to procrastination, while Tim suggests using the Pomodoro technique for better time management. They both mention planning to do some tasks related to university work and cleaning their rooms. Kim considers moving forward with her plans despite initial procrastination. Additionally, they discuss alternative activities such as eating defrosted vegetables from a refrigerator and using sticky notes (kabans) for organizing tasks.",3755.062,79,TRUE,4,4,3,3,May overstate the participants' plans and commitments.,The summary omits some context about Kim's procrastination and the defrosted vegetables plan. Check whether the generated summary preserves Kim's tentative response to Tim's suggestion.,Captures the general topic but should be checked for unsupported details.
+13681000,constraint_based,"Tim: Hi, what's up?
+Kim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating
+Tim: What did you plan on doing?
+Kim: Oh you know, uni stuff and unfucking my room
+Kim: Maybe tomorrow I'll move my ass and do everything
+Kim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies
+Tim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores
+Tim: It really helps
+Kim: thanks, maybe I'll do that
+Tim: I also like using post-its in kaban style",Kim may try the pomodoro technique recommended by Tim to get more stuff done.,"Kim had a bad mood due to procrastination. She planned to do university work and clean her room but ended up eating defrosted vegetables instead. Tim suggested using the Pomodoro technique for better time management, which Kim might try.",1089.427,39,TRUE,5,4,4,4,,"The summary omits some background about Kim's university work, room, and defrosted vegetables plan. These details may be less important than the main productivity discussion.",
+13728094,zero_shot,"Sam: hey  overheard rick say something
+Sam: i don't know what to do :-/
+Naomi: what did he say??
+Sam: he was talking on the phone with someone
+Sam: i don't know who
+Sam: and he was telling them that he wasn't very happy here
+Naomi: damn!!!
+Sam: he was saying he doesn't like being my roommate
+Naomi: wow, how do you feel about it?
+Sam: i thought i was a good rommate
+Sam: and that we have a nice place
+Naomi: that's true man!!!
+Naomi: i used to love living with you before i moved in with me boyfriend
+Naomi: i don't know why he's saying that
+Sam: what should i do???
+Naomi: honestly if it's bothering you that much you should talk to him
+Naomi: see what's going on
+Sam: i don't want to get in any kind of confrontation though
+Sam: maybe i'll just let it go
+Sam: and see how it goes in the future
+Naomi: it's your choice sam
+Naomi: if i were you i would just talk to him and clear the air","Sam is confused, because he overheard Rick complaining about him as a roommate. Naomi thinks Sam should talk to Rick. Sam is not sure what to do.",The conversation involves Sam overhearing Rick mention his dissatisfaction with living with Sam as their roommate. Naomi expresses concern for Sam's feelings and advises him to address the issue directly with Rick. Sam is hesitant due to potential confrontational situations but ultimately decides to discuss the matter privately. Naomi suggests letting things resolve naturally in the future while also offering advice on how Sam might approach the situation.,1743.207,68,TRUE,5,4,4,3,,The summary should clearly preserve Sam's reluctance to confront Rick and his consideration of letting the situation go.,
+13728094,few_shot,"Sam: hey  overheard rick say something
+Sam: i don't know what to do :-/
+Naomi: what did he say??
+Sam: he was talking on the phone with someone
+Sam: i don't know who
+Sam: and he was telling them that he wasn't very happy here
+Naomi: damn!!!
+Sam: he was saying he doesn't like being my roommate
+Naomi: wow, how do you feel about it?
+Sam: i thought i was a good rommate
+Sam: and that we have a nice place
+Naomi: that's true man!!!
+Naomi: i used to love living with you before i moved in with me boyfriend
+Naomi: i don't know why he's saying that
+Sam: what should i do???
+Naomi: honestly if it's bothering you that much you should talk to him
+Naomi: see what's going on
+Sam: i don't want to get in any kind of confrontation though
+Sam: maybe i'll just let it go
+Sam: and see how it goes in the future
+Naomi: it's your choice sam
+Naomi: if i were you i would just talk to him and clear the air","Sam is confused, because he overheard Rick complaining about him as a roommate. Naomi thinks Sam should talk to Rick. Sam is not sure what to do.",Sam overhears Rick mentioning his dissatisfaction with Sam as their roommate. Naomi expresses concern and advises Sam to address the issue directly with Rick. Sam is hesitant due to potential confrontation but decides to try having an open discussion with Rick to resolve the situation. Naomi suggests letting things be for now while acknowledging Sam's right to make their own decision.,1622.397,61,TRUE,5,4,2,3,States that Sam decides to have an open discussion with Rick.,"The summary should preserve Sam's reluctance to confront Rick and his uncertainty about what to do, rather than presenting a definite decision to talk.",Sam does not explicitly agree to have the discussion.
+13728094,role_based,"Sam: hey  overheard rick say something
+Sam: i don't know what to do :-/
+Naomi: what did he say??
+Sam: he was talking on the phone with someone
+Sam: i don't know who
+Sam: and he was telling them that he wasn't very happy here
+Naomi: damn!!!
+Sam: he was saying he doesn't like being my roommate
+Naomi: wow, how do you feel about it?
+Sam: i thought i was a good rommate
+Sam: and that we have a nice place
+Naomi: that's true man!!!
+Naomi: i used to love living with you before i moved in with me boyfriend
+Naomi: i don't know why he's saying that
+Sam: what should i do???
+Naomi: honestly if it's bothering you that much you should talk to him
+Naomi: see what's going on
+Sam: i don't want to get in any kind of confrontation though
+Sam: maybe i'll just let it go
+Sam: and see how it goes in the future
+Naomi: it's your choice sam
+Naomi: if i were you i would just talk to him and clear the air","Sam is confused, because he overheard Rick complaining about him as a roommate. Naomi thinks Sam should talk to Rick. Sam is not sure what to do.",Summary: Sam overhears Rick expressing dissatisfaction with his current living situation as his roommate. Naomi expresses concern and advises Sam to address the issue directly with Rick. Sam is hesitant due to potential confrontation but decides to try having an open discussion to resolve the conflict. Naomi suggests letting things be for now while remaining available to help in the future.,1622.947,61,TRUE,5,4,2,3,States that Sam decides to have an open discussion with Rick.,The summary should distinguish Naomi's recommendation to talk to Rick from Sam's own intentions. Sam has not explicitly agreed to follow Naomi's advice.,The summary overstates Sam's final decision.
+13728094,constraint_based,"Sam: hey  overheard rick say something
+Sam: i don't know what to do :-/
+Naomi: what did he say??
+Sam: he was talking on the phone with someone
+Sam: i don't know who
+Sam: and he was telling them that he wasn't very happy here
+Naomi: damn!!!
+Sam: he was saying he doesn't like being my roommate
+Naomi: wow, how do you feel about it?
+Sam: i thought i was a good rommate
+Sam: and that we have a nice place
+Naomi: that's true man!!!
+Naomi: i used to love living with you before i moved in with me boyfriend
+Naomi: i don't know why he's saying that
+Sam: what should i do???
+Naomi: honestly if it's bothering you that much you should talk to him
+Naomi: see what's going on
+Sam: i don't want to get in any kind of confrontation though
+Sam: maybe i'll just let it go
+Sam: and see how it goes in the future
+Naomi: it's your choice sam
+Naomi: if i were you i would just talk to him and clear the air","Sam is confused, because he overheard Rick complaining about him as a roommate. Naomi thinks Sam should talk to Rick. Sam is not sure what to do.",Sam heard Rick mention his dissatisfaction with Sam as their roommate. Naomi expresses concern but suggests Sam address the issue directly with Rick. Sam decides against confrontation and plans to resolve the situation later. Naomi advises Sam to communicate openly with Rick to find a solution.,1231.734,46,TRUE,4,4,2,3,Says Sam plans to resolve the situation later.,The summary should preserve Sam's uncertainty and consideration of letting the situation go. It should not imply that he has committed to resolving the issue later.,Sam considers letting the situation go; a definite future plan is not established.
