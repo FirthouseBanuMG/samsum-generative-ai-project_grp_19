@@ -1,0 +1,5 @@
+prompt_strategy,sample_count,average_relevance,average_coverage,average_factual_consistency,average_output_reliability,average_generation_seconds,nonempty_outputs
+constraint_based,3,4.67,4,3.33,4,942.77,3
+few_shot,3,5,4.33,3.67,3.67,1157.68,3
+role_based,3,4.67,4,3.33,3.33,1925.55,3
+zero_shot,3,4.67,4,3.33,3.33,1314.13,3

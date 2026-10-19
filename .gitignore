@@ -45,3 +45,22 @@ outputs/*
 outputs/baseline_smoke_test/*
 !outputs/baseline_smoke_test/baseline_outputs.json
 !outputs/baseline_smoke_test/run_metadata.json
+
+# Track prompt experiment results
+!outputs/prompt_experiments/
+!outputs/prompt_experiments/prompt_comparison.csv
+!outputs/prompt_experiments/prompt_comparison.json
+
+# Track prompt evaluation results
+!outputs/evaluation/
+!outputs/evaluation/baseline_evaluation.csv
+!outputs/evaluation/prompt_evaluation.csv
+!outputs/evaluation/prompt_strategy_comparison.csv
+
+# Track prompt experiment and evaluation CSVs
+!outputs/
+!outputs/prompt_experiments/
+!outputs/prompt_experiments/prompt_comparison.csv
+!outputs/evaluation/
+!outputs/evaluation/prompt_evaluation.csv
+!outputs/evaluation/prompt_strategy_comparison.csv
