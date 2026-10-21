@@ -97,6 +97,41 @@ Summary:
 """.strip()
 
 
+def structured_json_prompt(dialogue: str) -> str:
+    """Summarize and return a machine-readable JSON object.
+
+    The model is asked to return only a JSON object matching the
+    structured-output schema (a summary string and an action_items
+    array). This prompt backs experiment E4.
+    """
+
+    return f"""
+You are a conversation summarization assistant.
+
+Summarize the following conversation and return the result
+as a single JSON object with exactly these fields:
+
+- "summary": a concise natural-language summary (string).
+- "action_items": a list of objects, each with:
+    - "owner": the person responsible (string)
+    - "task": the action they agreed to take (string)
+    - "due": a due date if stated, otherwise null
+
+Rules:
+- Use only information explicitly supported by the conversation.
+- Do not invent action items. If there are none, use an empty list [].
+- Return only the JSON object. Do not add explanations or code fences.
+
+Example:
+{{"summary": "Amanda baked cookies and will bring some to Jerry tomorrow.", "action_items": [{{"owner": "Amanda", "task": "Bring cookies to Jerry", "due": "tomorrow"}}]}}
+
+Conversation:
+{dialogue}
+
+JSON:
+""".strip()
+
+
 PROMPT_FUNCTIONS = {
     "zero_shot": zero_shot_prompt,
     "few_shot": few_shot_prompt,

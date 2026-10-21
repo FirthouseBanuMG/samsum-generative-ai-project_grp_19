@@ -147,6 +147,40 @@ The first run may download model files and take several minutes on CPU.
 
 The generated summaries include unsupported details in some examples. Treat them as qualitative debugging evidence, not as proof of model accuracy.
 
+## Decoding comparison experiment (E3)
+
+Compare greedy decoding against sampling configurations (temperature with top-p and with top-k) on the baseline dialogues, keeping the prompt fixed. Sampling runs are repeated with recorded seeds so output variability can be measured.
+
+```powershell
+.\.venv\Scripts\python.exe src\run_decoding_experiments.py
+```
+
+Outputs are written to `outputs/decoding_experiments/`:
+
+- `decoding_comparison.json` / `decoding_comparison.csv` — every run with its decoding config, seed and summary.
+- `decoding_variability_summary.csv` — distinct outputs and mean word overlap per decoding config (repeatability vs diversity).
+
+This runs many generations on CPU and can take a long time. Run it once and keep the outputs.
+
+## Structured JSON output experiment (E4)
+
+Generate machine-readable output (`summary` plus an `action_items` list) for each baseline dialogue, validate it against a JSON schema, and demonstrate recovery from invalid JSON (one corrective retry, then a flagged fallback).
+
+```powershell
+.\.venv\Scripts\python.exe src\run_structured_output.py
+```
+
+Outputs are written to `outputs/structured_output/`:
+
+- `structured_outputs.json` — per-sample raw output, parse/validation result, recovery status, final object, plus a deliberate malformed case run through the validator.
+- `structured_output_log.csv` — compact valid/invalid/recovered summary.
+
+The schema and helpers live in `src/structured_schema.py`. Validation logic can be checked quickly without loading the model:
+
+```powershell
+.\.venv\Scripts\python.exe src\test_structured_schema.py
+```
+
 ## Experiment and data-use policy
 
 - Training split: initial pipeline checks and few-shot demonstrations.
