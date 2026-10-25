@@ -1,8 +1,8 @@
-*Reusable recording templates • fill with actual evidence*
+﻿*Reusable recording templates â€¢ fill with actual evidence*
 
 Project: SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction
 
-Document status: Version 0.2 — updated 15 October 2026
+Document status: Version 0.2 â€” updated 15 October 2026
 
 Working rule: Record proposed choices as proposed until the team verifies them. Never report unrun experiments as results.
 
@@ -67,7 +67,7 @@ Working rule: Record proposed choices as proposed until the team verifies them. 
 
 - Keep final test-set results separate from prompt-selection results.
 
-# Update 002 — Verified Windows Environment and D: Drive Status
+# Update 002 â€” Verified Windows Environment and D: Drive Status
 
 Status recorded on 15 October 2026 from the user's PowerShell outputs. This section supersedes earlier proposed setup values where they differ, while preserving earlier baseline observations as historical records.
 
@@ -113,7 +113,7 @@ Status recorded on 15 October 2026 from the user's PowerShell outputs. This sect
 >
 > git -C "D:\BITS-Projects\samsum-generative-ai-project_grp_19" log -1 --oneline
 
-## Not yet verified — do not report as completed
+## Not yet verified â€” do not report as completed
 
 - Qwen/Qwen2.5-1.5B-Instruct repository access check has not yet been run.
 
@@ -203,3 +203,66 @@ Both files were verified to exist and parse as valid JSON. This was a qualitativ
 - Record the prompt, decoding configuration, and observed failure cases for reproducibility.
 
 **Status:** Initial baseline smoke test completed; controlled evaluation remains pending.
+
+# J. Tool/Function-Calling Demonstration
+
+**Date:** 25 October 2026
+
+## J.1 Implementation
+
+- **Model:** `Qwen/Qwen2.5-1.5B-Instruct`
+- **Execution device:** CPU; CUDA unavailable.
+- **Implementation:** `src/run_tool_calling.py`
+- **Tests:** `src/test_tool_calling.py`
+- **Saved evidence:** `outputs/tool_calling/tool_calling_demo.json`
+- **Dataset:** SAMSum training sample `13818513`.
+- **Runtime:** Approximately 14.2 seconds for the demonstration, including model generation.
+
+The model generated a JSON request for the allowlisted Python tool `validate_summary_output`. The application parsed the request, checked the tool name and arguments, and executed the validator against the generated summary and action items.
+
+**Protocol limitation:** This is an application-level JSON tool-call protocol, not native model-specific tool-call parsing. The demonstration does not include a second model turn after returning the tool result.
+
+## J.2 Verification results
+
+| Check | Observed result |
+|---|---|
+| Python compilation | Passed |
+| Valid tool request | Passed |
+| Schema-invalid output | Rejected |
+| Unknown tool name | Rejected |
+| Unexpected arguments | Rejected |
+| Malformed JSON request | Rejected |
+| Offline test suite | 5/5 tests passed |
+| Model-generated tool request | Generated and executed |
+| JSON Schema validation | Passed for the demonstration output |
+| Evidence file | Saved to the path listed above |
+
+## J.3 Observed output and failure analysis
+
+**Sample ID:** `13818513` (training split)
+
+**Dialogue:** Amanda baked cookies, asked Jerry if he wanted some, Jerry agreed, and Amanda said she would bring some the next day.
+
+The generated summary captured the main event and planned delivery. However, the generated action items included:
+
+- Amanda: â€œPrepare cookiesâ€
+- Jerry: â€œEat cookiesâ€
+
+These are not explicit commitments in the dialogue. The validator accepted the output because the JSON structure matched the schema.
+
+**Finding:** Schema validity does not establish factual accuracy or whether an action item is supported by the dialogue.
+
+**Mitigation:** Keep `human_review_required` set to `true`; review generated summaries and action items against the original dialogue; improve prompting and evaluate factual faithfulness separately from structural validity.
+
+The saved evidence includes a review note explaining that schema validation checks structure only and that human review is required.
+
+## J.4 Technical decisions and limitations
+
+1. Keep tool execution restricted to explicitly allowlisted tool names.
+2. Validate request arguments before executing a tool.
+3. Validate generated structured output with the existing JSON Schema validator.
+4. Retain negative tests for malformed requests, unknown tools, incorrect arguments, and schema-invalid output.
+5. Do not treat a successful schema check as proof of factual correctness.
+6. Do not claim native model-specific tool calling or a tool-result-to-model follow-up turn; neither is implemented in this demonstration.
+
+**Status:** The application-level demonstration and five offline tests passed. Semantic faithfulness remains a separate review and evaluation responsibility.

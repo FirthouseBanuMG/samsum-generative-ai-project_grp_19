@@ -64,3 +64,7 @@ outputs/baseline_smoke_test/*
 !outputs/evaluation/
 !outputs/evaluation/prompt_evaluation.csv
 !outputs/evaluation/prompt_strategy_comparison.csv
+
+# Track verified tool-calling demonstration evidence
+!outputs/tool_calling/
+!outputs/tool_calling/tool_calling_demo.json
