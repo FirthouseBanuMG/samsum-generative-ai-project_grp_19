@@ -1,0 +1,94 @@
+{
+  "experiment": "application_level_json_tool_calling",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "sample_id": "13818513",
+  "dataset_split": "train",
+  "protocol_note": "Application-level JSON tool-call protocol; not native model-specific tool-call token parsing.",
+  "tool_specification": {
+    "name": "validate_summary_output",
+    "description": "Validate a proposed conversation summary and its action items against the project's JSON schema.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "output": {
+          "type": "object",
+          "description": "Proposed summary JSON object to validate."
+        }
+      },
+      "required": [
+        "output"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "dialogue": "Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)",
+  "raw_model_tool_request": "{\n  \"tool_name\": \"validate_summary_output\",\n  \"arguments\": {\n    \"output\": {\n      \"summary\": \"Amanda baked cookies. Jerry wants them. Amanda will bring them tomorrow.\",\n      \"action_items\": [\n        {\n          \"owner\": \"Amanda\",\n          \"task\": \"Prepare cookies\"\n        },\n        {\n          \"owner\": \"Jerry\",\n          \"task\": \"Eat cookies\"\n        }\n      ]\n    }\n  }\n}",
+  "parsed_tool_request": {
+    "tool_name": "validate_summary_output",
+    "arguments": {
+      "output": {
+        "summary": "Amanda baked cookies. Jerry wants them. Amanda will bring them tomorrow.",
+        "action_items": [
+          {
+            "owner": "Amanda",
+            "task": "Prepare cookies"
+          },
+          {
+            "owner": "Jerry",
+            "task": "Eat cookies"
+          }
+        ]
+      }
+    }
+  },
+  "tool_execution_result": {
+    "tool": "validate_summary_output",
+    "valid": true,
+    "errors": [],
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "type": "string",
+                "minLength": 1
+              },
+              "task": {
+                "type": "string",
+                "minLength": 1
+              },
+              "due": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "owner",
+              "task"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "summary",
+        "action_items"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "execution_seconds_including_generation": 14.2,
+  "human_review_required": true,
+  "review_note": "Schema validation checks structure only. Review the summary and action items for factual support against the original dialogue."
+}
