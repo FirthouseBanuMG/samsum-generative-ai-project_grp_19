@@ -57,14 +57,13 @@ outputs/baseline_smoke_test/*
 !outputs/evaluation/prompt_evaluation.csv
 !outputs/evaluation/prompt_strategy_comparison.csv
 
-# Track prompt experiment and evaluation CSVs
-!outputs/
-!outputs/prompt_experiments/
-!outputs/prompt_experiments/prompt_comparison.csv
-!outputs/evaluation/
-!outputs/evaluation/prompt_evaluation.csv
-!outputs/evaluation/prompt_strategy_comparison.csv
-
 # Track verified tool-calling demonstration evidence
 !outputs/tool_calling/
 !outputs/tool_calling/tool_calling_demo.json
+
+# Track final model-family comparison evidence
+!outputs/model_comparison_50_samples/
+outputs/model_comparison_50_samples/*
+!outputs/model_comparison_50_samples/model_family_comparison.csv
+!outputs/model_comparison_50_samples/model_family_metrics.csv
+!outputs/model_comparison_50_samples/sample_manifest.json
