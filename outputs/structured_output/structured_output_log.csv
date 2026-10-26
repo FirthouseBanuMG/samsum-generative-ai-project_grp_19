@@ -1,0 +1,4 @@
+sample_id,status,attempts,parse_ok,schema_valid,elapsed_seconds,selection_category,error
+13818513,valid_first_attempt,1,True,True,2.68,simple request and agreement,
+13681000,valid_first_attempt,1,True,True,4.48,advice and tentative action,
+13728094,valid_first_attempt,1,True,True,2.31,longer multi-speaker discussion,
