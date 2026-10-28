@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "samsum-generative-ai-project"
+version = "0.1.0"
+description = "SAMSum conversation summarization and action-item extraction experiments"
+requires-python = ">=3.10"
+dependencies = [
+    "jsonschema",
+    "pandas",
+    "rouge-score",
+    "torch",
+    "transformers",
+]
+
+[project.optional-dependencies]
+evaluation-documents = [
+    "openpyxl",
+    "python-docx",
+]
+test = [
+    "pytest",
+]
+
+[tool.setuptools]
+py-modules = ["project_paths"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

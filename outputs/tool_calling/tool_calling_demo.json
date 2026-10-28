@@ -11,8 +11,63 @@
       "type": "object",
       "properties": {
         "output": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
-          "description": "Proposed summary JSON object to validate."
+          "properties": {
+            "summary": {
+              "type": "string",
+              "minLength": 1
+            },
+            "key_points": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "decisions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "action_items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "owner": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "task": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "due": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "owner",
+                  "task"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "summary",
+            "key_points",
+            "decisions",
+            "action_items"
+          ],
+          "additionalProperties": false,
+          "description": "Proposed structured summary with summary, key_points, decisions, and action_items."
         }
       },
       "required": [
@@ -22,22 +77,19 @@
     }
   },
   "dialogue": "Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)",
-  "raw_model_tool_request": "{\n  \"tool_name\": \"validate_summary_output\",\n  \"arguments\": {\n    \"output\": {\n      \"summary\": \"Amanda baked cookies. Jerry wants them. Amanda will bring them tomorrow.\",\n      \"action_items\": [\n        {\n          \"owner\": \"Amanda\",\n          \"task\": \"Prepare cookies\"\n        },\n        {\n          \"owner\": \"Jerry\",\n          \"task\": \"Eat cookies\"\n        }\n      ]\n    }\n  }\n}",
+  "raw_model_tool_request": "{\n  \"tool_name\": \"validate_summary_output\",\n  \"arguments\": {\n    \"output\": {\n      \"summary\": \"Amanda baked cookies. Jerry wants to eat them tomorrow.\",\n      \"key_points\": [\n        \"cookies\",\n        \"Jerry wants cookies\",\n        \"Amanda will bring cookies\"\n      ],\n      \"decisions\": [],\n      \"action_items\": []\n    }\n  }\n}",
   "parsed_tool_request": {
     "tool_name": "validate_summary_output",
     "arguments": {
       "output": {
-        "summary": "Amanda baked cookies. Jerry wants them. Amanda will bring them tomorrow.",
-        "action_items": [
-          {
-            "owner": "Amanda",
-            "task": "Prepare cookies"
-          },
-          {
-            "owner": "Jerry",
-            "task": "Eat cookies"
-          }
-        ]
+        "summary": "Amanda baked cookies. Jerry wants to eat them tomorrow.",
+        "key_points": [
+          "cookies",
+          "Jerry wants cookies",
+          "Amanda will bring cookies"
+        ],
+        "decisions": [],
+        "action_items": []
       }
     }
   },
@@ -52,6 +104,20 @@
         "summary": {
           "type": "string",
           "minLength": 1
+        },
+        "key_points": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "decisions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
         },
         "action_items": {
           "type": "array",
@@ -83,12 +149,16 @@
       },
       "required": [
         "summary",
+        "key_points",
+        "decisions",
         "action_items"
       ],
       "additionalProperties": false
     }
   },
-  "execution_seconds_including_generation": 14.2,
+  "final_response_status": "generated_after_valid_tool_result",
+  "final_response": "Summary: Amanda baked cookies. Jerry wants to eat them tomorrow.\nKey Points: Cookies, Jerry wants cookies, Amanda will bring cookies\nDecisions: None\nAction Items: None\n\nValidation note: The output passed JSON Schema checks for structure only; this does not verify factual accuracy or completeness. Human review is required.",
+  "execution_seconds_including_generation": 55.307,
   "human_review_required": true,
   "review_note": "Schema validation checks structure only. Review the summary and action items for factual support against the original dialogue."
 }

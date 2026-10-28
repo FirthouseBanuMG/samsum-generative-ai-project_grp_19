@@ -1,75 +1,103 @@
-[
-  {
-    "dialogue": "Amanda: I baked  cookies. Do you want some?\nJerry: Sure!\nAmanda: I'll bring you tomorrow :-)",
-    "raw_output": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"action_items\": [\n    {\n      \"owner\": \"Amanda\",\n      \"task\": \"Bring cookies to Jerry\"\n    }\n  ]\n}",
-    "repair_output": null,
-    "output": {
-      "summary": "Amanda baked cookies for Jerry.",
-      "action_items": [
-        {
-          "owner": "Amanda",
-          "task": "Bring cookies to Jerry"
-        }
-      ]
+{
+  "results": [
+    {
+      "sample_id": "13818513",
+      "dialogue": "Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)",
+      "reference_summary": "Amanda baked cookies and will bring Jerry some tomorrow.",
+      "raw_output": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+      "extracted_json": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+      "parse_ok": true,
+      "schema_valid": true,
+      "validation_errors": [],
+      "repair_attempted": false,
+      "repair_raw_output": null,
+      "recovered": false,
+      "used_fallback": false,
+      "final_object": {
+        "summary": "Amanda baked cookies for Jerry.",
+        "key_points": [
+          "Amanda baked cookies",
+          "Jerry wants cookies"
+        ],
+        "decisions": [],
+        "action_items": []
+      },
+      "generation_seconds": 18.293,
+      "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+      "max_new_tokens": 256
     },
-    "parse_ok": true,
-    "schema_valid": true,
-    "attempts": 1,
-    "status": "valid_first_attempt",
-    "error": null,
-    "sample_id": "13818513",
-    "reference_summary": "Amanda baked cookies and will bring Jerry some tomorrow.",
-    "selection_category": "simple request and agreement",
-    "elapsed_seconds": 2.68
-  },
-  {
-    "dialogue": "Tim: Hi, what's up?\nKim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating\nTim: What did you plan on doing?\nKim: Oh you know, uni stuff and unfucking my room\nKim: Maybe tomorrow I'll move my ass and do everything\nKim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies\nTim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores\nTim: It really helps\nKim: thanks, maybe I'll do that\nTim: I also like using post-its in kaban style",
-    "raw_output": "{\n  \"summary\": \"Kim discusses her bad mood and plans to start doing things more actively.\",\n  \"action_items\": [\n    {\n      \"owner\": \"Kim\",\n      \"task\": \"Try Pomodoro technique\"\n    },\n    {\n      \"owner\": \"Tim\",\n      \"task\": \"Use post-its in kaban style\"\n    }\n  ]\n}",
-    "repair_output": null,
-    "output": {
-      "summary": "Kim discusses her bad mood and plans to start doing things more actively.",
-      "action_items": [
-        {
-          "owner": "Kim",
-          "task": "Try Pomodoro technique"
-        },
-        {
-          "owner": "Tim",
-          "task": "Use post-its in kaban style"
-        }
-      ]
+    {
+      "sample_id": "13681000",
+      "dialogue": "Tim: Hi, what's up?\r\nKim: Bad mood tbh, I was going to do lots of stuff but ended up procrastinating\r\nTim: What did you plan on doing?\r\nKim: Oh you know, uni stuff and unfucking my room\r\nKim: Maybe tomorrow I'll move my ass and do everything\r\nKim: We were going to defrost a fridge so instead of shopping I'll eat some defrosted veggies\r\nTim: For doing stuff I recommend Pomodoro technique where u use breaks for doing chores\r\nTim: It really helps\r\nKim: thanks, maybe I'll do that\r\nTim: I also like using post-its in kaban style",
+      "reference_summary": "Kim may try the pomodoro technique recommended by Tim to get more stuff done.",
+      "raw_output": "{\n  \"summary\": \"Kim discusses her bad mood and plans to start doing things soon, while Tim suggests the Pomodoro technique.\",\n  \"key_points\": [\n    \"Kim has a bad mood\",\n    \"Kim plans to start doing things soon\",\n    \"Tim recommends the Pomodoro technique\"\n  ],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+      "extracted_json": "{\n  \"summary\": \"Kim discusses her bad mood and plans to start doing things soon, while Tim suggests the Pomodoro technique.\",\n  \"key_points\": [\n    \"Kim has a bad mood\",\n    \"Kim plans to start doing things soon\",\n    \"Tim recommends the Pomodoro technique\"\n  ],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+      "parse_ok": true,
+      "schema_valid": true,
+      "validation_errors": [],
+      "repair_attempted": false,
+      "repair_raw_output": null,
+      "recovered": false,
+      "used_fallback": false,
+      "final_object": {
+        "summary": "Kim discusses her bad mood and plans to start doing things soon, while Tim suggests the Pomodoro technique.",
+        "key_points": [
+          "Kim has a bad mood",
+          "Kim plans to start doing things soon",
+          "Tim recommends the Pomodoro technique"
+        ],
+        "decisions": [],
+        "action_items": []
+      },
+      "generation_seconds": 44.735,
+      "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+      "max_new_tokens": 256
     },
-    "parse_ok": true,
-    "schema_valid": true,
-    "attempts": 1,
-    "status": "valid_first_attempt",
-    "error": null,
-    "sample_id": "13681000",
-    "reference_summary": "Kim may try the pomodoro technique recommended by Tim to get more stuff done.",
-    "selection_category": "advice and tentative action",
-    "elapsed_seconds": 4.48
-  },
-  {
-    "dialogue": "Sam: hey  overheard rick say something\nSam: i don't know what to do :-/\nNaomi: what did he say??\nSam: he was talking on the phone with someone\nSam: i don't know who\nSam: and he was telling them that he wasn't very happy here\nNaomi: damn!!!\nSam: he was saying he doesn't like being my roommate\nNaomi: wow, how do you feel about it?\nSam: i thought i was a good rommate\nSam: and that we have a nice place\nNaomi: that's true man!!!\nNaomi: i used to love living with you before i moved in with me boyfriend\nNaomi: i don't know why he's saying that\nSam: what should i do???\nNaomi: honestly if it's bothering you that much you should talk to him\nNaomi: see what's going on\nSam: i don't want to get in any kind of confrontation though\nSam: maybe i'll just let it go\nSam: and see how it goes in the future\nNaomi: it's your choice sam\nNaomi: if i were you i would just talk to him and clear the air",
-    "raw_output": "{\n  \"summary\": \"Sam is concerned about Rick's comments regarding his roommateship and wants advice on how to handle the situation.\",\n  \"action_items\": [\n    {\n      \"owner\": \"Sam\",\n      \"task\": \"Talk to Rick\"\n    }\n  ]\n}",
-    "repair_output": null,
-    "output": {
-      "summary": "Sam is concerned about Rick's comments regarding his roommateship and wants advice on how to handle the situation.",
-      "action_items": [
-        {
-          "owner": "Sam",
-          "task": "Talk to Rick"
-        }
-      ]
+    {
+      "sample_id": "13728094",
+      "dialogue": "Sam: hey  overheard rick say something\r\nSam: i don't know what to do :-/\r\nNaomi: what did he say??\r\nSam: he was talking on the phone with someone\r\nSam: i don't know who\r\nSam: and he was telling them that he wasn't very happy here\r\nNaomi: damn!!!\r\nSam: he was saying he doesn't like being my roommate\r\nNaomi: wow, how do you feel about it?\r\nSam: i thought i was a good rommate\r\nSam: and that we have a nice place\r\nNaomi: that's true man!!!\r\nNaomi: i used to love living with you before i moved in with me boyfriend\r\nNaomi: i don't know why he's saying that\r\nSam: what should i do???\r\nNaomi: honestly if it's bothering you that much you should talk to him\r\nNaomi: see what's going on\r\nSam: i don't want to get in any kind of confrontation though\r\nSam: maybe i'll just let it go\r\nSam: and see how it goes in the future\r\nNaomi: it's your choice sam\r\nNaomi: if i were you i would just talk to him and clear the air",
+      "reference_summary": "Sam is confused, because he overheard Rick complaining about him as a roommate. Naomi thinks Sam should talk to Rick. Sam is not sure what to do.",
+      "raw_output": "{\n  \"summary\": \"Sam is unsure about his roommate situation but decides to address the issue directly.\",\n  \"key_points\": [\n    \"Sam heard Rick mention dissatisfaction with Sam as his roommate.\"\n  ],\n  \"decisions\": [\n    \"Sam will discuss the matter with Rick to resolve the conflict.\"\n  ],\n  \"action_items\": []\n}",
+      "extracted_json": "{\n  \"summary\": \"Sam is unsure about his roommate situation but decides to address the issue directly.\",\n  \"key_points\": [\n    \"Sam heard Rick mention dissatisfaction with Sam as his roommate.\"\n  ],\n  \"decisions\": [\n    \"Sam will discuss the matter with Rick to resolve the conflict.\"\n  ],\n  \"action_items\": []\n}",
+      "parse_ok": true,
+      "schema_valid": true,
+      "validation_errors": [],
+      "repair_attempted": false,
+      "repair_raw_output": null,
+      "recovered": false,
+      "used_fallback": false,
+      "final_object": {
+        "summary": "Sam is unsure about his roommate situation but decides to address the issue directly.",
+        "key_points": [
+          "Sam heard Rick mention dissatisfaction with Sam as his roommate."
+        ],
+        "decisions": [
+          "Sam will discuss the matter with Rick to resolve the conflict."
+        ],
+        "action_items": []
+      },
+      "generation_seconds": 50.186,
+      "model_name": "Qwen/Qwen2.5-1.5B-Instruct",
+      "max_new_tokens": 256
+    }
+  ],
+  "deliberate_invalid_case": {
+    "case": "deliberate_invalid",
+    "malformed_raw": "{\"summary\": \"Missing required fields and trailing comma\",}",
+    "parse_ok": false,
+    "schema_valid_of_malformed": false,
+    "parse_errors": [
+      "JSONDecodeError: Illegal trailing comma before end of object: line 1 column 57 (char 56)"
+    ],
+    "schema_bad_object": {
+      "summary": "ok",
+      "key_points": [],
+      "decisions": [],
+      "action_items": "not-a-list"
     },
-    "parse_ok": true,
-    "schema_valid": true,
-    "attempts": 1,
-    "status": "valid_first_attempt",
-    "error": null,
-    "sample_id": "13728094",
-    "reference_summary": "Sam is confused, because he overheard Rick complaining about him as a roommate. Naomi thinks Sam should talk to Rick. Sam is not sure what to do.",
-    "selection_category": "longer multi-speaker discussion",
-    "elapsed_seconds": 2.31
+    "schema_bad_valid": false,
+    "schema_bad_errors": [
+      "action_items: 'not-a-list' is not of type 'array'"
+    ]
   }
-]
+}

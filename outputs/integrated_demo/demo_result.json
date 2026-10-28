@@ -1,0 +1,116 @@
+{
+  "sample_id": "13818513",
+  "dataset_split": "train",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "dialogue": "Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)",
+  "generation": {
+    "raw_output": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+    "extracted_json": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+    "parse_ok": true,
+    "schema_valid": true,
+    "validation_errors": [],
+    "repair_attempted": false,
+    "repair_raw_output": null,
+    "recovered": false,
+    "used_fallback": false,
+    "final_object": {
+      "summary": "Amanda baked cookies for Jerry.",
+      "key_points": [
+        "Amanda baked cookies",
+        "Jerry wants cookies"
+      ],
+      "decisions": [],
+      "action_items": []
+    },
+    "commitment_coverage_flags": [
+      "Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items."
+    ],
+    "generation_seconds": 28.182
+  },
+  "human_review_required": true,
+  "commitment_coverage_check": {
+    "type": "narrow_heuristic",
+    "flags": [
+      "Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items."
+    ]
+  },
+  "tool_request": {
+    "tool_name": "validate_summary_output",
+    "arguments": {
+      "output": {
+        "summary": "Amanda baked cookies for Jerry.",
+        "key_points": [
+          "Amanda baked cookies",
+          "Jerry wants cookies"
+        ],
+        "decisions": [],
+        "action_items": []
+      }
+    }
+  },
+  "tool_result": {
+    "tool": "validate_summary_output",
+    "valid": true,
+    "errors": [],
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "type": "object",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key_points": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "decisions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "action_items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "type": "string",
+                "minLength": 1
+              },
+              "task": {
+                "type": "string",
+                "minLength": 1
+              },
+              "due": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "owner",
+              "task"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "summary",
+        "key_points",
+        "decisions",
+        "action_items"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "final_response": "Summary: Amanda baked cookies for Jerry.\nKey Points: \n- Amanda baked cookies\n- Jerry wants cookies\n\nDecisions: None identified\n\nAction Items: None identified\n\nValidation note: The output passed JSON Schema checks for structure only; this does not verify factual accuracy or completeness. Human review is required.\n\nCompleteness review required: Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items.",
+  "final_response_status": "generated_after_valid_tool_result_with_coverage_warning"
+}

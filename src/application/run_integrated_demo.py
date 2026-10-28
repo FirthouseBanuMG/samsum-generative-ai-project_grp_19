@@ -1,0 +1,152 @@
+"""Run one end-to-end SAMSum structured summarization example.
+
+This demo reuses the project's structured-generation recovery, JSON Schema
+validator, and allowlisted application-level validation tool.
+"""
+
+import argparse
+import json
+
+import pandas as pd
+
+from project_paths import PROJECT_ROOT
+from structured_output.run_structured_output import (
+    MODEL_NAME,
+    generate_structured,
+    load_model,
+)
+from tool_calling.run_tool_calling import (
+    TOOL_NAME,
+    execute_tool_call,
+    generate_final_response,
+)
+
+
+TRAIN_FILE = (
+    PROJECT_ROOT
+    / "data"
+    / "processed"
+    / "samsum-train-processed.csv"
+)
+OUTPUT_FILE = PROJECT_ROOT / "outputs" / "integrated_demo" / "demo_result.json"
+
+
+def load_dialogue(sample_id: str) -> str:
+    """Load a single dialogue by ID from the processed training split."""
+    if not TRAIN_FILE.is_file():
+        raise FileNotFoundError(
+            f"Processed training data not found: {TRAIN_FILE}. "
+            "Follow the dataset setup guide before running this demo."
+        )
+
+    frame = pd.read_csv(TRAIN_FILE, dtype={"id": str})
+    required = {"id", "dialogue"}
+    missing = required - set(frame.columns)
+    if missing:
+        raise ValueError(f"Training data is missing columns: {sorted(missing)}")
+
+    matches = frame.loc[frame["id"] == sample_id, "dialogue"]
+    if matches.empty:
+        raise ValueError(f"Sample ID {sample_id!r} was not found in training data.")
+
+    dialogue = matches.iloc[0]
+    if not isinstance(dialogue, str) or not dialogue.strip():
+        raise ValueError(f"Sample ID {sample_id!r} has an empty dialogue.")
+    return dialogue
+
+
+def run_demo(sample_id: str) -> dict:
+    """Generate, validate, and save one structured summary with tool result."""
+    dialogue = load_dialogue(sample_id)
+    tokenizer, model = load_model()
+    outcome = generate_structured(dialogue, tokenizer, model)
+    coverage_flags = outcome["commitment_coverage_flags"]
+
+    record = {
+        "sample_id": sample_id,
+        "dataset_split": "train",
+        "model": MODEL_NAME,
+        "dialogue": dialogue,
+        "generation": outcome,
+        "human_review_required": True,
+        "commitment_coverage_check": {
+            "type": "narrow_heuristic",
+            "flags": coverage_flags,
+        },
+        "tool_request": None,
+        "tool_result": None,
+    }
+
+    if outcome["schema_valid"] and not outcome["used_fallback"]:
+        request = {
+            "tool_name": TOOL_NAME,
+            "arguments": {"output": outcome["final_object"]},
+        }
+        record["tool_request"] = request
+        record["tool_result"] = execute_tool_call(request)
+        if record["tool_result"]["valid"]:
+            raw_request = json.dumps(request, ensure_ascii=False)
+            record["final_response"] = generate_final_response(
+                dialogue,
+                raw_request,
+                record["tool_result"],
+                tokenizer,
+                model,
+            )
+            if coverage_flags:
+                record["final_response"] += (
+                    "\n\nCompleteness review required: "
+                    + " ".join(coverage_flags)
+                )
+            record["final_response_status"] = (
+                "generated_after_valid_tool_result_with_coverage_warning"
+                if coverage_flags
+                else "generated_after_valid_tool_result"
+            )
+        else:
+            record["final_response"] = None
+            record["final_response_status"] = (
+                "blocked_tool_validation_failed"
+            )
+    else:
+        record["tool_error"] = (
+            "Generated output did not pass JSON Schema validation; "
+            "the tool was not invoked."
+        )
+        record["final_response"] = None
+        record["final_response_status"] = "blocked_structured_output_invalid"
+
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    OUTPUT_FILE.write_text(
+        json.dumps(record, indent=2, ensure_ascii=False),
+        encoding="utf-8",
+    )
+    return record
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--sample-id",
+        default="13818513",
+        help="Training-split dialogue ID (default: 13818513).",
+    )
+    args = parser.parse_args()
+
+    result = run_demo(str(args.sample_id))
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+    print(f"\nSaved integrated demo result to: {OUTPUT_FILE}")
+
+    if result["tool_result"] is not None and not result["tool_result"]["valid"]:
+        raise RuntimeError(
+            "The integrated demo's validation tool reported an invalid result."
+        )
+    if result["tool_result"] is None:
+        raise RuntimeError(
+            "No valid structured result was produced; inspect the saved "
+            "generation/recovery diagnostics before treating the run as successful."
+        )
+
+
+if __name__ == "__main__":
+    main()

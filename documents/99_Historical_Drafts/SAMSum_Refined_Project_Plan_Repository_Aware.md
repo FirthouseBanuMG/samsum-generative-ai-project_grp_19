@@ -14,7 +14,7 @@
 
 - Candidate model: Qwen/Qwen2.5-1.5B-Instruct. Treat it as a candidate until a short local inference test confirms acceptable speed and memory usage.
 
-- Workstation: Lenovo IdeaPad Slim 5, Intel Core Ultra 5 125H, 16 GB RAM, 1 TB SSD, Windows 64-bit. Start locally; use Colab if local inference is too slow or memory-limited.
+- System: Windows 64-bit computer. Start with local inference; use a hosted notebook environment if local performance or memory is insufficient.
 
 - Target: Freeze core implementation and results by 21 October 2026; reserve 22–24 October for fixes and rehearsal; submission deadline is 25 October 2026.
 

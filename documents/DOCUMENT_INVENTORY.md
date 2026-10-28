@@ -5,15 +5,11 @@ This inventory lists the documentation files and retained Word originals in this
 ## Markdown documents
 
 ### Project planning
-- `01_Project_Planning/01_Master_Project_Plan.md`
+- `01_Project_Planning/Master_Project_Plan.md`
 
 ### Environment setup
-- `02_Environment_Setup/02_Prerequisites_and_Environment_Setup.md`
-- `02_Environment_Setup/05_Repository_Baseline_and_Environment_Check.md`
-- `02_Environment_Setup/06_Environment_Decision_and_Venv_Setup.md`
-- `02_Environment_Setup/07_Current_Environment_and_Model_Readiness.md`
-- `02_Environment_Setup/08_Environment_Setup_and_Executed_Commands_Through_Step_9.md`
-- `02_Environment_Setup/Executed_Commands_and_Verified_Results_Through_Step_9.md`
+- `02_Environment_Setup/Prerequisites_and_Environment_Setup.md`
+- This is the single current setup guide; superseded setup snapshots have been removed.
 
 ### Implementation and experiments
 - `03_Implementation_and_Experiments/01_High_Level_Architecture.md`
@@ -38,7 +34,7 @@ This inventory lists the documentation files and retained Word originals in this
 
 ## Retained Word originals
 
-Each converted Word document remains beside its Markdown counterpart with the same base filename. These originals are retained for reference until conversion verification is complete.
+Word originals are retained beside their Markdown counterparts where listed in the repository.
 
 ## Other files
 

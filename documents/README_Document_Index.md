@@ -20,22 +20,19 @@ This is the central index for the SAMSum-based intelligent conversation summariz
 - Initial model smoke testing is not a substitute for baseline evaluation.
 - Validation examples were inspected during exploratory review but were not used to generate baseline outputs.
 - Initial pipeline verification examples should be selected from the training split.
-- The validation split is reserved for controlled development and selection; the test split is reserved for final evaluation.
-- Model comparison, prompt experiments, structured action-item extraction, and final evaluation remain to be completed unless subsequently documented with evidence.
+- The validation split is available for controlled development. A 50-example test subset has already been used for model-family comparison and is not an untouched final holdout.
+- The presentation speaking draft, slide source, and generated 10-slide PowerPoint are in `documents/`; a proposed speaker split and one-minute demo plan are ready for team confirmation.
+- Prompt and decoding experiments, structured output validation, tool demonstration, and model comparison now have implementation and saved evidence.
+- The SAMSum-specific concise-versus-detailed prompt comparison has also been run on the fixed baseline examples.
+- The integrated notebook/demo completed a CPU run; report content/citations were reviewed and the current render is 14 pages total with an 11-page body. Final team approval, contribution confirmations, and presentation rehearsal remain.
 
 ## Primary project documents
 
 ### `01_Project_Planning/`
-- `01_Master_Project_Plan.md` — primary project plan, converted from Word.
-- `01_Master_Project_Plan.docx` — retained original.
+- `Master_Project_Plan.md` — current master plan, implementation status, 50-example model comparison, and remaining closeout actions.
 
 ### `02_Environment_Setup/`
-- `02_Prerequisites_and_Environment_Setup.md` — prerequisites and setup instructions.
-- `05_Repository_Baseline_and_Environment_Check.md` — repository and environment baseline.
-- `06_Environment_Decision_and_Venv_Setup.md` — environment decisions and virtual-environment setup.
-- `07_Current_Environment_and_Model_Readiness.md` — environment and model readiness record.
-- `08_Environment_Setup_and_Executed_Commands_Through_Step_9.md` — execution record through Step 9.
-- `Executed_Commands_and_Verified_Results_Through_Step_9.md` — existing execution record.
+- `Prerequisites_and_Environment_Setup.md` — **single current setup guide** covering software, prerequisites, dataset preparation, VS Code/Jupyter, application run, and tests.
 
 ### `03_Implementation_and_Experiments/`
 - `01_High_Level_Architecture.md` — architecture and component flow.
@@ -44,6 +41,11 @@ This is the central index for the SAMSum-based intelligent conversation summariz
 - `03_Implementation_Guide.md` — implementation and execution instructions.
 - `04_Experiment_and_Decision_Log.md` — experiment records, decisions, rationale, and observations.
 - `Data_Quality_Report.md` — dataset audits, preprocessing, exclusions, and integrity checks.
+
+### Assignment submission drafts
+- `Final_Assignment_Report.md` — technical report with evidence, limitations, and references mapped to the assignment requirements.
+- `Assignment_1_Presentation_Draft.md` — timed slide-by-slide speaking draft with a proposed speaker split and demo.
+- `Individual_Contribution_Statements_Template.md` — simplified template for each member's short, personally confirmed statement.
 
 ### `04_Reference_Material/`
 - `Original_Group_Major_Project_Assignment_Brief.md` — Markdown conversion of the original assignment brief.

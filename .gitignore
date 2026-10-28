@@ -37,6 +37,7 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+*.egg-info/
 
 # Track selected baseline evidence for the group project
 !outputs/

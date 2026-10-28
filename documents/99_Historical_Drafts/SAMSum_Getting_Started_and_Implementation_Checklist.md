@@ -14,7 +14,7 @@
 
 - Execution: Develop in a Python notebook using VS Code. Use Google Colab as a fallback if local inference is too slow or memory-intensive.
 
-- Laptop context: Lenovo IdeaPad Slim 5, Intel Core Ultra 5 125H, 16 GB RAM, 1 TB SSD, Windows 64-bit. This is enough to begin; CPU inference may be slow.
+- System: Windows 64-bit computer. CPU inference may be slow depending on available hardware.
 
 - Team of four. Target implementation/results freeze: 21 October 2026; reserve 22–24 October for fixes and rehearsal; deadline: 25 October 2026.
 
@@ -24,7 +24,7 @@
 
 | Item | Requirement / plan |
 |----|----|
-| Computer | Windows 64-bit laptop with 16 GB RAM; the current Lenovo meets the starting requirement. |
+| Computer | Windows 64-bit computer with sufficient memory and storage for the selected model and dataset. |
 | Storage | Keep several GB free for packages, model files, dataset, notebook outputs, and results. |
 | Internet | Needed for first-time downloads of packages, data, and model weights. |
 | Permissions | Ability to install software and create project folders. |
@@ -43,7 +43,7 @@
 
 - You may already have VS Code and Git from earlier projects. Verify before reinstalling.
 
-- Python 3.13.9 may already be installed; use Python 3.11 for this project environment to reduce package compatibility risk. Multiple Python versions can coexist.
+- Install the Python version specified in the current project environment guide.
 
 - Anaconda, Docker, Node.js, Angular, and a paid model API are not required for the planned workflow.
 

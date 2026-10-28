@@ -1,4 +1,4 @@
-﻿
+
 # Model Family Comparison
 
 ## Purpose
@@ -47,7 +47,7 @@ FLAN-T5-base achieved the highest scores on all three ROUGE metrics and the lowe
 
 - `model_family_comparison_report.docx`: Report containing methodology, results, interpretation, and limitations.
 - `model_family_evaluation_50_samples.xlsx`: Evaluation workbook with model summary, detailed generations, methodology notes, and sample manifest.
-- `src/run_model_family_comparison_50.py`: Reproducible 50-sample evaluation runner.
+- `src/evaluation/run_model_family_comparison_50.py`: Reproducible 50-sample evaluation runner.
 - `outputs/model_comparison_50_samples/model_family_comparison.csv`: Detailed evaluation results.
 - `outputs/model_comparison_50_samples/model_family_comparison.json`: Results in JSON format.
 - `outputs/model_comparison_50_samples/model_family_metrics.csv`: Aggregated model metrics.
@@ -56,6 +56,7 @@ FLAN-T5-base achieved the highest scores on all three ROUGE metrics and the lowe
 ## Limitations
 
 - Results are based on 50 samples and may vary with a different sample or seed.
+- The 50-sample subset was drawn from the test split and has already been used for model-family comparison; it is not an untouched final holdout. Do not continue tuning against it.
 - Input formats differ between models.
 - Generation time depends on hardware and runtime conditions.
 - ROUGE is not a factuality metric.
@@ -67,7 +68,7 @@ FLAN-T5-base achieved the highest scores on all three ROUGE metrics and the lowe
 From the project root, with the project virtual environment active:
 
 ```powershell
-python src\run_model_family_comparison_50.py --samples 50 --seed 42
+python -m evaluation.run_model_family_comparison_50 --samples 50 --seed 42
 ```
 
 The run writes outputs to `outputs/model_comparison_50_samples/`.

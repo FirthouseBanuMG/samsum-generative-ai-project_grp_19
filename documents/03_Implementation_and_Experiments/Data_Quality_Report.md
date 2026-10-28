@@ -1,4 +1,4 @@
-﻿# SAMSum Data Quality and Preparation Report
+# SAMSum Data Quality and Preparation Report
 
 ## 1. Audit status
 
@@ -16,7 +16,7 @@ Location: `data/raw/`
 
 ## 3. Validation script
 
-- Script: `src/validate_dataset.py`
+- Script: `src/data_processing/validate_dataset.py`
 - File size: 1,781 bytes
 - Status: Present
 - Previous execution findings: train 14,732 rows, validation 818 rows, test 819 rows.
@@ -43,9 +43,11 @@ At the time of this audit, `data/processed/` contained no files.
 
 Review the existing validation script and rerun it to capture current, reproducible data-quality results before implementing preprocessing.
 
-## 8. Review of the Existing Validation Script
+## 8. Review of the Existing Validation Script (Historical Snapshot)
 
-The script `src/validate_dataset.py` currently checks:
+This records the earlier audit state. Its statements about leakage checks pending and test-split policy are superseded by Sections 21 and 22.
+
+The script `src/data_processing/validate_dataset.py` currently checks:
 - Presence of the required columns: id, dialogue, summary.
 - Row counts and column names for each split.
 - Missing values and blank dialogue/summary fields.
@@ -61,7 +63,9 @@ Limitations identified:
 
 Status: Initial validation exists; additional data-quality checks remain necessary.
 
-## 9. Fresh Validation Results
+## 9. Fresh Validation Results (Historical Snapshot)
+
+These are the initial validation results available at that point in the project; the current rerun is recorded in Sections 21 and 22.
 
 Validation script executed successfully using the project virtual-environment Python.
 
@@ -89,7 +93,7 @@ Interpretation and limitations:
 - Validation data will support development comparisons; test data is reserved for final evaluation.
 
 Evidence:
-- Script: `src/validate_dataset.py`
+- Script: `src/data_processing/validate_dataset.py`
 - Execution: successful terminal run during the project workflow.
 
 ## 9. Fresh Validation Results
@@ -120,12 +124,12 @@ Interpretation and limitations:
 - Validation data will support development comparisons; test data is reserved for final evaluation.
 
 Evidence:
-- Script: `src/validate_dataset.py`
+- Script: `src/data_processing/validate_dataset.py`
 - Execution: successful terminal run during the project workflow.
 
-## 10. Cross-Split Leakage Audit
+## 10. Initial Raw-Split Overlap Audit
 
-Script: `src/check_split_leakage.py`
+The initial overlap audit checked the original split files. This is historical audit evidence; the maintained leakage-check script now checks the processed splits used by generation/evaluation.
 
 Result: Completed successfully.
 
@@ -135,13 +139,11 @@ Result: Completed successfully.
 | Train vs Test | 0 | 0 |
 | Validation vs Test | 0 | 0 |
 
-Interpretation:
+Interpretation of the initial audit:
 - No shared IDs or exact dialogue-summary pairs were detected across the splits.
 - This check does not detect near-duplicate dialogues or semantic overlap.
 - The source CSV files were not modified.
-- The test split remains reserved for final evaluation.
-
-Evidence: successful execution output from `src/check_split_leakage.py`.
+- At the time of this initial audit, the test split was reserved for final evaluation. Later use is recorded in Section 20.
 
 ## 11. Proposed Preprocessing Policy
 
@@ -172,7 +174,7 @@ Inspection confirmed one training record with a missing dialogue.
 
 ## 13. Dialogue and Reference-Summary Length Profiling
 
-Script: `src/profile_dataset.py`
+Script: `src/data_processing/profile_dataset.py`
 
 | Split | Dialogue median (chars) | Dialogue p95 (chars) | Dialogue max (chars) | Summary median (chars) | Summary p95 (chars) | Summary max (chars) |
 |---|---:|---:|---:|---:|---:|---:|
@@ -189,7 +191,7 @@ Interpretation:
 
 ## 14. Model-Tokenizer Length Profiling
 
-Script: `src/profile_token_lengths.py`
+Script: `src/data_processing/profile_token_lengths.py`
 Tokenizer: `Qwen/Qwen2.5-1.5B-Instruct`
 Method: Tokenizer encoding with `add_special_tokens=False`.
 
@@ -206,7 +208,7 @@ Interpretation:
 - No truncation limit has been finalized; limits must account for the final prompt and model context constraints.
 - Raw CSV files were not modified.
 
-Evidence: successful execution output from `src/profile_token_lengths.py`.
+Evidence: successful execution output from `src/data_processing/profile_token_lengths.py`.
 
 ## 15. Approved Preprocessing Implementation Design
 
@@ -225,7 +227,7 @@ Implementation must be verified by execution and post-processing checks before t
 
 ## 16. Preprocessing Execution and Artifact Verification
 
-Script: `src/preprocess_dataset.py`
+Script: `src/data_processing/preprocess_dataset.py`
 
 Execution status: Successful. Output files and metadata were inspected.
 
@@ -251,7 +253,7 @@ Limitation: Independent post-processing checks across all saved CSVs are still r
 
 ## 17. Independent Post-Processing Validation
 
-Script: `src/validate_processed_dataset.py`
+Script: `src/data_processing/validate_processed_dataset.py`
 
 Execution result: All assertions passed.
 
@@ -267,7 +269,7 @@ Checks performed:
 - IDs are non-null and unique within each processed split.
 - Dialogues and summaries are non-null and non-blank.
 
-Conclusion: All processed splits passed these independent checks. Cross-split exact-duplicate checks were performed on the raw data earlier; near-duplicate detection remains outside the current audit scope.
+Conclusion: All processed splits passed these independent checks. Cross-split exact-duplicate checks are now also performed directly on the processed data (see Section 21); near-duplicate detection remains outside the current audit scope.
 
 ## 18. Raw Dataset SHA-256 Integrity Baseline
 
@@ -295,6 +297,8 @@ All three raw CSV files were re-hashed using SHA-256 and compared against the ba
 
 **Conclusion:** All three files match the recorded baseline. No hash differences were detected. This confirms integrity relative to the baseline established in Section 18; it does not establish integrity before that baseline was recorded.
 
+The repeatable command is `python -m data_processing.verify_raw_dataset_integrity`. It was rerun on 28 October 2026; all three current raw CSVs matched the recorded local baseline. The baseline was established after earlier preprocessing activity, so this cannot prove byte-for-byte integrity before 16 October 2026.
+
 ## 20. Experimental Data-Use and Baseline Sample Policy
 
 ### Dataset split responsibilities
@@ -303,9 +307,11 @@ All three raw CSV files were re-hashed using SHA-256 and compared against the ba
 |---|---|
 | Training | Initial pipeline smoke tests and qualitative debugging |
 | Validation | Controlled prompt, model, and decoding configuration comparisons |
-| Test | Final evaluation after the experimental protocol and configurations are fixed |
+| Test | Used for a 50-sample model-family comparison; no longer an untouched holdout |
 
-The raw CSV files remain unchanged. Preprocessed files are separate artifacts. The training smoke test is not a quantitative performance evaluation, and the test split must not be used to select prompts or configurations.
+The initial test-set policy was not maintained: `outputs/model_comparison_50_samples/sample_manifest.json` records that 50 examples came from the processed test split, and the comparison informed the preferred model discussion. Report this as comparative/selection evidence, not as a pristine final holdout. Do not continue tuning prompts or configurations against this same subset. This reuse does not create cross-split row leakage, but it does limit the independence of the evaluation.
+
+The raw CSV files remain unchanged relative to the available integrity evidence; preprocessing and model workflows use separate processed artifacts. The training smoke test is not a quantitative performance evaluation.
 
 ### Initial baseline sample selection
 
@@ -327,8 +333,41 @@ The first sample was broadly consistent with its reference summary. The second a
 
 - Three examples are sufficient for an initial pipeline smoke test, not for a reliable performance estimate.
 - The six validation examples previously inspected were not used for generation in this baseline run.
-- No test examples were used for baseline generation.
+- No test examples were used for the initial baseline generation. A later model-family comparison did use 50 processed test examples (see above).
 - Subsequent comparisons should record sample selection, prompts, decoding settings, generated outputs, and evaluation criteria.
 - Any quantitative claims must be supported by a documented evaluation protocol and results.
 
-**Status:** Initial baseline generation completed; controlled validation experiments and final test evaluation remain pending.
+**Status at the time of the initial baseline:** Initial baseline generation completed; controlled validation experiments and final test evaluation remained pending.
+
+## 21. Processed Dataset Revalidation
+
+**Verification date:** 27 October 2026
+**Inputs:** `data/processed/samsum-{train,validation,test}-processed.csv`, `data/processed/preprocessing_metadata.json`, and `data/processed/exclusions.json`
+
+The independent processed-dataset validation and cross-split leakage checks were rerun.
+
+| Split | Processed rows | Required columns | Unique IDs / required text | Result |
+|---|---:|---|---|---|
+| Train | 14,731 | `id`, `dialogue`, `summary` | Pass | PASS |
+| Validation | 818 | `id`, `dialogue`, `summary` | Pass | PASS |
+| Test | 819 | `id`, `dialogue`, `summary` | Pass | PASS |
+
+No shared IDs and no exact dialogue-summary pairs were found across the three splits. The one training exclusion remains ID `13828807`, reason `missing_or_blank_dialogue`. Source CSV files were not modified.
+
+### Provenance boundary
+
+The team reports downloading from Kaggle's [“Samsum Dataset Text summarization” page](https://www.kaggle.com/datasets/nileshmalode1/samsum-dataset-text-summarization), attributed on the page to Nilesh Malode. The Kaggle page metadata reports version 1 (last modified 23 June 2023) and lists the license as **Unknown**. This records the reported page, not proof of the exact archive used locally: preprocessing metadata does not record the Kaggle archive version, download date, or an upstream SAMSum release identifier. The SAMSum paper citation provides scholarly attribution for the underlying corpus, but does not establish licensing for this Kaggle copy. Verify applicable upstream and Kaggle redistribution terms before sharing dataset files.
+
+## 22. Current Leakage and Raw-File Integrity Recheck
+
+**Verification date:** 28 October 2026
+
+The current leakage-check script reads only the processed train, validation, and test CSVs and fails if it finds shared IDs or exact dialogue-summary pairs.
+
+| Comparison | Shared IDs | Shared exact dialogue-summary pairs |
+|---|---:|---:|
+| Train vs Validation | 0 | 0 |
+| Train vs Test | 0 | 0 |
+| Validation vs Test | 0 | 0 |
+
+This rules out exact ID/pair overlap in the processed files, but not near-duplicate or semantic overlap. The raw-integrity command also passed for all three CSVs against the locally recorded 16 October 2026 SHA-256 baseline. Because that baseline was recorded after earlier preprocessing activity, it cannot prove the files were unchanged before that date.

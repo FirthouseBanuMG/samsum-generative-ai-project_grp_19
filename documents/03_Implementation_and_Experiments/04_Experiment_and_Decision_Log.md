@@ -1,4 +1,4 @@
-﻿*Reusable recording templates â€¢ fill with actual evidence*
+*Reusable recording templates â€¢ fill with actual evidence*
 
 Project: SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction
 
@@ -67,63 +67,9 @@ Working rule: Record proposed choices as proposed until the team verifies them. 
 
 - Keep final test-set results separate from prompt-selection results.
 
-# Update 002 â€” Verified Windows Environment and D: Drive Status
+# Environment record guidance
 
-Status recorded on 15 October 2026 from the user's PowerShell outputs. This section supersedes earlier proposed setup values where they differ, while preserving earlier baseline observations as historical records.
-
-## Verified machine and repository
-
-- Project root: D:\BITS-Projects\samsum-generative-ai-project_grp_19
-
-- Laptop: Lenovo IdeaPad Slim 5; Intel Core Ultra 5 125H; 16 GB RAM; 1 TB SSD; Windows.
-
-- Available D: drive space at the latest check: 173.41 GB free.
-
-- Git repository: samsum-generative-ai-project_grp_19; branch main; latest commit bc1b6bd (Initial commit); branch up to date with origin/main.
-
-- Python executable: D:\BITS-Projects\samsum-generative-ai-project_grp_19\\venv\Scripts\python.exe
-
-- Python version: 3.13.9 (Anaconda-packaged interpreter used to create the repository-local virtual environment).
-
-- CPU-only PyTorch: 2.13.0+cpu; torch.cuda.is_available() returned False.
-
-- Verified package versions: NumPy 2.5.4; pandas 3.0.6; Transformers 5.19.0; Accelerate 1.15.0; jsonschema 4.26.0; rouge-score 0.1.2; Jupyter 1.1.1; ipykernel 7.4.0; matplotlib 3.11.2; scikit-learn 1.9.1; huggingface-hub 2.2.0.
-
-- Verification: imports succeeded for torch, numpy, pandas, transformers, accelerate, and jsonschema; tensor test returned \[6, 8\]; pip check returned 'No broken requirements found.'
-
-- requirements-lock.txt was created in the D: project root using pip freeze. It is currently untracked in Git; review it and add it to Git only after confirming .gitignore excludes .venv and generated caches.
-
-- Jupyter kernel name: samsum-generative-ai; display name: Python (SAMSum Project). The kernel.json is stored under %APPDATA% on C:, which is normal, and its argv points to the Python executable under the D: project root.
-
-- The destination copy's Git repository is accessible. A previous Move-Item attempt hit a permission error on the original C: .git folder. Do not delete the original C: folder until the D: copy and any needed files have been checked.
-
-## Commands verified
-
-> Set-Location "D:\BITS-Projects\samsum-generative-ai-project_grp_19"
->
-> & "D:\BITS-Projects\samsum-generative-ai-project_grp_19\\venv\Scripts\python.exe" -c "import sys; print(sys.executable); print(sys.version)"
->
-> & "D:\BITS-Projects\samsum-generative-ai-project_grp_19\\venv\Scripts\python.exe" -c "import torch, numpy, pandas, transformers, accelerate; print(torch.\_\_version\_\_, numpy.\_\_version\_\_, pandas.\_\_version\_\_, transformers.\_\_version\_\_, accelerate.\_\_version\_\_)"
->
-> & "D:\BITS-Projects\samsum-generative-ai-project_grp_19\\venv\Scripts\python.exe" -m pip check
->
-> Get-Content "\$env:APPDATA\jupyter\kernels\samsum-generative-ai\kernel.json"
->
-> git -C "D:\BITS-Projects\samsum-generative-ai-project_grp_19" status
->
-> git -C "D:\BITS-Projects\samsum-generative-ai-project_grp_19" log -1 --oneline
-
-## Not yet verified â€” do not report as completed
-
-- Qwen/Qwen2.5-1.5B-Instruct repository access check has not yet been run.
-
-- Model download, tokenizer/model loading, and text generation have not yet been tested.
-
-- SAMSum CSV files have not yet been confirmed inside the D: project repository.
-
-- No summarization quality, ROUGE score, latency, memory use, or final test-set result has been measured.
-
-- Confirm .gitignore exists and excludes .venv/, model caches, secrets, and generated artifacts before staging files.
+Record only information needed to reproduce an experiment: Python and dependency versions, model identifier, dataset split and sample IDs, settings, and outputs. Use repository-relative paths in shared records. Keep personal hardware specifications, local absolute paths, drive-space readings, user-folder locations, and unrelated machine state out of project documentation.
 
 # G. Data-use and evaluation protocol
 
@@ -147,6 +93,8 @@ This inspection did not generate model outputs. These examples are not selected 
 ## G.3 Rationale and safeguards
 
 Training examples are used for initial pipeline verification to avoid consuming validation examples for this smoke test. Validation results may inform development decisions and therefore must not be represented as an untouched final test. Test-set evaluation should occur only after model, prompt, decoding, and evaluation choices are fixed.
+
+**Retrospective update (28 October 2026):** A later 50-sample model-family comparison used the processed test split. Treat those results as comparative evidence, not a pristine final holdout, and do not continue tuning against that subset.
 
 **Next action:** Select three training examples, record their IDs and selection rationale, and run the initial baseline smoke test.
 
@@ -174,7 +122,7 @@ Training examples are used for initial pipeline verification to avoid consuming 
 **Date:** 16 October 2026
 **Experiment:** `initial_baseline_smoke_test`
 **Model:** `Qwen/Qwen2.5-1.5B-Instruct`
-**Execution device:** CPU; CUDA unavailable
+**Execution device:** CPU
 **Dataset split:** Training
 **Decoding:** Greedy (`do_sample=False`), maximum 100 new tokens
 **Samples:** `13818513`, `13681000`, `13728094`
@@ -199,7 +147,7 @@ Both files were verified to exist and parse as valid JSON. This was a qualitativ
 - Retain the output artifacts as evidence of a successful end-to-end baseline run.
 - Treat the unsupported details in samples `13681000` and `13728094` as initial hallucination observations to investigate in later experiments.
 - Do not report an accuracy score or generalize model performance from three examples.
-- Keep the test split reserved for final evaluation. Use the validation split for controlled prompt and configuration comparisons.
+- This was the initial policy; the later 50-sample test comparison is disclosed above. Use validation data for controlled development and do not describe the used test subset as untouched.
 - Record the prompt, decoding configuration, and observed failure cases for reproducibility.
 
 **Status:** Initial baseline smoke test completed; controlled evaluation remains pending.
@@ -211,16 +159,16 @@ Both files were verified to exist and parse as valid JSON. This was a qualitativ
 ## J.1 Implementation
 
 - **Model:** `Qwen/Qwen2.5-1.5B-Instruct`
-- **Execution device:** CPU; CUDA unavailable.
-- **Implementation:** `src/run_tool_calling.py`
-- **Tests:** `src/test_tool_calling.py`
+- **Execution device:** CPU.
+- **Implementation:** `src/tool_calling/run_tool_calling.py`
+- **Tests:** `tests/test_tool_calling.py`
 - **Saved evidence:** `outputs/tool_calling/tool_calling_demo.json`
 - **Dataset:** SAMSum training sample `13818513`.
 - **Runtime:** Approximately 14.2 seconds for the demonstration, including model generation.
 
 The model generated a JSON request for the allowlisted Python tool `validate_summary_output`. The application parsed the request, checked the tool name and arguments, and executed the validator against the generated summary and action items.
 
-**Protocol limitation:** This is an application-level JSON tool-call protocol, not native model-specific tool-call parsing. The demonstration does not include a second model turn after returning the tool result.
+**Protocol limitation:** This is an application-level JSON tool-call protocol, not native model-specific tool-call parsing. The application now appends the successful tool result to the model conversation and generates a final user-facing response. Invalid schema results block follow-up generation. The output also receives a deterministic notice that schema checks establish structure only and human review is required.
 
 ## J.2 Verification results
 
@@ -232,10 +180,11 @@ The model generated a JSON request for the allowlisted Python tool `validate_sum
 | Unknown tool name | Rejected |
 | Unexpected arguments | Rejected |
 | Malformed JSON request | Rejected |
-| Offline test suite | 5/5 tests passed |
+| Offline test suite after refactor | 32/32 project tests passed; includes mocked successful and blocked follow-up cases |
 | Model-generated tool request | Generated and executed |
 | JSON Schema validation | Passed for the demonstration output |
-| Evidence file | Saved to the path listed above |
+| Tool-result-to-model follow-up | Generated final response after valid tool result |
+| Evidence file | Refreshed at the path listed above |
 
 ## J.3 Observed output and failure analysis
 
@@ -254,7 +203,7 @@ These are not explicit commitments in the dialogue. The validator accepted the o
 
 **Mitigation:** Keep `human_review_required` set to `true`; review generated summaries and action items against the original dialogue; improve prompting and evaluate factual faithfulness separately from structural validity.
 
-The saved evidence includes a review note explaining that schema validation checks structure only and that human review is required.
+The saved evidence includes the raw request, parsed request, tool result, and final model response. The final response is accompanied by a deterministic notice explaining that schema validation checks structure only and human review is required.
 
 ## J.4 Technical decisions and limitations
 
@@ -263,6 +212,50 @@ The saved evidence includes a review note explaining that schema validation chec
 3. Validate generated structured output with the existing JSON Schema validator.
 4. Retain negative tests for malformed requests, unknown tools, incorrect arguments, and schema-invalid output.
 5. Do not treat a successful schema check as proof of factual correctness.
-6. Do not claim native model-specific tool calling or a tool-result-to-model follow-up turn; neither is implemented in this demonstration.
+6. Do not claim native model-specific tool calling. The tool-result-to-model follow-up is now implemented and is covered by offline tests.
 
-**Status:** The application-level demonstration and five offline tests passed. Semantic faithfulness remains a separate review and evaluation responsibility.
+**Status:** The model-backed round-trip was rerun and saved, and the complete 32-test suite passed. The added failure-path test verifies that invalid tool results block final-response generation. Semantic faithfulness remains a separate review and evaluation responsibility.
+
+# K. Expanded Structured Output Contract
+
+**Date:** 27 October 2026
+**Experiment:** E4 schema expansion
+**Implementation:** `src/structured_output/schema.py`, `src/prompting/prompts.py`, `src/structured_output/run_structured_output.py`
+**Outputs:** `outputs/structured_output/structured_outputs.json`, `outputs/structured_output/structured_output_log.csv`
+
+The E4 output contract now requires four fields: `summary`, `key_points`, `decisions`, and `action_items`. Key points and decisions are arrays of non-empty strings; action items remain objects with required `owner` and `task` strings and optional `due`. Prompts and the corrective retry instruct the model to use empty lists when appropriate and to distinguish tentative suggestions from decisions. Tool validation uses the same expanded schema.
+
+The structured experiment was rerun on the original three training-split baseline examples. All three responses were valid JSON and passed the expanded schema on the first attempt; no repair or fallback was needed. This confirms structural compatibility only. All three generated outputs had an empty action-items list, despite explicit commitments in the dialogues. For sample `13728094`, the model claimed Sam decided to speak to Rick, although the dialogue leaves Sam uncertain. The result demonstrates that schema validation does not establish factual completeness or decision accuracy.
+
+Focused regression tests for schema validation, recovery, and tool argument handling passed: 21 tests. The integrated demonstration and notebook were rerun with the expanded schema; the generated result was saved to `outputs/integrated_demo/demo_result.json`. Human review remains required.
+
+# L. Concise-versus-Detailed Prompt Comparison
+
+**Date:** 27 October 2026
+**Experiment:** SAMSum summary length comparison
+**Runner:** `src/prompting/run_summary_detail_comparison.py`
+**Prompts:** `concise_summary_prompt` and `detailed_summary_prompt` in `src/prompting/prompts.py`
+**Outputs:** `outputs/summary_detail_comparison/summary_detail_comparison.csv`, `summary_detail_comparison.json`, and `summary_detail_metrics.csv`
+
+## L.1 Controlled variables
+
+- Three baseline training examples: `13818513`, `13681000`, `13728094`
+- Model: `Qwen/Qwen2.5-1.5B-Instruct`
+- Same system message, tokenizer chat template, greedy decoding, and `max_new_tokens=100`
+- Only requested summary detail/length varied: one sentence versus 3–5 sentences
+- Both prompt variants shared instructions to use only supported facts, preserve uncertainty, distinguish suggestions from decisions, and avoid invented details
+
+## L.2 Aggregate observations
+
+| Style | Samples | Average words | Average sentences | Mean ROUGE-1 F1 | Mean ROUGE-L F1 |
+|---|---:|---:|---:|---:|---:|
+| Concise | 3 | 15.667 | 1.000 | 0.460 | 0.411 |
+| Detailed | 3 | 42.333 | 3.333 | 0.294 | 0.275 |
+
+The detailed condition generated longer text. The concise condition had higher reference-overlap scores for these three examples only. This is exploratory evidence, not proof that concise summaries are generally better; ROUGE does not measure factual accuracy.
+
+## L.3 Qualitative failure observation
+
+For dialogue `13728094`, both styles claimed that Sam decided to speak to Rick, despite Sam expressing uncertainty and considering letting the issue go. Length constraints did not eliminate unsupported decision claims. The detailed output included more context, but also more opportunity for unsupported additions. Human review remains necessary.
+
+**Status:** Experiment executed and outputs saved. Focused prompt tests passed. No broad quality conclusion is drawn from the three-example sample.

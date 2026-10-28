@@ -1,4 +1,4 @@
-﻿# Dataset Acquisition and Reproducibility
+# Dataset Acquisition and Reproducibility
 
 ## 1. Purpose
 
@@ -8,14 +8,18 @@ The raw and processed CSV files are intentionally excluded from Git. Each group 
 
 ## 2. Source and redistribution checks
 
-Before downloading or sharing the dataset:
+### Recorded source
 
-1. Record the original dataset source, version or release, download date, and any applicable license.
-2. Read the source's current license and redistribution conditions. Do not assume that public availability automatically permits redistribution.
-3. Keep a copy of the source information and any required attribution with the project records.
-4. Do not commit the raw or processed dataset unless redistribution rights have been confirmed and the team has explicitly approved it.
+The project team reports obtaining the files from the Kaggle dataset **“Samsum Dataset Text summarization”** by Nilesh Malode:
 
-The repository does not currently bundle the dataset. The source URL and license verification must be recorded by the team once confirmed.
+- Dataset page: <https://www.kaggle.com/datasets/nileshmalode1/samsum-dataset-text-summarization>
+- Kaggle page identifier: `nileshmalode1/samsum-dataset-text-summarization`
+- Page metadata reports dataset version `1` and last modified `2023-06-23`.
+- Kaggle page metadata lists the license as **Unknown**.
+- The page describes the dataset as created by Nilesh Malode; it does not by itself establish the upstream SAMSum release/version or the rights to redistribute the underlying corpus.
+- The team reports this Kaggle page as its download source; an exact local download date and archive-to-CSV provenance record were not retained.
+
+The scholarly SAMSum paper is cited in the final report for the underlying corpus. Before redistribution or submission of the data files, verify the upstream SAMSum terms and any applicable Kaggle uploader/license terms. Do not infer permission from public availability, and do not commit raw or processed data unless redistribution rights are confirmed and the team approves it.
 
 ## 3. Expected raw files
 
@@ -56,15 +60,18 @@ These are fingerprints of the previously audited local files, not independently 
 Activate the project's virtual environment if necessary, then run:
 
 ```powershell
-.\.venv\Scripts\python.exe src\validate_dataset.py
-.\.venv\Scripts\python.exe src\check_split_leakage.py
-.\.venv\Scripts\python.exe src\profile_dataset.py
-.\.venv\Scripts\python.exe src\profile_token_lengths.py
-.\.venv\Scripts\python.exe src\preprocess_dataset.py
-.\.venv\Scripts\python.exe src\validate_processed_dataset.py
+.\.venv\Scripts\python.exe -m data_processing.validate_dataset
+.\.venv\Scripts\python.exe -m data_processing.profile_dataset
+.\.venv\Scripts\python.exe -m data_processing.profile_token_lengths
+.\.venv\Scripts\python.exe -m data_processing.verify_raw_dataset_integrity
+.\.venv\Scripts\python.exe -m data_processing.preprocess_dataset
+.\.venv\Scripts\python.exe -m data_processing.validate_processed_dataset
+.\.venv\Scripts\python.exe -m data_processing.check_split_leakage
 ```
 
 Review each command's output. Resolve errors before proceeding. Confirm the generated metadata and exclusions are consistent with the current source files.
+
+Raw validation, profiling, integrity verification, and preprocessing read the raw files for audit/preparation; they do not train or evaluate a model. Model-generation and evaluation workflows use processed CSVs or baseline outputs created from the processed training split. The leakage-check runner compares the processed splits.
 
 ## 6. Previously observed data-quality results
 
@@ -88,7 +95,7 @@ These are previously recorded results. Re-run the validation scripts to confirm 
 
 - **Train:** pipeline development and any carefully controlled few-shot example selection.
 - **Validation:** model, prompt, and decoding development and comparisons.
-- **Test:** final evaluation after decisions are frozen. Do not repeatedly use test results to tune prompts or settings.
+- **Test:** 50 examples have already been used for the model-family comparison. Treat those results as comparative/selection evidence, not as an untouched holdout, and do not continue tuning against that subset.
 
 Record the split, sample IDs, model identifier, prompt, decoding parameters, generated outputs, and evaluation settings for each experiment.
 
