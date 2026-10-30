@@ -1,8 +1,8 @@
-*Reusable recording templates â€¢ fill with actual evidence*
+*Reusable recording templates — fill with actual evidence*
 
 Project: SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction
 
-Document status: Version 0.2 â€” updated 15 October 2026
+Document status: Version 0.2 — updated 15 October 2026
 
 Working rule: Record proposed choices as proposed until the team verifies them. Never report unrun experiments as results.
 
@@ -115,7 +115,7 @@ Training examples are used for initial pipeline verification to avoid consuming 
 
 **Data-use safeguard:** These samples come from the training split. Validation and test examples are not used to generate outputs in this smoke test. The three examples are intentionally selected for pipeline verification and must not be presented as a representative evaluation sample.
 
-**Status:** Sample selection recorded; baseline generation pending.
+**Status at the time of this 16 October record:** Sample selection was recorded; baseline generation was pending. The later result is documented in Section I.
 
 ## I. Initial Baseline Smoke-Test Results
 
@@ -194,8 +194,8 @@ The model generated a JSON request for the allowlisted Python tool `validate_sum
 
 The generated summary captured the main event and planned delivery. However, the generated action items included:
 
-- Amanda: â€œPrepare cookiesâ€
-- Jerry: â€œEat cookiesâ€
+- Amanda: “Prepare cookies”
+- Jerry: “Eat cookies”
 
 These are not explicit commitments in the dialogue. The validator accepted the output because the JSON structure matched the schema.
 
@@ -214,7 +214,7 @@ The saved evidence includes the raw request, parsed request, tool result, and fi
 5. Do not treat a successful schema check as proof of factual correctness.
 6. Do not claim native model-specific tool calling. The tool-result-to-model follow-up is now implemented and is covered by offline tests.
 
-**Status:** The model-backed round-trip was rerun and saved, and the complete 32-test suite passed. The added failure-path test verifies that invalid tool results block final-response generation. Semantic faithfulness remains a separate review and evaluation responsibility.
+**Status at the time of this experiment:** The model-backed round-trip was rerun and saved, and the then-current 32-test suite passed. The added failure-path test verifies that invalid tool results block final-response generation. Semantic faithfulness remains a separate review and evaluation responsibility.
 
 # K. Expanded Structured Output Contract
 
@@ -264,7 +264,7 @@ For dialogue `13728094`, both styles claimed that Sam decided to speak to Rick, 
 
 **Date:** 28 October 2026
 **Experiment:** Comparative evaluation of Qwen, FLAN-T5, and DistilBART
-**Detailed protocol:** [Model Family Comparison](05_Model_Family_Comparison/README.md)
+**Detailed protocol:** [Model Family Comparison](Model_Family_Comparison/README.md)
 
 ## M.1 Protocol and sample
 
@@ -295,6 +295,19 @@ FLAN-T5-base had the highest ROUGE scores and lowest recorded mean generation ti
 - Per-example outputs and scores: `outputs/model_comparison_50_samples/model_family_comparison.csv` and `model_family_comparison.json`
 - Sample IDs and seed: `outputs/model_comparison_50_samples/sample_manifest.json`
 - Runner: `src/evaluation/run_model_family_comparison_50.py`
-- Full methodology and limitations: [Model Family Comparison](05_Model_Family_Comparison/README.md)
+- Full methodology and limitations: [Model Family Comparison](Model_Family_Comparison/README.md)
 
 Treat these results as comparative evidence, not an independent final test result. Do not tune prompts, models, or settings against these same 50 examples or rerun them as a new independent test.
+
+# N. Current Verification Record
+
+**Verification date:** 31 October 2026
+
+The following checks completed successfully in the project workspace:
+
+- Raw dataset validation and SHA-256 comparison against the local 16 October baseline.
+- Processed dataset validation: 14,731 train, 818 validation, and 819 test rows; required fields are populated and IDs are unique.
+- Processed-split leakage checks: no shared IDs or exact dialogue-summary pairs.
+- Offline test suite: **45 passed**.
+
+These are data and application-logic checks. The verification pass did not rerun model inference or the prompt, decoding, or model-family experiments. The saved model-backed artifacts and experiment results above remain historical run evidence; JSON Schema validation and ROUGE scores do not establish factuality.

@@ -1,4 +1,10 @@
 
+"""Generate the archived Word model-comparison report from saved results.
+
+Run with ``python -m evaluation.update_model_family_comparison_doc`` after the
+50-sample result files are available.
+"""
+
 from pathlib import Path
 from docx import Document
 from docx.shared import Inches, Pt
@@ -9,8 +15,8 @@ from project_paths import PROJECT_ROOT
 
 ROOT = PROJECT_ROOT
 OUT = (
-    ROOT / "documents" / "03_Implementation_and_Experiments"
-    / "05_Model_Family_Comparison"
+    ROOT / "documents" / "Implementation_and_Experiments"
+    / "Model_Family_Comparison"
     / "model_family_comparison_report_updated.docx"
 )
 

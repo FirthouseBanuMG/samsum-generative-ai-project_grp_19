@@ -1,5 +1,5 @@
 """
-Decoding comparison experiment (E3) for the SAMSum project.
+Run decoding experiment E3 on the saved baseline dialogues.
 
 Holds the prompt strategy and samples fixed and varies only the decoding
 settings, comparing greedy decoding against sampling configurations that
@@ -10,6 +10,8 @@ measured (repeatability vs diversity).
 Outputs:
   outputs/decoding_experiments/decoding_comparison.{csv,json}
   outputs/decoding_experiments/decoding_variability_summary.csv
+
+Run with ``python -m generation.run_decoding_experiments``.
 """
 
 import json

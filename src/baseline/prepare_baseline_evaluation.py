@@ -1,3 +1,9 @@
+"""Build a blank human-review CSV from saved baseline generations.
+
+Run with ``python -m baseline.prepare_baseline_evaluation``; it refuses to
+overwrite an existing evaluation file.
+"""
+
 import json
 from pathlib import Path
 

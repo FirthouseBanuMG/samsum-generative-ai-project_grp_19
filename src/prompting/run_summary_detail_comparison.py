@@ -1,4 +1,8 @@
-"""Compare concise and detailed summary prompts on fixed baseline examples."""
+"""Compare concise and detailed prompts on the fixed baseline training examples.
+
+Run with ``python -m prompting.run_summary_detail_comparison``; saves outputs
+and descriptive word-count and ROUGE metrics.
+"""
 
 import json
 import re

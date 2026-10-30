@@ -1,5 +1,5 @@
 ﻿"""
-Prompt templates for the SAMSum conversation summarization project.
+Build reusable prompts for SAMSum summary, detail, and structured-output tasks.
 
 Strategies:
 1. Zero-shot prompting

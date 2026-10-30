@@ -73,11 +73,13 @@ Review each command's output. Resolve errors before proceeding. Confirm the gene
 
 Raw validation, profiling, integrity verification, and preprocessing read the raw files for audit/preparation; they do not train or evaluate a model. Model-generation and evaluation workflows use processed CSVs or baseline outputs created from the processed training split. The leakage-check runner compares the processed splits.
 
-## 6. Previously observed data-quality results
+## 6. Current data-quality results
 
-The audited dataset contained 16,369 raw rows across the three splits. One training row had a missing or blank dialogue and was excluded from dialogue-based experiments.
+**Verified:** 31 October 2026. The raw dataset validator, recorded local SHA-256 integrity check, processed-dataset validator, and cross-split leakage checker all passed.
 
-Previously observed processed row counts:
+The audited dataset contains 16,369 raw rows across the three splits. One training row has a missing or blank dialogue and is excluded from dialogue-based experiments.
+
+Current processed row counts:
 
 | Split | Processed rows |
 |---|---:|
@@ -85,11 +87,11 @@ Previously observed processed row counts:
 | Validation | 818 |
 | Test | 819 |
 
-The prior split audit found no shared IDs and no exact dialogue-summary pairs shared across splits. This does not rule out semantic near-duplicates.
+The current split audit found no shared IDs and no exact dialogue-summary pairs shared across splits. This does not rule out semantic near-duplicates.
 
 The preprocessing policy preserves dialogue text without aggressive cleaning and records exclusions. Missing or blank reference summaries must be handled explicitly for reference-based evaluation rather than silently treated as valid examples.
 
-These are previously recorded results. Re-run the validation scripts to confirm them against the files currently on the machine.
+These results describe the files in the verified workspace. The recorded raw hashes match the local 16 October baseline; this does not authenticate the upstream download.
 
 ## 7. Split-use policy
 
@@ -108,17 +110,17 @@ The recorded outputs include unsupported details in some summaries. The smoke te
 See:
 - `outputs/baseline_smoke_test/baseline_outputs.json`
 - `outputs/baseline_smoke_test/run_metadata.json`
-- `documents/03_Implementation_and_Experiments/04_Experiment_and_Decision_Log.md`
+- `documents/Implementation_and_Experiments/04_Experiment_and_Decision_Log.md`
 
 ## 9. Reproducibility checklist
 
-Before reporting results, confirm that:
+Status for the experiments and dataset copy documented in this repository:
 
-- [ ] The dataset source, version, and license have been recorded.
-- [ ] The raw files have been checked for expected columns and row counts.
-- [ ] Validation and split-leakage checks have been run.
-- [ ] Preprocessing exclusions and metadata have been reviewed.
-- [ ] Train, validation, and test usage follows the documented policy.
-- [ ] Model, prompt, decoding settings, sample IDs, and outputs are recorded.
-- [ ] Generated summaries have been checked for unsupported claims.
-- [ ] Performance claims are supported by a documented evaluation, not the smoke test alone.
+- [x] The reported dataset source, page version, and listed license are recorded; exact archive provenance remains unknown.
+- [x] The raw files have been checked for expected columns, row counts, and local baseline hashes.
+- [x] Raw/processed validation and split-leakage checks have been run.
+- [x] Preprocessing exclusions and metadata have been reviewed.
+- [x] Train, validation, and test usage follows the documented policy; the 50-example test comparison is disclosed as used.
+- [x] Model, prompt, decoding settings, sample IDs, and saved outputs are recorded for the reported experiments.
+- [x] Representative generated summaries have been reviewed for unsupported claims; this was not a large-scale human evaluation.
+- [x] Performance claims use documented comparisons rather than treating the smoke test as an evaluation.

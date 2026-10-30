@@ -1,7 +1,6 @@
-"""Human-readable presentation helpers for the integrated demo.
+"""Format integrated-demo summaries and final responses as fixed-width tables.
 
-The functions in this module convert generated summaries and follow-up
-responses into fixed-width console tables for easier human review.
+Imported by the integrated CLI and notebook to present model output for review.
 """
 
 from collections.abc import Mapping, Sequence
@@ -17,7 +16,7 @@ _CONTENT_WIDTH = 72
 # retained under the generic "Response" field rather than being discarded.
 _FINAL_SECTION_PATTERN = re.compile(
     r"^(Summary|Key Points|Decisions|Action Items|Validation note|"
-    r"Completeness review required):\\s*(.*)$",
+    r"Completeness review required):\s*(.*)$",
     re.IGNORECASE,
 )
 
@@ -199,7 +198,7 @@ def _render_table(
             # column separator. Preserve indentation for wrapped bullet items.
             wrapped_lines.extend(
                 wrap(
-                    content.replace("|", "\\\\|"),
+                    content.replace("|", "\\|"),
                     width=content_width,
                     subsequent_indent="  " if content.startswith("- ") else "",
                     break_long_words=False,
@@ -218,4 +217,4 @@ def _render_table(
             )
         rendered.append(border)
 
-    return "\\n".join(rendered)
+    return "\n".join(rendered)

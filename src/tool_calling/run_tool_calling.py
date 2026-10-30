@@ -1,9 +1,11 @@
-"""Application-level tool/function-calling demonstration for SAMSum.
+"""Validate structured summaries through an allowlisted application-level tool.
 
 The model emits a JSON tool-call request. The application validates the
 request, executes the named Python function, and records the result.
 
-This is a JSON tool-call protocol, not native model-specific tool calling.
+The module also supports a model-backed round trip; this JSON protocol is not
+native model-specific tool calling. Run the demonstration with
+``python -m tool_calling.run_tool_calling``.
 """
 
 import json

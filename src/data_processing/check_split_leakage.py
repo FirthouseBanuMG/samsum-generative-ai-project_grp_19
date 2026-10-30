@@ -1,3 +1,8 @@
+"""Check processed dataset splits for shared IDs and exact dialogue-summary pairs.
+
+Run with ``python -m data_processing.check_split_leakage`` after preprocessing.
+"""
+
 import pandas as pd
 
 from project_paths import PROJECT_ROOT

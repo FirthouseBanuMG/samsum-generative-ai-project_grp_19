@@ -1,5 +1,5 @@
 """
-Structured JSON output experiment (E4) for the SAMSum project.
+Generate and validate structured SAMSum summaries, with one repair attempt.
 
 Generates a machine-readable summary (summary, key_points, decisions,
 and action_items) for each
@@ -11,6 +11,8 @@ demonstrates recovery when the model returns invalid JSON:
 
 A deliberately malformed string is also run through the validator so the
 validation/error-handling path is demonstrated independently of the model.
+
+Run with ``python -m structured_output.run_structured_output``.
 """
 
 import json

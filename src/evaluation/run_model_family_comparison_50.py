@@ -1,5 +1,9 @@
 
-"""Run a reproducible SAMSum model-family comparison."""
+"""Evaluate configured models on a seeded sample from the processed test split.
+
+Run with ``python -m evaluation.run_model_family_comparison_50``; saves a sample
+manifest, generations, ROUGE metrics, and aggregate results.
+"""
 
 import argparse
 import gc

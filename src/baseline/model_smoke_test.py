@@ -1,11 +1,8 @@
-# Run a baseline smoke test for a conversational summarization model.
+"""Generate qualitative Qwen summaries for selected processed training examples.
 
-# The script loads selected SAMSum training examples, generates summaries
-# using a pretrained causal language model, and saves the outputs along
-# with experiment metadata.
-
-# This test verifies pipeline functionality and is not intended to measure
-# summarization quality or benchmark model performance.
+Run with ``python -m baseline.model_smoke_test``; saves generations and run
+metadata as a pipeline smoke test, not as a performance evaluation.
+"""
 
 import json
 import time

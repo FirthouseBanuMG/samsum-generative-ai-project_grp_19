@@ -1,4 +1,4 @@
-"""Offline tests for the application-level tool-calling workflow."""
+"""Test allowlisted tool validation, request parsing, and guarded final responses."""
 
 from tool_calling.run_tool_calling import (
     TOOL_NAME,

@@ -1,5 +1,5 @@
 """
-Fast checks for the structured-output schema and helpers (E4).
+Test the structured-output schema, JSON extraction, parsing, and validation.
 
 Runs without loading the model so the validation and extraction logic
 can be verified quickly before any slow generation.

@@ -1,3 +1,5 @@
+"""Test prompt templates, summary-detail variants, and explicit commitment guidance."""
+
 import pytest
 
 from prompting.prompts import (

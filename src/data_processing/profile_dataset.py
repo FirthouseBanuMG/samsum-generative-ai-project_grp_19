@@ -1,3 +1,8 @@
+"""Report character-length statistics for dialogues and summaries in raw splits.
+
+Run with ``python -m data_processing.profile_dataset``; source CSVs are read-only.
+"""
+
 from pathlib import Path
 import pandas as pd
 

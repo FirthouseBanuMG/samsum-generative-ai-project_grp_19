@@ -1,5 +1,5 @@
 """
-Structured-output schema and validation for the SAMSum project (E4).
+Define and validate the structured-summary JSON contract used by the project.
 
 Defines the machine-readable JSON schema the model is asked to produce
 (a summary, key points, decisions, and action items) and the helpers used to

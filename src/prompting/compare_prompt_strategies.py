@@ -1,3 +1,9 @@
+"""Aggregate completed manual prompt ratings into a strategy comparison CSV.
+
+Run with ``python -m prompting.compare_prompt_strategies`` after filling every
+rating in the prompt evaluation file.
+"""
+
 from pathlib import Path
 import pandas as pd
 

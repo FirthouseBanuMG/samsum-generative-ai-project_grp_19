@@ -4,8 +4,8 @@
 **Project:** SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction
 **Original submission deadline:** 25 October 2026
 **Internal feature freeze:** 21 October 2026
-**Status reviewed:** 29 October 2026
-**Planning status:** Core implementation, evidence review, report citation/consistency review, and presentation materials are present. Remaining work is final rendering, member confirmation, rehearsal, and course submission; see phase statuses below.
+**Status reviewed:** 31 October 2026
+**Planning status:** Core implementation, evidence review, report citation/consistency review, and presentation materials are present. Dataset integrity/validation/leakage checks and the offline test suite were rechecked on 31 October; member confirmation, rehearsal, final team review, and course submission remain.
 
 ## 1. Execution Rules
 
@@ -19,9 +19,9 @@
 
 ## 2. Phase Plan
 
-| Phase | Implementation work | Deliverables / acceptance evidence | Status as of 29 Oct 2026 |
+| Phase | Implementation work | Deliverables / acceptance evidence | Status as of 31 Oct 2026 |
 |---|---|---|---|
-| 1. Project control and architecture | Define the system, requirements, package structure, and verification plan | Architecture, phase plan, evidence matrix | **Complete.** Architecture now represents the verified implementation and offline/runtime flows. |
+| 1. Project control and architecture | Define the system, requirements, package structure, and verification plan | Architecture, phase plan, evidence matrix | **Complete.** Architecture describes the implemented data, experiment, and gated runtime flows; docs were reviewed against code on 31 Oct. |
 | 2. Dataset and preprocessing | Audit raw splits, preserve raw files, create processed splits, validate and check overlap | Scripts, metadata, exclusion log, split checks | **Complete with a disclosed use limitation.** Raw integrity matches the recorded local baseline; processed splits validate with zero shared IDs/exact pairs. Kaggle lists the license as Unknown; the report records this and does not claim redistribution rights. |
 | 3. Baseline generation | Generate and inspect at least three pretrained causal-LM examples | Saved outputs and run settings | **Complete.** Three qualitative training examples retained; factual errors/omissions documented. |
 | 4. Prompt engineering | Implement and compare four prompt strategies; compare concise and detailed prompting | Reusable templates, logs, outputs, comparison | **Complete with limitation.** Four strategies and length styles compared; prompt rating sample is n=3 and exploratory. |
@@ -29,8 +29,8 @@
 | 6. Structured output and tool demo | Generate JSON; parse, validate, recover; demonstrate allowlisted function round trip | Schema, runner, tests, saved tool evidence | **Complete.** Application-level JSON tool protocol tested; it is not native model tool calling. |
 | 7. Evaluation and failure analysis | Apply criteria and document concrete failure examples | Scores, metrics, failure analysis, caveats | **Complete with limitations.** Evidence and failures documented; small qualitative samples do not establish general accuracy. |
 | 8. Integrated notebook/demo | Connect processed input, generation, coverage warning, tool, final response | Executed notebook, CLI, saved demo output | **Complete with limitation.** CLI and notebook rerun on CPU. The model still omits an explicit commitment; a narrow heuristic warns but does not repair it. |
-| 9. Report and presentation | Prepare report, slide deck, and contribution forms | 10–15-page report body, 10-slide deck, four-member contribution template | **Mostly complete.** Report evidence/citations were reviewed; latest render is 14 pages total with an 11-page body. Slide outline, proposed speaker split, and demo plan are ready; member confirmations and actual rehearsal/timing remain. |
-| 10. Final verification and closeout | Run tests/data checks/demo; verify report/deck and limitations | Test results, data checks, rendered page count, review checklist | **Mostly complete.** 39 tests pass; data pipeline and notebook/CLI were rerun; current report render meets the 10–15-page body requirement. Final team review remains. |
+| 9. Report and presentation | Prepare report, slide deck, and contribution forms | 10–15-page report body, 10-slide deck, four-member contribution template | **Mostly complete.** Report evidence/citations were reviewed; the last verified render (29 Oct) is 14 pages total with an 11-page body. Slide outline, proposed speaker split, and demo plan are ready; member confirmations and actual rehearsal/timing remain. |
+| 10. Final verification and closeout | Run tests/data checks/demo; verify report/deck and limitations | Test results, data checks, rendered page count, review checklist | **Mostly complete.** The offline suite passed 45 tests on 31 Oct. Raw integrity, processed validation, and leakage checks passed the same day. The last report page-count verification was 29 Oct (14 total pages; 11-page body); final team review remains. |
 | 11. Submission | Package and submit through course process | Submission confirmation | **Pending / team-owned.** Original deadline was 25 Oct 2026; no submission confirmation is recorded here. |
 
 ## 3. Current Status — Evidence Available
@@ -54,7 +54,8 @@
 - The tool result is returned to the model for a final response; success and validation-failure paths have offline tests, and the model-backed run is saved under `outputs/tool_calling/`.
 - Integrated notebook and CLI completed a fresh CPU run; the narrow commitment warning is included in the output saved under `outputs/integrated_demo/`.
 - Python modules are grouped directly under `src/` by responsibility, tests are under top-level `tests/`, and runnable commands use those package modules.
-- Assignment report renders to 14 pages total (11-page body excluding references/appendices); a 10-slide presentation deck and simplified four-member contribution template are present.
+- Assignment report last rendered on 29 Oct to 14 pages total (11-page body excluding references/appendices); a 10-slide presentation deck and simplified four-member contribution template are present.
+- On 31 Oct, the offline test suite passed all 45 tests; raw dataset checksums matched the recorded local baseline, processed data validated, and cross-split exact ID/pair checks reported zero overlaps.
 
 ### Still to verify or complete for submission
 
@@ -262,7 +263,7 @@ The Python source is grouped directly under `src/` (`data_processing`, `baseline
 
 **Exit criteria:** All mandatory deliverables have been checked and remaining limitations are documented.
 
-**Status:** Software and artifact checks are substantially complete: 39 tests pass, data checks pass, notebook/CLI were executed, and the current report render is 14 pages total with an 11-page body. Member confirmation, rehearsal, and submission confirmation remain.
+**Status:** Software and artifact checks are substantially complete: 45 offline tests passed and read-only raw/processed dataset and leakage checks passed on 31 Oct. The saved model-backed CLI/notebook evidence remains available; this check did not run fresh inference. The last verified report render (29 Oct) is 14 pages total with an 11-page body. Member confirmation, rehearsal, final team review, and submission confirmation remain.
 
 ### Phase 11 — Submission
 
@@ -292,7 +293,7 @@ After each meaningful task:
 
 These are human/team-owned actions rather than unfinished implementation phases:
 
-1. Keep final submission formatting consistent with the verified 13-page render (11-page body).
+1. Re-render the report after any content or layout changes; the last verified render (29 Oct) was 14 pages total with an 11-page body.
 2. Have each member write a short, accurate contribution statement, confirm it, and add the date.
 3. Confirm the proposed speaker split; rehearse and record an 8–10-minute presentation including the demo.
 4. Submit the required materials through the course process and save the submission confirmation.

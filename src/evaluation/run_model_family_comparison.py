@@ -1,13 +1,8 @@
 
-"""
-Model-family comparison experiment for the SAMSum project.
+"""Compare configured causal and encoder-decoder models on baseline dialogues.
 
-Inference is intended to run in Google Colab with a GPU.
-Uses the same three baseline dialogues and reference summaries.
-
-Outputs:
-  outputs/model_comparison/model_family_comparison.csv
-  outputs/model_comparison/model_family_comparison.json
+Run with ``python -m evaluation.run_model_family_comparison``; saves per-model
+generations in CSV and JSON. GPU use is optional and enabled when available.
 """
 
 import json

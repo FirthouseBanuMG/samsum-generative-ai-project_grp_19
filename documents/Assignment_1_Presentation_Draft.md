@@ -2,7 +2,7 @@
 
 **Project:** SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction  
 **Group 19:** CHAUDHARI GANESH GOVIND; RAMNIWASH KUMAR; SONAL GUPTA; FIRTHOUSE BANU M G  
-**Status:** Speaking notes and proposed speaker handoffs, updated 29 October 2026. The 10-slide PowerPoint is generated from `Assignment_1_Presentation_Slides.md`. The proposed slide timing is 8:25; a one-minute live or saved-output demo brings the total to about 9:25. The team still needs to confirm speakers and rehearse.
+**Status:** Speaking notes and proposed speaker handoffs, reviewed 31 October 2026. The 10-slide PowerPoint is generated from `Assignment_1_Presentation_Slides.md`. The proposed slide timing is 8:25; a one-minute live or saved-output demo brings the total to about 9:25. The team still needs to confirm speakers and rehearse.
 
 ## Slide 1 — The problem (0:40)
 

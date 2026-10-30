@@ -24,8 +24,9 @@ These results apply to the tested configurations and do not establish
 universal model superiority.
 
 ## Files
-- model_family_comparison_report.docx: Report section with methodology,
-  results, failure analysis, conclusion, and limitations.
+- The current Markdown model comparison report is maintained in
+  [the parent README](../README.md). The former active Word report was
+  consolidated into that file and removed.
 - model_family_evaluation_50_samples.xlsx: Detailed evaluation workbook.
 
 ## Limitations

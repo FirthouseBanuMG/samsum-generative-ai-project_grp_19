@@ -1,1 +1,1 @@
-"""End-to-end integrated summarization demo."""
+"""Integrated summarization demo package and presentation utilities."""

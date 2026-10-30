@@ -4,7 +4,7 @@
 **Group 19:** CHAUDHARI GANESH GOVIND; RAMNIWASH KUMAR; SONAL GUPTA; FIRTHOUSE BANU M G  
 **Assignment 1 – Technical Report**
 
-> Evidence note: This report was reviewed against the implementation and saved experiment artifacts on 29 October 2026. The reported Kaggle page is cited as the source; it lists the license as Unknown. Do not redistribute dataset files based on this citation. Exact archive provenance is not established. Results below are reported as observed; no unrun experiment is claimed.
+> Evidence note: The implementation, data-check results, and offline test status were rechecked on 31 October 2026; saved model outputs were not regenerated during that review. The report's last recorded render was on 29 October 2026. The reported Kaggle page is cited as the source; it lists the license as Unknown. Do not redistribute dataset files based on this citation. Exact archive provenance is not established. Results below are reported as observed; no unrun experiment is claimed.
 
 ## Abstract
 
@@ -52,7 +52,7 @@ The model-family comparison uses 50 unique test-split dialogues selected with se
 
 ### 2.3 Data provenance
 
-The local processed artifacts were inspected directly. They are named `samsum-train-processed.csv`, `samsum-validation-processed.csv`, and `samsum-test-processed.csv`; the companion `preprocessing_metadata.json` records the source filenames, expected columns, row counts, no text transformation/truncation, and one excluded training row. The three processed files were independently validated again on 28 October 2026: all have the columns `id`, `dialogue`, and `summary`; row counts are 14,731, 818, and 819; IDs are unique; and required text fields passed validation. The split audit found no shared IDs or exact dialogue-summary pairs.
+The local processed artifacts were inspected directly. They are named `samsum-train-processed.csv`, `samsum-validation-processed.csv`, and `samsum-test-processed.csv`; the companion `preprocessing_metadata.json` records the source filenames, expected columns, row counts, no text transformation/truncation, and one excluded training row. The three processed files were independently validated again on 31 October 2026: all have the columns `id`, `dialogue`, and `summary`; row counts are 14,731, 818, and 819; IDs are unique; and required text fields passed validation. The split audit found no shared IDs or exact dialogue-summary pairs.
 
 The team reports obtaining the files from the Kaggle dataset [“Samsum Dataset Text summarization” by Nilesh Malode](https://www.kaggle.com/datasets/nileshmalode1/samsum-dataset-text-summarization) [2]. The Kaggle page metadata identifies version 1 (page last modified 23 June 2023) and lists the license as **Unknown**. This records the reported download page, but the local processed files do not establish which exact Kaggle archive produced the CSVs, the download date, or the upstream SAMSum release/version. The Kaggle page identifies Nilesh Malode as the uploader/creator of that page; the underlying corpus is attributed to the SAMSum paper cited in References. For this assignment, report the Kaggle information as listed and do not redistribute dataset files. Local SHA-256 values provide fingerprints only relative to the recorded local baseline, not upstream authenticity.
 
@@ -202,7 +202,7 @@ These are concrete examples, not estimates of failure frequency. The application
 
 ## 13. Implementation and Reproducibility
 
-The repository includes preprocessing and validation scripts, reusable prompt functions, experiment runners for baseline/prompt/decoding/model comparisons, structured-output helpers, tool-call code, tests, and saved outputs. The pinned dependency file is `requirements-lock.txt`; raw and processed dataset files are intentionally not tracked. Reproduce the environment and acquire the dataset according to [the dataset and reproducibility guide](./03_Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md).
+The repository includes preprocessing and validation scripts, reusable prompt functions, experiment runners for baseline/prompt/decoding/model comparisons, structured-output helpers, tool-call code, tests, and saved outputs. The pinned dependency file is `requirements-lock.txt`; raw and processed dataset files are intentionally not tracked. Reproduce the environment and acquire the dataset according to [the dataset and reproducibility guide](./Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md).
 
 The integrated demonstration is available in [`notebooks/01_integrated_demo.ipynb`](../notebooks/01_integrated_demo.ipynb) and can also be run as `python -m integrated_demo.run_integrated_demo`. The workflow returns the tool result to the model for a final user-facing response. Both the CLI and notebook were rerun on CPU using sample `13818513` and the project environment; the evidence is saved under `outputs/integrated_demo/`. The model continued to omit the explicit delivery commitment despite the stronger prompt. The narrow heuristic in `src/structured_output/coverage.py`, called by the structured-generation runner, catches this sample's omission and adds a visible review warning, but does not correct the generated content or establish general factual completeness. A real run may require internet access to download model files and can take several minutes on CPU. Run the existing tests from the project root using the configured environment before submission.
 
@@ -235,7 +235,8 @@ The project implements the central workflow required for a small generative-AI s
 - [x] Record the reported Kaggle source URL, page version 1, Kaggle uploader, and underlying SAMSum paper citation.
 - [x] Cite the reported Kaggle source/version and disclose that the listed license is Unknown; do not claim redistribution rights or redistribute dataset files.
 - [x] Check that the in-text source references resolve to the numbered bibliography entries and that model/metric claims have references.
-- [x] Rendered with Pandoc/Microsoft Word on 29 October 2026: 14 pages total, with an 11-page body before references/appendices; this meets the 10–15-page requirement in the current layout.
+- [x] The 29 October 2026 render was 14 pages total, with an 11-page body before references/appendices. Re-render after report content or layout changes to verify the submitted copy still meets the 10–15-page requirement.
+- [x] Offline test suite passed 45 tests on 31 October 2026; this check did not rerun model inference.
 - [x] Disclose that the 50-sample test-split comparison is comparative evidence, not an untouched holdout; do not continue tuning on it.
 - [x] Use the standard VAE, GAN, and autoregressive Transformer family set as directed; avoid asserting that each was explicitly taught without course notes/slides.
 - [x] Execute the integrated notebook/demo in the project environment on CPU; inspect the saved result and commitment-warning output.

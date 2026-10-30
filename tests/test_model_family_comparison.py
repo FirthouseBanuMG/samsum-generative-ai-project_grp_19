@@ -1,4 +1,6 @@
 
+"""Test model-specific input formatting, architecture settings, and result validation."""
+
 import unittest
 
 from evaluation import run_model_family_comparison as comparison

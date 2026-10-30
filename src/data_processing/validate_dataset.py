@@ -1,3 +1,8 @@
+"""Inspect raw SAMSum splits for required columns, missing data, and basic quality.
+
+Run with ``python -m data_processing.validate_dataset`` before preprocessing.
+"""
+
 from pathlib import Path
 import pandas as pd
 

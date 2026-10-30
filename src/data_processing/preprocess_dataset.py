@@ -1,3 +1,8 @@
+"""Create validated processed CSV splits and record excluded rows and metadata.
+
+Run with ``python -m data_processing.preprocess_dataset``; raw files are unchanged.
+"""
+
 from pathlib import Path
 import json
 import pandas as pd

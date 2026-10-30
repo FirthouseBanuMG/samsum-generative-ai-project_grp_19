@@ -1,3 +1,5 @@
+"""Test structured-output parsing recovery, fallback behavior, and coverage flags."""
+
 import sys
 import types
 

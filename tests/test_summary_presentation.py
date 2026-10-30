@@ -1,3 +1,5 @@
+"""Test readable table formatting for structured summaries and final responses."""
+
 import pytest
 
 from integrated_demo.presentation import (
@@ -93,6 +95,8 @@ def test_formats_model_final_response_as_table():
     assert "| Action items       | None identified" in formatted
     assert "| Validation         | Structure was validated only." in formatted
     assert "| Review warning     | Amanda said" in formatted
+    assert "\n" in formatted
+    assert "\\n" not in formatted
 
 
 def test_preserves_unstructured_final_response_text():

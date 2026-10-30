@@ -87,8 +87,8 @@ author: "CHAUDHARI GANESH GOVIND; RAMNIWASH KUMAR; SONAL GUPTA; FIRTHOUSE BANU M
 
 ## 9. Takeaways and remaining actions | 0:45
 
-- End-to-end workflow and experiments run; 39 automated tests pass.
-- Report is 14 pages total (11-page body); limitations are disclosed.
+- End-to-end workflow and experiments run; 45 offline tests passed on 31 October 2026.
+- The last recorded report render (29 October) was 14 pages total (11-page body); limitations are disclosed.
 - Kaggle license: Unknown; dataset is not redistributed.
 - Collect each member's short contribution confirmation.
 - Rehearse with the one-minute demo; target 9:25 total.

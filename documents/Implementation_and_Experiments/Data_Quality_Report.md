@@ -1,49 +1,57 @@
 # SAMSum Data Quality and Preparation Report
 
-## 1. Audit status
+## 1. Current verification status
 
-Initial file audit completed through PowerShell on the project workspace.
+The raw dataset validator, recorded SHA-256 integrity check, processed-dataset validator, and cross-split leakage checker were run on **31 October 2026**. All completed successfully. These results describe the files currently available in this workspace; the hash baseline is local and does not authenticate the upstream download.
 
-## 2. Raw dataset files verified
+## 2. Raw dataset
 
-| File | Size in bytes | Status |
-|---|---:|---|
-| samsum-train.csv | 9,401,418 | Present |
-| samsum-validation.csv | 512,131 | Present |
-| samsum-test.csv | 530,165 | Present |
+The unchanged source files are in `data/raw/`. Current validation reports:
 
-Location: `data/raw/`
+| Split | Raw rows | Blank dialogue | Blank summary | Duplicate IDs |
+|---|---:|---:|---:|---:|
+| Train | 14,732 | 1 | 0 | 0 |
+| Validation | 818 | 0 | 0 | 0 |
+| Test | 819 | 0 | 0 | 0 |
 
-## 3. Validation script
+All three files have the required `id`, `dialogue`, and `summary` columns. Their SHA-256 hashes match the local baseline recorded on 16 October 2026.
 
-- Script: `src/data_processing/validate_dataset.py`
-- File size: 1,781 bytes
-- Status: Present
-- Previous execution findings: train 14,732 rows, validation 818 rows, test 819 rows.
-- One training record has a missing/blank dialogue; no duplicate IDs were reported in the initial validation.
+## 3. Processed dataset
 
-## 4. Processed data audit
+The processed CSVs in `data/processed/` pass independent validation:
 
-At the time of this audit, `data/processed/` contained no files.
+| Split | Processed rows | Blank required text | Unique IDs | Result |
+|---|---:|---:|---:|---|
+| Train | 14,731 | 0 | 14,731 | PASS |
+| Validation | 818 | 0 | 818 | PASS |
+| Test | 819 | 0 | 819 | PASS |
 
-## 5. Existing implementation documentation
+The single excluded training row is ID `13828807`, recorded in `data/processed/exclusions.json` with reason `missing_or_blank_dialogue`. The preprocessing metadata reports no text normalization or truncation and that source files were not modified.
 
-- `03_Implementation_Guide.docx`
-- `04_Experiment_and_Decision_Log.docx`
+## 4. Split integrity and limitations
 
-## 6. Decisions and limitations
+On 31 October, the processed-split checker found zero shared IDs and zero exact dialogue-summary pairs for train/validation, train/test, and validation/test. This does not rule out semantic near-duplicates.
 
-- Original CSV files will be preserved unchanged.
-- The invalid training record will be investigated and, if confirmed unusable, excluded only from downstream processing.
-- The test split will remain untouched during prompt development and model selection.
-- Cross-split duplicate checks and a formal preprocessing pipeline are still pending.
-- This report records an initial audit; it does not claim that complete data engineering has been finished.
+The dataset is reported as obtained from Kaggle's version 1 listing, which marks the license **Unknown**. The exact downloaded archive and upstream release are not established. Do not claim redistribution rights or include dataset files in the repository.
 
-## 7. Next step
+The 50-example model comparison has already used test-split data. Its results are comparative evidence, not an untouched final evaluation. Do not tune against those examples.
 
-Review the existing validation script and rerun it to capture current, reproducible data-quality results before implementing preprocessing.
+## 5. Reproduction commands
 
-## 8. Review of the Existing Validation Script (Historical Snapshot)
+Run from the repository root in the project environment:
+
+```powershell
+.\.venv\Scripts\python.exe -m data_processing.validate_dataset
+.\.venv\Scripts\python.exe -m data_processing.verify_raw_dataset_integrity
+.\.venv\Scripts\python.exe -m data_processing.validate_processed_dataset
+.\.venv\Scripts\python.exe -m data_processing.check_split_leakage
+```
+
+To recreate processed files, run `.\.venv\Scripts\python.exe -m data_processing.preprocess_dataset` after reviewing the raw validation and integrity outputs. See the [implementation guide](03_Implementation_Guide.md) and [dataset acquisition guide](05_Dataset_Acquisition_and_Reproducibility.md) for the full workflow.
+
+The earlier audit sequence below is retained as a project history. Its point-in-time plans and findings should not override the current results above.
+
+## Historical Snapshot — Review of the Initial Validation Script
 
 This records the earlier audit state. Its statements about leakage checks pending and test-split policy are superseded by Sections 21 and 22.
 
@@ -63,7 +71,7 @@ Limitations identified:
 
 Status: Initial validation exists; additional data-quality checks remain necessary.
 
-## 9. Fresh Validation Results (Historical Snapshot)
+## Historical Snapshot — Initial Validation Results
 
 These are the initial validation results available at that point in the project; the current rerun is recorded in Sections 21 and 22.
 
@@ -96,7 +104,7 @@ Evidence:
 - Script: `src/data_processing/validate_dataset.py`
 - Execution: successful terminal run during the project workflow.
 
-## 9. Fresh Validation Results
+## 9. Follow-up Validation Results
 
 Validation script executed successfully using the project virtual-environment Python.
 
@@ -341,10 +349,10 @@ The first sample was broadly consistent with its reference summary. The second a
 
 ## 21. Processed Dataset Revalidation
 
-**Verification date:** 27 October 2026
+**Verification date:** 31 October 2026
 **Inputs:** `data/processed/samsum-{train,validation,test}-processed.csv`, `data/processed/preprocessing_metadata.json`, and `data/processed/exclusions.json`
 
-The independent processed-dataset validation and cross-split leakage checks were rerun.
+The independent processed-dataset validation and cross-split leakage checks were rerun again on 31 October 2026. All three processed files passed. Counts, required fields, unique IDs, and the exclusion record match the current summary at the top of this report.
 
 | Split | Processed rows | Required columns | Unique IDs / required text | Result |
 |---|---:|---|---|---|
@@ -360,9 +368,9 @@ The team reports downloading from Kaggle's [“Samsum Dataset Text summarization
 
 ## 22. Current Leakage and Raw-File Integrity Recheck
 
-**Verification date:** 28 October 2026
+**Verification date:** 31 October 2026
 
-The current leakage-check script reads only the processed train, validation, and test CSVs and fails if it finds shared IDs or exact dialogue-summary pairs.
+The leakage-check script reads only the processed train, validation, and test CSVs and fails if it finds shared IDs or exact dialogue-summary pairs. It was rerun on 31 October 2026.
 
 | Comparison | Shared IDs | Shared exact dialogue-summary pairs |
 |---|---:|---:|
@@ -370,4 +378,4 @@ The current leakage-check script reads only the processed train, validation, and
 | Train vs Test | 0 | 0 |
 | Validation vs Test | 0 | 0 |
 
-This rules out exact ID/pair overlap in the processed files, but not near-duplicate or semantic overlap. The raw-integrity command also passed for all three CSVs against the locally recorded 16 October 2026 SHA-256 baseline. Because that baseline was recorded after earlier preprocessing activity, it cannot prove the files were unchanged before that date.
+This rules out exact ID/pair overlap in the processed files, but not near-duplicate or semantic overlap. The raw-integrity command also passed for all three CSVs against the locally recorded 16 October 2026 SHA-256 baseline. Because that baseline was recorded after earlier preprocessing activity, it cannot prove the files were unchanged before that date or establish upstream authenticity.

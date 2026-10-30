@@ -1,3 +1,8 @@
+"""Report tokenizer-based length statistics for raw SAMSum dialogues and summaries.
+
+Run with ``python -m data_processing.profile_token_lengths``; requires model tokenizer files.
+"""
+
 from pathlib import Path
 import pandas as pd
 from transformers import AutoTokenizer

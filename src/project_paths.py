@@ -1,4 +1,4 @@
-"""Shared repository paths for package modules."""
+"""Define repository, data, output, and documentation paths for project modules."""
 
 from pathlib import Path
 

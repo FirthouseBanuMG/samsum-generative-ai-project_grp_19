@@ -6,7 +6,7 @@ Describe the implemented architecture for Group 19's Applied Generative AI proje
 
 ## 2. Architecture Status
 
-This diagram reflects the implemented project as verified on 28 October 2026. It distinguishes the offline dataset/experiment workflow from the integrated runtime path. The current model is pretrained and used for inference; this project does not train or fine-tune its parameters.
+This diagram reflects the implementation and evidence rechecked on 31 October 2026. It distinguishes the offline dataset/experiment workflow from the integrated runtime path. The current model is pretrained and used for inference; this project does not train or fine-tune its parameters.
 
 ## 3. High-Level Architecture
 
@@ -42,20 +42,24 @@ flowchart LR
     end
 
     subgraph APP["C. Integrated runtime path"]
-        INPUT["Dialogue text<br/>(demo loads a processed train example)"]
+        INPUT["Training sample ID<br/>(CLI reads processed train CSV)"]
         BUILD["Build structured prompt"]
         MODEL["Pretrained Qwen causal LM<br/>autoregressive generation"]
-        PARSE["Extract and parse JSON"]
-        SCHEMA["JSON Schema validation<br/>retry once; fallback on invalid"]
+        PARSE["Extract, parse, and validate JSON<br/>one corrective retry; flagged fallback"]
         COVER["Narrow explicit-commitment<br/>omission heuristic"]
-        TOOL["Allowlisted application tool<br/>validates schema"]
+        GATE{"Schema-valid<br/>and no fallback?"}
+        TOOLREQ["Application builds allowlisted<br/>validation request"]
+        TOOL["Allowlisted validation function<br/>checks schema again"]
+        GATE2{"Tool result valid?"}
         RESULT["Structured result<br/>summary, key points,<br/>decisions, action items"]
-        FOLLOW["Final response from model<br/>plus visible review warning"]
+        FOLLOW["Model generates final response;<br/>coverage warning appended if flagged"]
         HUMAN["Human review required"]
-        INPUT --> BUILD --> MODEL --> PARSE --> SCHEMA
-        SCHEMA --> COVER --> TOOL --> RESULT --> FOLLOW --> HUMAN
-        COVER -. "flag omissions; does not repair or prove completeness" .-> HUMAN
-        SCHEMA -. "invalid output blocks tool/final response" .-> HUMAN
+        INPUT --> BUILD --> MODEL --> PARSE --> GATE
+        GATE -- Yes --> COVER --> TOOLREQ --> TOOL --> GATE2
+        GATE -- No --> HUMAN
+        GATE2 -- Yes --> RESULT --> FOLLOW --> HUMAN
+        GATE2 -- No --> HUMAN
+        COVER -. "warning only; does not repair output or block tool use" .-> HUMAN
     end
 
     NOTE["Responsible use across all paths:<br/>preserve raw data, avoid unsupported claims,<br/>report limitations, require human review"]
@@ -123,24 +127,24 @@ Required comparisons include:
 | Area | Implemented entry points | Current evidence and boundary |
 |---|---|---|
 | Data checks/preprocessing | `src/data_processing/` | Raw validation, profiling, SHA-256 check; separate processed files; 14,731/818/819 rows; processed validation and ID/exact-pair leakage checks pass |
-| Baseline/integrated runtime | `src/baseline/model_smoke_test.py`, `src/integrated_demo/run_integrated_demo.py` | Three baseline training examples; CLI and notebook rerun on CPU |
+| Baseline/integrated runtime | `src/baseline/model_smoke_test.py`, `src/integrated_demo/run_integrated_demo.py` | Three baseline training examples; integrated CLI reads a requested sample ID from the processed training split; saved run for `13818513` includes a valid schema/tool result and an omission warning |
 | Prompting/decoding | `src/prompting/`, `src/generation/` | Four prompt strategies, concise/detailed prompting, decoding outputs and logs |
 | Model comparison | `src/evaluation/run_model_family_comparison_50.py` | Qwen, FLAN-T5, DistilBART; 50 processed test examples. Not an untouched holdout and not an architecture-only comparison |
 | Structured result | `src/structured_output/` | JSON Schema, parse/retry/fallback, narrow commitment-coverage warning; warning does not prove or repair factual completeness |
-| Tool workflow | `src/tool_calling/run_tool_calling.py` | Allowlisted application-level JSON tool request, schema check, tool-result follow-up, and invalid-result block |
-| Integration and verification | `notebooks/01_integrated_demo.ipynb`, `tests/` | Notebook and CLI executed; 39 tests passed on 28 October 2026 |
+| Tool workflow | `src/tool_calling/run_tool_calling.py`, `src/integrated_demo/run_integrated_demo.py` | Standalone demonstration parses a model-generated application-level JSON request; integrated CLI builds the allowlisted validation request in application code. Both validate the tool result before the model follow-up |
+| Integration and verification | `notebooks/01_integrated_demo.ipynb`, `tests/` | Notebook/CLI evidence is saved; 45 offline tests passed on 31 October 2026. Tests do not load model weights or execute a fresh full inference run |
 
 ### Runtime sequence
 
-1. Load a dialogue from the processed training split or accept a supplied conversation.
+1. Read the selected training sample ID from `data/processed/samsum-train-processed.csv`; the CLI does not accept arbitrary dialogue text.
 2. Construct the structured JSON prompt and run the pretrained Qwen causal LM.
 3. Extract/parse the JSON; retry once for malformed or schema-invalid output, then flag fallback.
-4. Run the narrow commitment-coverage heuristic. Any flags require human review; they do not alter model output.
-5. Send schema-valid output to the allowlisted validation function.
-6. If tool validation passes, return the tool result to the model for a final response, append any coverage warning, and retain the result. If validation fails, block final-response generation.
+4. Run the narrow commitment-coverage heuristic. It flags some explicit first-person commitments missing from action items; it does not alter output or block the tool.
+5. Only schema-valid output that did not use fallback proceeds. The application constructs a request for the allowlisted validation function, which validates the schema again.
+6. If tool validation passes, return the tool result to the model for a final response, append any coverage warning, and save the result. If output or tool validation fails, block final-response generation.
 
 ### Dataset and experiment sequence
 
 Raw CSVs are read only for audit, profiling, integrity verification, and preprocessing. Model workflows use processed CSVs or baseline results generated from processed training examples. The model-family comparison used a processed test subset; results are disclosed as comparative evidence and must not be described as a pristine holdout.
 
-**Status:** Architecture describes the implemented workflow and its known limitations as of 28 October 2026. Team-owned report, contribution sign-offs, and presentation rehearsal remain outside the software architecture.
+**Status:** Architecture and documented data checks were reverified on 31 October 2026; the 45-test suite passed. The full model-backed run remains dependent on local weights/data and is represented by saved evidence rather than re-run as part of the offline test suite. Team-owned contribution sign-offs and presentation rehearsal remain outside the software architecture.

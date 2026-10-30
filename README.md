@@ -7,13 +7,14 @@ This project investigates pretrained generative language models for conversation
 
 ## Project status
 
-- Dataset audit and preprocessing completed locally.
-- Initial qualitative smoke test completed with `Qwen/Qwen2.5-1.5B-Instruct` on CPU.
-- Baseline outputs and run metadata are available under `outputs/baseline_smoke_test/`.
-- Controlled prompt and decoding experiments, structured output validation (summary, key points, decisions, action items), an application-level tool demonstration, and a 50-sample model comparison have saved code under `src/` and evidence under `outputs/`.
-- A technical report draft, executed integrated notebook/demo, presentation speaking draft, and contribution-statement template are present. Report rendering/page-count verification, presentation rehearsal, dataset attribution, and member-confirmed contribution statements remain.
+- Dataset audit, preprocessing, and the 31 October 2026 raw-integrity, processed-data, and split-leakage checks completed locally.
+- The offline test suite passed all 45 tests on 31 October 2026. This verification did not rerun model inference.
+- The initial qualitative `Qwen/Qwen2.5-1.5B-Instruct` CPU smoke test and integrated demo have saved outputs under `outputs/`.
+- Controlled prompt and decoding experiments, structured-output validation, an application-level tool demonstration, and the 50-sample model comparison have implementation under `src/` and saved evidence under `outputs/`.
+- The technical report source, integrated notebook/demo, presentation materials, and contribution-statement template are present. The last recorded report render was 29 October 2026 (14 pages total, 11-page body); re-render after content or layout changes. Member-confirmed contribution statements and an actual presentation rehearsal remain.
 
 The initial smoke test uses three training examples for pipeline verification. It is not a formal performance evaluation.
+The integrated CLI selects a dialogue by ID from the processed training split; it does not accept arbitrary dialogue text.
 
 ## Repository structure
 
@@ -44,7 +45,7 @@ requirements-lock.txt  Python dependency versions
 
 The complete current guide—required software, Python environment, dependencies,
 dataset preparation, VS Code/Jupyter setup, application run, and tests—is
-[Environment Setup and Run Guide](documents/02_Environment_Setup/Prerequisites_and_Environment_Setup.md).
+[Environment Setup and Run Guide](documents/Environment_Setup/Prerequisites_and_Environment_Setup.md).
 It is written for Windows PowerShell and uses the verified Python 3.13 CPU setup.
 
 ## Dataset setup
@@ -227,15 +228,15 @@ Outputs are written to `outputs/summary_detail_comparison/`. The experiment reco
 Start with these documents:
 
 - [Document index](documents/README_Document_Index.md)
-- [Assignment brief](documents/04_Reference_Material/Original_Group_Major_Project_Assignment_Brief.md)
-- [Master project plan](documents/01_Project_Planning/Master_Project_Plan.md)
-- [Environment setup guide](documents/02_Environment_Setup/Prerequisites_and_Environment_Setup.md)
-- [Implementation guide](documents/03_Implementation_and_Experiments/03_Implementation_Guide.md)
-- [Assignment-to-evidence matrix](documents/03_Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md)
-- [Experiment and decision log](documents/03_Implementation_and_Experiments/04_Experiment_and_Decision_Log.md)
-- [Data quality report](documents/03_Implementation_and_Experiments/Data_Quality_Report.md)
+- [Assignment brief](documents/Reference_Material/Original_Group_Major_Project_Assignment_Brief.md)
+- [Master project plan](documents/Project_Planning/Master_Project_Plan.md)
+- [Environment setup guide](documents/Environment_Setup/Prerequisites_and_Environment_Setup.md)
+- [Implementation guide](documents/Implementation_and_Experiments/03_Implementation_Guide.md)
+- [Assignment-to-evidence matrix](documents/Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md)
+- [Experiment and decision log](documents/Implementation_and_Experiments/04_Experiment_and_Decision_Log.md)
+- [Data quality report](documents/Implementation_and_Experiments/Data_Quality_Report.md)
 
-Markdown files are the primary editable documentation. Word documents are retained as archival copies.
+Markdown is the source of truth for project documentation. Redundant Word copies of active guides and reports have been consolidated and removed. The original assignment brief and selected historical Word archives remain as source records.
 
 ## Team contribution and collaboration
 
@@ -247,7 +248,7 @@ The dataset CSVs and processed metadata are not included in this repository. Tea
 
 ## Reproducibility and remaining work
 
-The raw and processed SAMSum CSV files are excluded from Git. See the [dataset acquisition and reproducibility guide](documents/03_Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md) for expected files, verification steps, preprocessing commands, and split-use policy.
+The raw and processed SAMSum CSV files are excluded from Git. See the [dataset acquisition and reproducibility guide](documents/Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md) for expected files, verification steps, preprocessing commands, and split-use policy.
 
 The current Qwen baseline is a small qualitative smoke test, not a formal performance evaluation. Its outputs include examples of unsupported details, so they must not be presented as proof of reliable summarization.
 
@@ -255,4 +256,4 @@ Prompt, decoding, structured-output, tool-call, and model-comparison experiments
 
 The integrated notebook and `integrated_demo.run_integrated_demo` implement the full application flow, including a model follow-up after the tool result. The notebook and CLI display the structured result as a readable table of summary, key points, decisions, action items, and review notes; the complete machine-readable record is saved to `outputs/integrated_demo/demo_result.json`. The notebook and CLI have been rerun on CPU with training sample `13818513`; the model omitted the planned delivery commitment while passing JSON Schema validation, so human review remains essential.
 
-Before submitting, keep the reviewed report within the 10–15-page body limit (latest render: 11 pages), collect each member's short contribution statement and confirmation, rehearse and time the presentation/demo to 8–10 minutes, then submit through the course process and retain confirmation. See the [technical report](documents/Final_Assignment_Report.md), [presentation plan](documents/Assignment_1_Presentation_Draft.md), [contribution statement template](documents/Individual_Contribution_Statements_Template.md), and [assignment-to-evidence matrix](documents/03_Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md).
+Before submitting, keep the reviewed report within the 10–15-page body limit (latest render: 11 pages), collect each member's short contribution statement and confirmation, rehearse and time the presentation/demo to 8–10 minutes, then submit through the course process and retain confirmation. See the [technical report](documents/Final_Assignment_Report.md), [presentation plan](documents/Assignment_1_Presentation_Draft.md), [contribution statement template](documents/Individual_Contribution_Statements_Template.md), and [assignment-to-evidence matrix](documents/Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md).

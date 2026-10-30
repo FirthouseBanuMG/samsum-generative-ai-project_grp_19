@@ -1,6 +1,8 @@
 
 # Model Family Comparison
 
+**Evidence status:** The results below are from the saved 28 October 2026 CPU run. The experiment was not rerun during the 31 October documentation and offline-verification pass.
+
 ## Purpose
 
 Compare three pretrained models for SAMSum dialogue summarization using a reproducible 50-sample evaluation.
@@ -22,6 +24,7 @@ Compare three pretrained models for SAMSum dialogue summarization using a reprod
 - Maximum input length: 1,024 tokens
 - Maximum new output tokens: 100
 - Decoding: `do_sample=False`, `num_beams=1`
+- ROUGE-1, ROUGE-2, and ROUGE-L F1 were calculated with `rouge_score` and stemming.
 
 ## Input Formats
 
@@ -43,9 +46,10 @@ The input formats differ, so the results compare the tested model configurations
 
 FLAN-T5-base achieved the highest scores on all three ROUGE metrics and the lowest average generation time in this experiment. ROUGE measures lexical overlap with reference summaries and does not directly establish factual correctness.
 
-## Files
+## Report and evidence files
 
-- `model_family_comparison_report.docx`: Report containing methodology, results, interpretation, and limitations.
+This README is the Markdown comparison report, including the protocol, results, interpretation, review guidance, and limitations. The redundant Word report was consolidated here and removed.
+
 - `model_family_evaluation_50_samples.xlsx`: Evaluation workbook with model summary, detailed generations, methodology notes, and sample manifest.
 - `src/evaluation/run_model_family_comparison_50.py`: Reproducible 50-sample evaluation runner.
 - `outputs/model_comparison_50_samples/model_family_comparison.csv`: Detailed evaluation results.
@@ -62,6 +66,12 @@ FLAN-T5-base achieved the highest scores on all three ROUGE metrics and the lowe
 - ROUGE is not a factuality metric.
 - Manual review is needed to assess factual support, speaker attribution, key-event coverage, and summary quality.
 - Automated quality checks are screening aids, not human evaluations.
+
+## Quality review guidance
+
+The saved evaluation CSV contains generated summaries and per-example ROUGE scores. Any automated lexical-support, name-mismatch, coverage, or readability checks are screening signals only; they are not human ratings or proof of factual consistency.
+
+Before making claims about summary quality, manually inspect examples from each model, including low-scoring examples. Check whether each statement is supported by the dialogue, speakers are attributed correctly, key events are retained, the summary avoids repetition, and the requested format is followed. This guidance describes a review still needed; it does not claim that a complete manual evaluation has been performed.
 
 ## Reproducibility
 

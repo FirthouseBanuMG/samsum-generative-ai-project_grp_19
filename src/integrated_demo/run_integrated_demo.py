@@ -1,7 +1,8 @@
-"""Run one end-to-end SAMSum structured summarization example.
+"""Run the integrated workflow for one processed training-split sample ID.
 
 This demo reuses the project's structured-generation recovery, JSON Schema
-validator, and allowlisted application-level validation tool.
+validator, coverage warning, and allowlisted application-level validation tool.
+Run with ``python -m integrated_demo.run_integrated_demo --sample-id <id>``.
 """
 
 import argparse

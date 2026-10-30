@@ -1,3 +1,8 @@
+"""Assert processed SAMSum splits match expected counts and required data constraints.
+
+Run with ``python -m data_processing.validate_processed_dataset`` after preprocessing.
+"""
+
 from pathlib import Path
 import pandas as pd
 

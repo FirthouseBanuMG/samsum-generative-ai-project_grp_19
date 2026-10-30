@@ -2,12 +2,14 @@
 
 This is the single current guide for the software, prerequisites, dataset setup, and commands needed to run the project on Windows.
 
+**Verification update (31 October 2026):** The documented dataset validation, raw-file integrity, processed-split validation, and leakage checks passed against the local files. The offline test suite passed all 45 tests. The model-backed demo is separate and requires the processed training data and downloaded model weights.
+
 ## 1. What you need
 
 ### Required
 
 - **Windows 10/11, 64-bit**, and **PowerShell**.
-- **Python 3.13.x, 64-bit**.
+- **Python 3.10 or later, 64-bit** is declared by the project package metadata. The commands below use Python 3.13; Python 3.13.9 is the environment verified for this project.
 - **Git for Windows** to clone the repository.
 - **Internet access** to install Python packages, obtain SAMSum data independently, and download pretrained model files the first time you run inference.
 - Enough free disk space for the virtual environment, dataset files, and model cache. The first model load downloads large weights; check free space before running it.
@@ -31,7 +33,7 @@ Anaconda/Miniconda, Docker, Node.js, a paid model API, and a vector database are
 | Software / package | Requirement | Purpose |
 |---|---|---|
 | Windows | 10/11, 64-bit | Development platform |
-| Python | 3.13.x, 64-bit | Project interpreter |
+| Python | 3.10+ per package metadata; 3.13.9 verified | Project interpreter |
 | Git for Windows | Current supported release | Source control |
 | Python packages | Install from `requirements-lock.txt` and `pyproject.toml` | Inference, data processing, validation, evaluation, and tests |
 | Visual Studio Code extensions | Python and Jupyter (recommended) | Editing and notebook execution |
@@ -113,7 +115,7 @@ From the repository root, validate, prepare, and verify the data in this order:
 .\.venv\Scripts\python.exe -m data_processing.check_split_leakage
 ```
 
-Inspect each command's output before continuing. For the complete source, checksum, profiling, and split-use details, see [Dataset Acquisition and Reproducibility](../03_Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md). The 50-example model comparison already used the test split; do not describe it as an untouched final holdout or continue tuning against those examples.
+Inspect each command's output before continuing. For the complete source, checksum, profiling, and split-use details, see [Dataset Acquisition and Reproducibility](../Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md). The 50-example model comparison already used the test split; do not describe it as an untouched final holdout or continue tuning against those examples.
 
 ## 6. Run the application
 
@@ -141,7 +143,7 @@ Run the automated test suite from the repository root:
 .\.venv\Scripts\python.exe -m pytest tests
 ```
 
-The tests cover offline validation and application logic; running this command does not run the full model-backed demo. The last recorded full-suite result is 39 passing tests.
+The tests cover offline validation and application logic; running this command does not run the full model-backed demo. Verification on 31 October 2026 completed with **45 tests passing**.
 
 ## 8. Optional: open the notebook or render the report
 

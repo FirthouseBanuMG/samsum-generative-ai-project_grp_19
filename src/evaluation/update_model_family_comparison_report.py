@@ -1,4 +1,10 @@
 
+"""Build an Excel workbook containing saved model-comparison results and protocol.
+
+Run with ``python -m evaluation.update_model_family_comparison_report`` after
+the evaluation CSV and sample manifest have been generated.
+"""
+
 from pathlib import Path
 import json
 import pandas as pd
@@ -11,8 +17,8 @@ from project_paths import PROJECT_ROOT
 ROOT = PROJECT_ROOT
 OUT_DIR = ROOT / "outputs" / "model_comparison_50_samples"
 DOC_DIR = (
-    ROOT / "documents" / "03_Implementation_and_Experiments"
-    / "05_Model_Family_Comparison"
+    ROOT / "documents" / "Implementation_and_Experiments"
+    / "Model_Family_Comparison"
 )
 
 CSV_PATH = OUT_DIR / "model_family_comparison.csv"

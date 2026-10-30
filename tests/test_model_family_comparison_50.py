@@ -1,3 +1,5 @@
+"""Test reproducibility metadata for the seeded test-split model comparison."""
+
 from evaluation import run_model_family_comparison_50 as comparison
 
 

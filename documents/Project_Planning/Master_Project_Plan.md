@@ -3,7 +3,7 @@
 **Group:** 19  
 **Project:** SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction  
 **Course:** PCAM* ZG516 — Applied Generative AI  
-**Status reviewed:** 29 October 2026  
+**Status reviewed:** 31 October 2026
 **Original submission deadline:** 25 October 2026 (passed)
 
 ## 1. Purpose and scope
@@ -18,7 +18,7 @@ The primary runtime uses the pretrained `Qwen/Qwen2.5-1.5B-Instruct` model. The 
 
 ### Application flow
 
-1. Read a dialogue from the processed SAMSum training split or accept a supplied conversation in the application workflow.
+1. The integrated CLI reads a dialogue by sample ID from the processed SAMSum training split; it does not currently accept arbitrary dialogue text.
 2. Build the structured prompt and generate output with the pretrained Qwen model.
 3. Parse and validate the JSON against the project schema; retry invalid output once and flag fallback output.
 4. Run a narrow commitment-coverage heuristic. It flags a limited pattern of possible omissions; it neither repairs output nor guarantees completeness.
@@ -45,10 +45,11 @@ Tool invocation is an application-level JSON protocol, not native model-specific
 | Baseline generation | Three Qwen generations from processed training examples saved with settings | Qualitative smoke-test examples, not a population accuracy estimate |
 | Prompt engineering | Zero-shot, few-shot, role/context, and constraint prompts implemented and compared; concise/detailed prompting also compared | Manual prompt ratings use n=3 and are exploratory |
 | Decoding | Greedy and sampling configurations, including temperature, top-p, and top-k, run and logged | Sampling can add unsupported details; recorded CPU timings are machine-specific |
-| Model comparison | Three model configurations evaluated on the same 50 processed test dialogues; details in [Model Family Comparison](../03_Implementation_and_Experiments/05_Model_Family_Comparison/README.md) | These results are comparative/selection evidence, not an untouched final holdout; input formats differ |
+| Model comparison | Three model configurations evaluated on the same 50 processed test dialogues; details in [Model Family Comparison](../Implementation_and_Experiments/Model_Family_Comparison/README.md) | These results are comparative/selection evidence, not an untouched final holdout; input formats differ |
 | Structured output | JSON Schema for summary, key points, decisions, and action items; parser, one repair attempt, fallback path, tests, and saved outputs | Schema validity does not establish semantic accuracy or completeness |
 | Tool/function workflow | Allowlisted validation function, tests, saved tool-result round trip and model follow-up | Application-level JSON protocol, not native model tool calling |
 | Integrated application | CLI and notebook run on CPU; saved output includes final response and a commitment-coverage warning | The heuristic is narrow and warns without repairing the omission |
+| Current verification | Raw integrity, processed-dataset validation, split leakage, and offline test suite rerun on 31 October 2026 | 45 automated tests passed; read-only data checks do not prove semantic near-duplicate absence or model factuality |
 | Evaluation and failure analysis | ROUGE comparison, human prompt criteria, and concrete qualitative failure cases recorded | Small samples; ROUGE is reference overlap, not factuality; no large-scale human factuality study |
 | Report and presentation | Technical report, 10-slide deck, speaker notes, and simplified contribution template prepared | Team contribution confirmations and actual rehearsal are still required |
 
@@ -84,7 +85,7 @@ The 50 examples **came from the test split and were used for model comparison/se
 - Do not claim that the three empirical systems represent three distinct generative architecture families. They represent one causal LM and two encoder-decoder systems.
 - The experiment remains valuable evidence of implementation and observed comparative behavior, with its protocol and limitations disclosed.
 
-Evidence includes the saved metrics and sample manifest under `outputs/model_comparison_50_samples/`, and the detailed methodology and outputs under `documents/03_Implementation_and_Experiments/05_Model_Family_Comparison/`. The experiment runner is `src/evaluation/run_model_family_comparison_50.py`. Do not rerun it as a new independent test after seeing these results.
+Evidence includes the saved metrics and sample manifest under `outputs/model_comparison_50_samples/`, and the detailed methodology and outputs under `documents/Implementation_and_Experiments/Model_Family_Comparison/`. The experiment runner is `src/evaluation/run_model_family_comparison_50.py`. Do not rerun it as a new independent test after seeing these results.
 
 ## 5. Assignment coverage
 
@@ -101,16 +102,16 @@ The saved artifacts and report cover the main technical requirements:
 - Integrated notebook and CLI.
 - Responsible-use and human-review limitations.
 
-The assignment evidence matrix maps each requirement to its evidence and status: [Assignment-to-Evidence Matrix](../03_Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md).
+The assignment evidence matrix maps each requirement to its evidence and status: [Assignment-to-Evidence Matrix](../Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md).
 
 ## 6. Verification and deliverables
 
-Recorded verification:
+Recorded verification (latest checks on 31 October 2026 unless otherwise dated):
 
-- 39 automated tests passed.
-- Dataset validation, preprocessing, and leakage checks passed on the recorded processed splits.
-- Integrated CLI and notebook were run on CPU; the example output is saved in `outputs/integrated_demo/`.
-- The report currently renders to 14 pages total, with an 11-page body excluding references and appendices.
+- 45 automated tests passed with `.\.venv\Scripts\python.exe -m pytest -q`.
+- Raw dataset hash verification, processed data validation, and cross-split ID/exact-pair checks passed. Raw hashes match the local 16 October baseline; this does not authenticate upstream provenance.
+- The integrated CLI/notebook model-backed example is saved in `outputs/integrated_demo/`. The 31 October offline test/data verification did not perform a fresh model inference run.
+- The report last rendered on 29 October to 14 pages total, with an 11-page body excluding references and appendices. Re-render after any content/layout changes.
 - The presentation deck contains 10 slides. Its planned slide timings total about 8 minutes 25 seconds; the proposed one-minute demo brings the target to about 9 minutes 25 seconds. The group has not yet recorded an actual timed rehearsal.
 
 Run the application from the repository root in PowerShell:
@@ -125,7 +126,7 @@ Run the automated tests:
 .\.venv\Scripts\python.exe -m pytest tests
 ```
 
-The complete current Windows software and dataset instructions are in [Environment Setup and Run Guide](../02_Environment_Setup/Prerequisites_and_Environment_Setup.md).
+The complete current Windows software and dataset instructions are in [Environment Setup and Run Guide](../Environment_Setup/Prerequisites_and_Environment_Setup.md).
 
 ## 7. Current closeout actions
 
@@ -150,8 +151,8 @@ These items require team or course participation and cannot be truthfully comple
 
 ## 9. Core references
 
-- Original assignment brief: `../04_Reference_Material/Original_Group_Major_Project_Assignment_Brief.md`.
-- Dataset source, Kaggle version/license note, expected files, checksums, and preprocessing: `../03_Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md`.
+- Original assignment brief: `../Reference_Material/Original_Group_Major_Project_Assignment_Brief.md`.
+- Dataset source, Kaggle version/license note, expected files, checksums, and preprocessing: `../Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md`.
 - Technical report and bibliography: `../Final_Assignment_Report.md`.
-- Model comparison protocol and results: `../03_Implementation_and_Experiments/05_Model_Family_Comparison/README.md`.
-- Experiment history and decisions: `../03_Implementation_and_Experiments/04_Experiment_and_Decision_Log.md`.
+- Model comparison protocol and results: `../Implementation_and_Experiments/Model_Family_Comparison/README.md`.
+- Experiment history and decisions: `../Implementation_and_Experiments/04_Experiment_and_Decision_Log.md`.

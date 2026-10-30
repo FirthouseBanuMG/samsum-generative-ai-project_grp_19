@@ -1,3 +1,9 @@
+"""Create a manual-review CSV from saved prompt-experiment generations.
+
+Run with ``python -m prompting.prepare_prompt_evaluation``; it validates input
+records and will not overwrite an existing evaluation file.
+"""
+
 import pandas as pd
 from pathlib import Path
 

@@ -1,3 +1,9 @@
+"""Generate summaries for four prompt strategies on saved baseline dialogues.
+
+Run with ``python -m prompting.run_prompt_experiments``; saves each prompt,
+generation, and timing for later manual comparison.
+"""
+
 import json
 import time
 from pathlib import Path

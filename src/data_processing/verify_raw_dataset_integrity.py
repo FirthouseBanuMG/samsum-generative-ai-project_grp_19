@@ -1,3 +1,8 @@
+"""Compare raw SAMSum CSV hashes with the project's recorded local baseline.
+
+Run with ``python -m data_processing.verify_raw_dataset_integrity`` before preprocessing.
+"""
+
 import hashlib
 
 from project_paths import RAW_DATA_DIR

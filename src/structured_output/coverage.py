@@ -1,4 +1,8 @@
-"""Heuristic checks for omitted explicit first-person commitments."""
+"""Flag selected explicit first-person commitments missing from action items.
+
+Used by structured generation as a narrow, non-blocking review warning; it
+does not validate truth or guarantee completeness.
+"""
 
 import re
 

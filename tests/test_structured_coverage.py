@@ -1,3 +1,5 @@
+"""Test when the narrow commitment-coverage heuristic raises review warnings."""
+
 from structured_output.coverage import find_unrepresented_commitments
 
 
