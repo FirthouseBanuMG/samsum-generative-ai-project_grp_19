@@ -1,5 +1,15 @@
 # SAMSum Data Quality and Preparation Report
 
+> **Reading note:** This is a chronological audit record. Early sections preserve the state and open questions at the time they were written; later sections record completed work and supersede earlier “pending” statements. See Sections 20–22 and the [Dataset Acquisition and Reproducibility guide](./05_Dataset_Acquisition_and_Reproducibility.md) for current split-use, validation, and provenance limitations.
+
+## Current findings
+
+- The audited raw splits contain 14,732 training, 818 validation, and 819 test rows. Training record `13828807` has no dialogue and is excluded from the processed training split.
+- Processed row counts are 14,731, 818, and 819. Required fields, non-empty text, and unique IDs passed validation; processed split checks found no shared IDs or exact dialogue-summary pairs.
+- The raw CSVs matched the local SHA-256 baseline recorded on 16 October 2026. This only establishes consistency with that baseline, not upstream authenticity or integrity before that date.
+- The 50-example model comparison used the test split; it is not an untouched holdout and must not be used for further tuning.
+- The team reports the Kaggle source page as its download source; its listed license is Unknown, and exact archive provenance was not retained. Do not claim redistribution rights.
+
 ## 1. Audit status
 
 Initial file audit completed through PowerShell on the project workspace.
@@ -39,7 +49,7 @@ At the time of this audit, `data/processed/` contained no files.
 - Cross-split duplicate checks and a formal preprocessing pipeline are still pending.
 - This report records an initial audit; it does not claim that complete data engineering has been finished.
 
-## 7. Next step
+## 7. Next step at the time of the initial audit
 
 Review the existing validation script and rerun it to capture current, reproducible data-quality results before implementing preprocessing.
 
@@ -145,7 +155,7 @@ Interpretation of the initial audit:
 - The source CSV files were not modified.
 - At the time of this initial audit, the test split was reserved for final evaluation. Later use is recorded in Section 20.
 
-## 11. Proposed Preprocessing Policy
+## 11. Preprocessing Policy Proposed at the Time
 
 Status: Design approved for implementation, subject to inspection of invalid records.
 
@@ -210,7 +220,7 @@ Interpretation:
 
 Evidence: successful execution output from `src/data_processing/profile_token_lengths.py`.
 
-## 15. Approved Preprocessing Implementation Design
+## 15. Preprocessing Implementation Design (Before Execution)
 
 Status: Approved for implementation.
 
@@ -249,7 +259,7 @@ The exclusion log records training ID `13828807` with reason `missing_or_blank_d
 
 The metadata records the required columns, source/output paths, row counts, exclusion counts, no text transformation, no truncation and no modification of source files.
 
-Limitation: Independent post-processing checks across all saved CSVs are still required before declaring the pipeline fully verified.
+At this point in the chronology, independent post-processing checks were still required. They were completed in Section 17, with later processed-split leakage checks recorded in Sections 21–22.
 
 ## 17. Independent Post-Processing Validation
 

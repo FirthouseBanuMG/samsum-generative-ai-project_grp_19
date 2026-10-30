@@ -1,10 +1,14 @@
-*Reusable recording templates â€¢ fill with actual evidence*
+# Experiment and Decision Log
+
+*Experiment records and decision history*
 
 Project: SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction
 
-Document status: Version 0.2 â€” updated 15 October 2026
+Document status: Chronological record; initial templates date from 15 October 2026, with subsequent results added in later sections.
 
 Working rule: Record proposed choices as proposed until the team verifies them. Never report unrun experiments as results.
+
+> Sections A-F preserve the initial starter templates and proposed entries; their `TBD` and `Pending` values are historical placeholders, not current experiment status. Recorded work begins in the dated sections that follow. For current status, use the [Master Project Plan](../01_Project_Planning/Master_Project_Plan.md) and [Assignment-to-Evidence Matrix](./03_Assignment_to_Evidence_Matrix.md).
 
 # A. Experiment run record
 
@@ -194,8 +198,8 @@ The model generated a JSON request for the allowlisted Python tool `validate_sum
 
 The generated summary captured the main event and planned delivery. However, the generated action items included:
 
-- Amanda: â€œPrepare cookiesâ€
-- Jerry: â€œEat cookiesâ€
+- Amanda: "Prepare cookies"
+- Jerry: "Eat cookies"
 
 These are not explicit commitments in the dialogue. The validator accepted the output because the JSON structure matched the schema.
 

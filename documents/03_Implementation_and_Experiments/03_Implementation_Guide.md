@@ -2,9 +2,11 @@
 
 Project: SAMSum-Based Intelligent Conversation Summarization and Action-Item Extraction
 
-Document status: Version 0.2 — updated 15 October 2026
+Document status: Original implementation sequence, version 0.2 (15 October 2026). This sequence is retained as planning history; it is not a current task-status checklist.
 
-Working rule: Record proposed choices as proposed until the team verifies them. Never report unrun experiments as results.
+For current run commands, use the [Environment Setup and Run Guide](../02_Environment_Setup/Prerequisites_and_Environment_Setup.md). For completed work and remaining closeout items, use the [Master Project Plan](../01_Project_Planning/Master_Project_Plan.md) and [Assignment-to-Evidence Matrix](./03_Assignment_to_Evidence_Matrix.md). Actual experiment outcomes are recorded in the [Experiment and Decision Log](./04_Experiment_and_Decision_Log.md).
+
+The steps and suggested repository structure below preserve the original planning snapshot. Several proposed tasks are now complete, and the proposed layout is not the current repository layout. Do not use the snapshot to infer current status or copy its proposed paths.
 
 # How to use this guide
 

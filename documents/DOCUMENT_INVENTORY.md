@@ -1,41 +1,49 @@
 ﻿# Document Inventory
 
-This inventory lists the documentation files and retained Word originals in this folder.
+Markdown is the primary editable documentation format. This inventory covers the files under `documents/`; see [the document index](README_Document_Index.md) for the reading order and documentation policy.
 
-## Markdown documents
+## Current project and submission documents
 
-### Project planning
+- `Final_Assignment_Report.md`
+- `Assignment_1_Presentation_Draft.md`
+- `Assignment_1_Presentation_Slides.md`
+- `Individual_Contribution_Statements_Template.md`
 - `01_Project_Planning/Master_Project_Plan.md`
-
-### Environment setup
 - `02_Environment_Setup/Prerequisites_and_Environment_Setup.md`
-- This is the single current setup guide; superseded setup snapshots have been removed.
-
-### Implementation and experiments
 - `03_Implementation_and_Experiments/01_High_Level_Architecture.md`
 - `03_Implementation_and_Experiments/02_Master_Phase_Plan.md`
 - `03_Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md`
 - `03_Implementation_and_Experiments/03_Implementation_Guide.md`
 - `03_Implementation_and_Experiments/04_Experiment_and_Decision_Log.md`
+- `03_Implementation_and_Experiments/05_Dataset_Acquisition_and_Reproducibility.md`
 - `03_Implementation_and_Experiments/Data_Quality_Report.md`
+- `03_Implementation_and_Experiments/05_Model_Family_Comparison/README.md`
 
-### Reference material
+## Reference, template, and index documents
+
+- `README_Document_Index.md`
+- `DOCUMENT_INVENTORY.md`
 - `04_Reference_Material/Original_Group_Major_Project_Assignment_Brief.md`
-
-### Templates and repository baseline
 - `05_Templates_and_Repository_Baseline/README_TEMPLATE.md`
+- `05_Templates_and_Repository_Baseline/experiment_log_template.csv`
+- `05_Templates_and_Repository_Baseline/requirements.txt`
+- `05_Templates_and_Repository_Baseline/repository_baseline_001.txt`
+- `05_Templates_and_Repository_Baseline/.gitignore_template`
 
-### Historical drafts
+## Historical drafts and archives
+
+The following files preserve earlier plans and reference materials; they are not current status documents:
+
+- `03_Implementation_and_Experiments/05_Model_Family_Comparison/archive/README_before_update.md`
 - `99_Historical_Drafts/SAMSum_Crisp_Major_Project_Requirements.md`
 - `99_Historical_Drafts/SAMSum_Getting_Started_and_Implementation_Checklist.md`
 - `99_Historical_Drafts/SAMSum_PreImplementation_Plan_and_Requirements.md`
 - `99_Historical_Drafts/SAMSum_Refined_Project_Plan_Repository_Aware.md`
 - `99_Historical_Drafts/SAMSum_Technical_Clear_Project_Plan.md`
 
-## Retained Word originals
+## Word documents and other assets
 
-Word originals are retained beside their Markdown counterparts where listed in the repository.
-
-## Other files
-
-This folder may also contain architecture images, templates, and other supporting assets. These are not Markdown documents and should be retained when referenced by the documentation.
+- Eight Word documents have same-name Markdown counterparts. The Markdown versions are editable references and are not guaranteed to preserve every Word layout, table, or image.
+- Three additional Word files are model-comparison deliverables or archived exports without same-name Markdown counterparts.
+- `Assignment_1_Presentation.pptx`, the model-comparison report/workbook, and `03_Implementation_and_Experiments/high_level_architecture.png` are supporting/generated artifacts. Review or regenerate exports after changing their source material.
+- Source and processed dataset files belong under `data/`, not in this folder.

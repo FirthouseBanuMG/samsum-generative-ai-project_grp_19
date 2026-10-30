@@ -11,7 +11,7 @@ This project investigates pretrained generative language models for conversation
 - Initial qualitative smoke test completed with `Qwen/Qwen2.5-1.5B-Instruct` on CPU.
 - Baseline outputs and run metadata are available under `outputs/baseline_smoke_test/`.
 - Controlled prompt and decoding experiments, structured output validation (summary, key points, decisions, action items), an application-level tool demonstration, and a 50-sample model comparison have saved code under `src/` and evidence under `outputs/`.
-- A technical report draft, executed integrated notebook/demo, presentation speaking draft, and contribution-statement template are present. Report rendering/page-count verification, presentation rehearsal, dataset attribution, and member-confirmed contribution statements remain.
+- The technical report has been reviewed and rendered to 14 pages total (11-page body, excluding references and appendices). The integrated notebook/demo and presentation materials are present. Team confirmation, member contribution statements, a timed presentation rehearsal, and recording the course-submission confirmation remain.
 
 The initial smoke test uses three training examples for pipeline verification. It is not a formal performance evaluation.
 

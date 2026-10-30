@@ -6,7 +6,7 @@ Describe the implemented architecture for Group 19's Applied Generative AI proje
 
 ## 2. Architecture Status
 
-This diagram reflects the implemented project as verified on 28 October 2026. It distinguishes the offline dataset/experiment workflow from the integrated runtime path. The current model is pretrained and used for inference; this project does not train or fine-tune its parameters.
+This diagram reflects the implemented project as verified on 30 October 2026. It distinguishes the offline dataset/experiment workflow from the integrated runtime path. The current model is pretrained and used for inference; this project does not train or fine-tune its parameters.
 
 ## 3. High-Level Architecture
 
@@ -42,20 +42,26 @@ flowchart LR
     end
 
     subgraph APP["C. Integrated runtime path"]
-        INPUT["Dialogue text<br/>(demo loads a processed train example)"]
+        INPUT["Selected sample ID<br/>(CLI default or notebook sample;<br/>loads processed train dialogue)"]
         BUILD["Build structured prompt"]
         MODEL["Pretrained Qwen causal LM<br/>autoregressive generation"]
-        PARSE["Extract and parse JSON"]
-        SCHEMA["JSON Schema validation<br/>retry once; fallback on invalid"]
-        COVER["Narrow explicit-commitment<br/>omission heuristic"]
+        PARSE["Extract/parse JSON;<br/>retry once, then fallback"]
+        SCHEMA{"Schema-valid<br/>and no fallback?"}
+        COVER["Narrow commitment-coverage<br/>warning check (non-blocking)"]
         TOOL["Allowlisted application tool<br/>validates schema"]
-        RESULT["Structured result<br/>summary, key points,<br/>decisions, action items"]
-        FOLLOW["Final response from model<br/>plus visible review warning"]
+        TOOLCHECK{"Tool validation<br/>passed?"}
+        FOLLOW["Final response from model<br/>using tool result"]
+        REVIEW["Append any coverage warning;<br/>human review required"]
+        BLOCKED["Blocked; retain diagnostics"]
         HUMAN["Human review required"]
         INPUT --> BUILD --> MODEL --> PARSE --> SCHEMA
-        SCHEMA --> COVER --> TOOL --> RESULT --> FOLLOW --> HUMAN
-        COVER -. "flag omissions; does not repair or prove completeness" .-> HUMAN
-        SCHEMA -. "invalid output blocks tool/final response" .-> HUMAN
+        PARSE -. "evaluate final parsed object or fallback" .-> COVER
+        SCHEMA -->|yes| TOOL --> TOOLCHECK
+        SCHEMA -->|no| BLOCKED
+        TOOLCHECK -->|yes| FOLLOW --> REVIEW --> HUMAN
+        TOOLCHECK -->|no| BLOCKED
+        BLOCKED --> HUMAN
+        COVER -. "warning does not gate tool or repair output" .-> REVIEW
     end
 
     NOTE["Responsible use across all paths:<br/>preserve raw data, avoid unsupported claims,<br/>report limitations, require human review"]
@@ -66,6 +72,8 @@ flowchart LR
 
 ![Implemented SAMSum high-level architecture](./high_level_architecture.png)
 
+The Mermaid diagram is authoritative for the runtime's conditional gates. The linked PNG is a high-level overview and does not depict the schema/fallback or tool-validation branches.
+
 ## 4. Component Responsibilities
 
 | Component | Responsibility | Evidence expected |
@@ -75,7 +83,7 @@ flowchart LR
 | Pretrained causal LM baseline | Generate summaries with pretrained Qwen; no parameter training or fine-tuning | Three saved training-example outputs and run configuration |
 | Experiment runners | Compare prompt/decoding settings and three tested model configurations; record metrics and limitations | Experiment configurations, manifests, outputs, comparison tables |
 | Output parser and JSON Schema validator | Parse JSON; validate required summary/key points/decisions/action items; retry invalid JSON once and flag fallback | JSON Schema and positive/negative tests |
-| Commitment-coverage warning | Flag a limited pattern of unrepresented first-person commitments for review; does not correct output or guarantee factuality | Unit tests and integrated demo warning |
+| Commitment-coverage warning | Flag a limited pattern of unrepresented first-person commitments for review; evaluated before the tool call but does not gate it, correct output, or guarantee factuality | Unit tests and integrated demo warning |
 | Allowlisted validation tool | Validate model-produced structured output; return result to model for final response; block follow-up if validation fails | Tool specification, round-trip evidence, tests |
 | Structured conversation result | Represent summary, key points, decisions, and action items | Documented output contract and examples |
 | Evaluation and failure analysis | Assess quality using at least four criteria and document at least three failure cases | Evaluation results, examples, limitations |
@@ -132,15 +140,16 @@ Required comparisons include:
 
 ### Runtime sequence
 
-1. Load a dialogue from the processed training split or accept a supplied conversation.
+1. The CLI loads the selected `--sample-id` (default `13818513`) from the processed training split; the notebook loads its fixed training example. The current demo does not accept arbitrary dialogue text.
 2. Construct the structured JSON prompt and run the pretrained Qwen causal LM.
-3. Extract/parse the JSON; retry once for malformed or schema-invalid output, then flag fallback.
-4. Run the narrow commitment-coverage heuristic. Any flags require human review; they do not alter model output.
-5. Send schema-valid output to the allowlisted validation function.
-6. If tool validation passes, return the tool result to the model for a final response, append any coverage warning, and retain the result. If validation fails, block final-response generation.
+3. Extract/parse the JSON and validate it against the schema. If the first response is invalid, retry once; if the retry is also invalid, use a flagged fallback.
+4. Evaluate the narrow commitment-coverage heuristic on the final parsed object or fallback. This warning check is non-blocking: it neither changes the output nor gates tool execution.
+5. Invoke the allowlisted validation function only when the output is schema-valid and fallback was not used. Invalid/fallback output blocks tool invocation and final-response generation.
+6. If tool validation passes, return the result to the model for a final response, then append any coverage warning. Failed tool validation blocks final-response generation.
+7. Require human review against the original dialogue; schema and tool validation establish structure, not factual accuracy.
 
 ### Dataset and experiment sequence
 
 Raw CSVs are read only for audit, profiling, integrity verification, and preprocessing. Model workflows use processed CSVs or baseline results generated from processed training examples. The model-family comparison used a processed test subset; results are disclosed as comparative evidence and must not be described as a pristine holdout.
 
-**Status:** Architecture describes the implemented workflow and its known limitations as of 28 October 2026. Team-owned report, contribution sign-offs, and presentation rehearsal remain outside the software architecture.
+**Status:** Architecture describes the implemented workflow and its known limitations as of 30 October 2026. Team-owned report, contribution sign-offs, and presentation rehearsal remain outside the software architecture.

@@ -18,7 +18,7 @@ People reviewing chat conversations may need a concise account of what happened,
 
 ### 1.2 Application
 
-The application accepts a dialogue and returns:
+In the demonstrated CLI and notebook, the user selects a training-split sample ID and the application loads that dialogue from the processed dataset; arbitrary dialogue text is not currently accepted by these interfaces. For that dialogue, the workflow returns:
 
 - a concise natural-language summary;
 - an `action_items` array with an owner, task, and optional due date; and

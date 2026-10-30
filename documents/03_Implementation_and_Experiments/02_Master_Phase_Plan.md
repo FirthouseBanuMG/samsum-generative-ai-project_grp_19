@@ -5,7 +5,7 @@
 **Original submission deadline:** 25 October 2026
 **Internal feature freeze:** 21 October 2026
 **Status reviewed:** 29 October 2026
-**Planning status:** Core implementation, evidence review, report citation/consistency review, and presentation materials are present. Remaining work is final rendering, member confirmation, rehearsal, and course submission; see phase statuses below.
+**Planning status:** Core implementation, evidence review, report citation/consistency review, and presentation materials are present. The current report render is 14 pages total with an 11-page body. Remaining work is team approval, member confirmation, rehearsal, and course submission; see phase statuses below.
 
 ## 1. Execution Rules
 
@@ -228,7 +228,7 @@ This section expands the high-level phase plan into ordered tasks. Existing arti
 
 ### Package Organization Follow-up
 
-The Python source is grouped directly under `src/` (`data_processing`, `baseline`, `prompting`, `generation`, `evaluation`, `structured_output`, `tool_calling`, and `application`) with no extra project-named package directory. All test modules live in top-level `tests/`. Internal imports use these package paths and shared project-root constants; current run and test commands are documented in the README. Editable installation and the Python test suite were verified.
+The Python source is grouped directly under `src/` by responsibility, including `integrated_demo` for the integrated CLI and its presentation helpers. All test modules live in top-level `tests/`. Internal imports use package paths and shared project-root constants; current run and test commands are documented in the README. Editable installation and the Python test suite were verified.
 
 ### Phase 9 — Report and Presentation
 
@@ -292,7 +292,7 @@ After each meaningful task:
 
 These are human/team-owned actions rather than unfinished implementation phases:
 
-1. Keep final submission formatting consistent with the verified 13-page render (11-page body).
+1. Keep final submission formatting consistent with the verified 14-page render (11-page body, excluding references and appendices); rerun pagination checks if the report changes.
 2. Have each member write a short, accurate contribution statement, confirm it, and add the date.
 3. Confirm the proposed speaker split; rehearse and record an 8–10-minute presentation including the demo.
 4. Submit the required materials through the course process and save the submission confirmation.

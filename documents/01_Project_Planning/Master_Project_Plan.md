@@ -18,12 +18,12 @@ The primary runtime uses the pretrained `Qwen/Qwen2.5-1.5B-Instruct` model. The 
 
 ### Application flow
 
-1. Read a dialogue from the processed SAMSum training split or accept a supplied conversation in the application workflow.
+1. Select a sample ID; the CLI and notebook load that dialogue from the processed SAMSum training split. The current demo does not accept arbitrary dialogue text.
 2. Build the structured prompt and generate output with the pretrained Qwen model.
 3. Parse and validate the JSON against the project schema; retry invalid output once and flag fallback output.
-4. Run a narrow commitment-coverage heuristic. It flags a limited pattern of possible omissions; it neither repairs output nor guarantees completeness.
-5. Send schema-valid output to the allowlisted `validate_summary_output` function.
-6. On valid tool output, return the result to the model for a final response. Invalid tool output blocks the follow-up.
+4. Evaluate the narrow commitment-coverage heuristic. It flags a limited pattern of possible omissions; it neither repairs output nor guarantees completeness, and it does not gate tool execution.
+5. If the result is schema-valid and no fallback was used, send it to the allowlisted `validate_summary_output` function. Otherwise, do not invoke the tool or generate a final response.
+6. On valid tool output, return the result to the model for a final response and append any coverage warning. Invalid tool output blocks the follow-up.
 7. Require human review against the original dialogue.
 
 Tool invocation is an application-level JSON protocol, not native model-specific tool-call parsing. JSON Schema verifies structure, not factual accuracy.
