@@ -25,7 +25,7 @@
     "commitment_coverage_flags": [
       "Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items."
     ],
-    "generation_seconds": 28.182
+    "generation_seconds": 14.337
   },
   "human_review_required": true,
   "commitment_coverage_check": {

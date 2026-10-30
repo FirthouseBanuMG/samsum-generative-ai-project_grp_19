@@ -33,7 +33,7 @@ src/
   prompting/            Reusable prompts and prompt experiments
   structured_output/    JSON schema, parsing and validation
   tool_calling/         Allowlisted tool workflow
-  application/          Integrated end-to-end demo
+  integrated_demo/       Integrated demo and presentation helpers
   project_paths.py      Shared repository path constants
 tests/                 Project tests
 pyproject.toml          Installable src-layout package configuration
@@ -194,7 +194,7 @@ is still required.
 Run the complete application workflow on one training example:
 
 ```powershell
-.\.venv\Scripts\python.exe -m application.run_integrated_demo --sample-id 13818513
+.\.venv\Scripts\python.exe -m integrated_demo.run_integrated_demo --sample-id 13818513
 ```
 
 Run the offline regression tests:
@@ -253,6 +253,6 @@ The current Qwen baseline is a small qualitative smoke test, not a formal perfor
 
 Prompt, decoding, structured-output, tool-call, and model-comparison experiments have code and saved results. Prompt evaluation uses three examples per strategy; the model comparison uses 50 test-split examples and must be described with its exact split-use protocol. ROUGE is not a factuality metric.
 
-The integrated notebook and `application.run_integrated_demo` implement the full application flow, including a model follow-up after the tool result. The notebook and CLI have been rerun on CPU with training sample `13818513`; updated evidence is in `outputs/integrated_demo/demo_result.json`. The model still omitted the planned delivery commitment while passing JSON Schema validation, so human review remains essential.
+The integrated notebook and `integrated_demo.run_integrated_demo` implement the full application flow, including a model follow-up after the tool result. The notebook and CLI display the structured result as a readable table of summary, key points, decisions, action items, and review notes; the complete machine-readable record is saved to `outputs/integrated_demo/demo_result.json`. The notebook and CLI have been rerun on CPU with training sample `13818513`; the model omitted the planned delivery commitment while passing JSON Schema validation, so human review remains essential.
 
 Before submitting, keep the reviewed report within the 10–15-page body limit (latest render: 11 pages), collect each member's short contribution statement and confirmation, rehearse and time the presentation/demo to 8–10 minutes, then submit through the course process and retain confirmation. See the [technical report](documents/Final_Assignment_Report.md), [presentation plan](documents/Assignment_1_Presentation_Draft.md), [contribution statement template](documents/Individual_Contribution_Statements_Template.md), and [assignment-to-evidence matrix](documents/03_Implementation_and_Experiments/03_Assignment_to_Evidence_Matrix.md).

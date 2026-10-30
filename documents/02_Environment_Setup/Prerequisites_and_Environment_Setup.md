@@ -120,16 +120,16 @@ Inspect each command's output before continuing. For the complete source, checks
 From the repository root, run the integrated demo on the default processed training example:
 
 ```powershell
-.\.venv\Scripts\python.exe -m application.run_integrated_demo
+.\.venv\Scripts\python.exe -m integrated_demo.run_integrated_demo
 ```
 
 Choose another ID that exists in `data\processed\samsum-train-processed.csv`:
 
 ```powershell
-.\.venv\Scripts\python.exe -m application.run_integrated_demo --sample-id 13818513
+.\.venv\Scripts\python.exe -m integrated_demo.run_integrated_demo --sample-id 13818513
 ```
 
-The demo loads the selected conversation, runs the pretrained Qwen model, parses and validates structured JSON, invokes the allowlisted validation function, and produces a final response when validation succeeds. It prints the result and saves it to `outputs\integrated_demo\demo_result.json`. The first run may download model weights and take several minutes on CPU. An internet connection and sufficient free disk space are needed for that download.
+The demo loads the selected conversation, runs the pretrained Qwen model, parses and validates structured JSON, invokes the allowlisted validation function, and produces a final response when validation succeeds. The console and notebook present the summary, key points, decisions, action items, and review warnings in a readable table; the full machine-readable record is saved to `outputs\integrated_demo\demo_result.json`. The first run may download model weights and take several minutes on CPU. An internet connection and sufficient free disk space are needed for that download.
 
 Generated text can omit or invent details. JSON Schema checks structure, not factual accuracy; read the dialogue and review the warning before relying on an output.
 

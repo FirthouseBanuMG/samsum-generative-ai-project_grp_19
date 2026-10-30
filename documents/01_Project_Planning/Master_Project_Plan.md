@@ -116,7 +116,7 @@ Recorded verification:
 Run the application from the repository root in PowerShell:
 
 ```powershell
-.\.venv\Scripts\python.exe -m application.run_integrated_demo --sample-id 13818513
+.\.venv\Scripts\python.exe -m integrated_demo.run_integrated_demo --sample-id 13818513
 ```
 
 Run the automated tests:

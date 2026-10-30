@@ -38,7 +38,7 @@
 
 **Selected Kaggle dataset:** https://www.kaggle.com/datasets/nileshmalode1/samsum-dataset-text-summarization
 
-**Hugging Face SAMSum dataset reference:** https://huggingface.co/datasets/Samsung/samsum
+**Alternative SAMSum dataset page (not used as this project's download source):** https://huggingface.co/datasets/Samsung/samsum
 
 **Candidate model:** https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct
 
@@ -248,7 +248,7 @@
 
 **SAMSum Kaggle dataset:** https://www.kaggle.com/datasets/nileshmalode1/samsum-dataset-text-summarization
 
-**SAMSum Hugging Face dataset:** https://huggingface.co/datasets/Samsung/samsum
+**Alternative SAMSum dataset page (not used as this project's download source):** https://huggingface.co/datasets/Samsung/samsum
 
 **Qwen2.5-1.5B-Instruct:** https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct
 

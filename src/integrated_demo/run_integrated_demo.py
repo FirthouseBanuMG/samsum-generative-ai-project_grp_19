@@ -15,6 +15,10 @@ from structured_output.run_structured_output import (
     generate_structured,
     load_model,
 )
+from integrated_demo.presentation import (
+    format_final_response_for_review,
+    format_summary_for_review,
+)
 from tool_calling.run_tool_calling import (
     TOOL_NAME,
     execute_tool_call,
@@ -134,8 +138,28 @@ def main() -> None:
     args = parser.parse_args()
 
     result = run_demo(str(args.sample_id))
-    print(json.dumps(result, indent=2, ensure_ascii=False))
-    print(f"\nSaved integrated demo result to: {OUTPUT_FILE}")
+    generation = result["generation"]
+    print(f"Sample: {result['sample_id']} (train split)")
+    print(f"Model: {result['model']}")
+    print(
+        format_summary_for_review(
+            generation["final_object"],
+            schema_valid=generation["schema_valid"],
+            used_fallback=generation["used_fallback"],
+            validation_errors=generation["validation_errors"],
+            coverage_flags=generation["commitment_coverage_flags"],
+        )
+    )
+    if result["tool_result"] is not None:
+        tool_status = "passed" if result["tool_result"]["valid"] else "failed"
+        print(f"\nTool validation: {tool_status}")
+    if result["final_response"] is not None:
+        print()
+        print(format_final_response_for_review(result["final_response"]))
+    print(
+        "\nMachine-readable evidence saved to: "
+        f"{OUTPUT_FILE.relative_to(PROJECT_ROOT)}"
+    )
 
     if result["tool_result"] is not None and not result["tool_result"]["valid"]:
         raise RuntimeError(

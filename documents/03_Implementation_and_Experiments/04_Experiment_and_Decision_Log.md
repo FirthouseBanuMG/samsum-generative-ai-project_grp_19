@@ -96,7 +96,7 @@ Training examples are used for initial pipeline verification to avoid consuming 
 
 **Retrospective update (28 October 2026):** A later 50-sample model-family comparison used the processed test split. Treat those results as comparative evidence, not a pristine final holdout, and do not continue tuning against that subset.
 
-**Next action:** Select three training examples, record their IDs and selection rationale, and run the initial baseline smoke test.
+**Status:** Completed. The selected examples, rationale, and results are recorded in Sections H–I.
 
 # H. Initial baseline smoke-test sample selection
 
@@ -259,3 +259,42 @@ The detailed condition generated longer text. The concise condition had higher r
 For dialogue `13728094`, both styles claimed that Sam decided to speak to Rick, despite Sam expressing uncertainty and considering letting the issue go. Length constraints did not eliminate unsupported decision claims. The detailed output included more context, but also more opportunity for unsupported additions. Human review remains necessary.
 
 **Status:** Experiment executed and outputs saved. Focused prompt tests passed. No broad quality conclusion is drawn from the three-example sample.
+
+# M. 50-Sample Model-Family Comparison
+
+**Date:** 28 October 2026
+**Experiment:** Comparative evaluation of Qwen, FLAN-T5, and DistilBART
+**Detailed protocol:** [Model Family Comparison](05_Model_Family_Comparison/README.md)
+
+## M.1 Protocol and sample
+
+- **Dataset:** `data/processed/samsum-test-processed.csv`
+- **Split:** Test
+- **Sample:** 50 unique dialogues, selected with seed 42
+- **Excluded pilot IDs:** `13818513`, `13681000`, `13728094`
+- **Generations:** 150 total (one per model for each dialogue)
+- **Execution:** CPU; greedy decoding (`do_sample=False`, `num_beams=1`)
+- **Limits:** 1,024 input tokens; 100 new output tokens
+- **Inputs:** Qwen and FLAN-T5 received constraint-based prompts; DistilBART received dialogue-only input.
+
+The sample IDs are preserved in `outputs/model_comparison_50_samples/sample_manifest.json`. Because this comparison used test-split examples to compare/select models, these examples are no longer an untouched final holdout.
+
+## M.2 Results
+
+| Model | Samples | ROUGE-1 F1 | ROUGE-2 F1 | ROUGE-L F1 | Mean seconds/sample |
+|---|---:|---:|---:|---:|---:|
+| `Qwen/Qwen2.5-1.5B-Instruct` | 50 | 0.220521 | 0.072396 | 0.158634 | 21.68958 |
+| `google/flan-t5-base` | 50 | 0.514008 | 0.248225 | 0.429139 | 0.63586 |
+| `sshleifer/distilbart-cnn-12-6` | 50 | 0.265467 | 0.098079 | 0.199712 | 1.38020 |
+
+FLAN-T5-base had the highest ROUGE scores and lowest recorded mean generation time in this run. ROUGE measures lexical overlap, not factual accuracy or action-item correctness. Different input formats mean this experiment compares the tested model configurations; it does not isolate architecture effects.
+
+## M.3 Evidence and interpretation
+
+- Aggregate metrics: `outputs/model_comparison_50_samples/model_family_metrics.csv`
+- Per-example outputs and scores: `outputs/model_comparison_50_samples/model_family_comparison.csv` and `model_family_comparison.json`
+- Sample IDs and seed: `outputs/model_comparison_50_samples/sample_manifest.json`
+- Runner: `src/evaluation/run_model_family_comparison_50.py`
+- Full methodology and limitations: [Model Family Comparison](05_Model_Family_Comparison/README.md)
+
+Treat these results as comparative evidence, not an independent final test result. Do not tune prompts, models, or settings against these same 50 examples or rerun them as a new independent test.

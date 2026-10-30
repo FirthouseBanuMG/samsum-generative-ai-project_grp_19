@@ -123,7 +123,7 @@ Required comparisons include:
 | Area | Implemented entry points | Current evidence and boundary |
 |---|---|---|
 | Data checks/preprocessing | `src/data_processing/` | Raw validation, profiling, SHA-256 check; separate processed files; 14,731/818/819 rows; processed validation and ID/exact-pair leakage checks pass |
-| Baseline/integrated runtime | `src/baseline/model_smoke_test.py`, `src/application/run_integrated_demo.py` | Three baseline training examples; CLI and notebook rerun on CPU |
+| Baseline/integrated runtime | `src/baseline/model_smoke_test.py`, `src/integrated_demo/run_integrated_demo.py` | Three baseline training examples; CLI and notebook rerun on CPU |
 | Prompting/decoding | `src/prompting/`, `src/generation/` | Four prompt strategies, concise/detailed prompting, decoding outputs and logs |
 | Model comparison | `src/evaluation/run_model_family_comparison_50.py` | Qwen, FLAN-T5, DistilBART; 50 processed test examples. Not an untouched holdout and not an architecture-only comparison |
 | Structured result | `src/structured_output/` | JSON Schema, parse/retry/fallback, narrow commitment-coverage warning; warning does not prove or repair factual completeness |
