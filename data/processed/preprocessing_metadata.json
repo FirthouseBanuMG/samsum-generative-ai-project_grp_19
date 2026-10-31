@@ -1,0 +1,34 @@
+{
+  "required_columns": [
+    "id",
+    "dialogue",
+    "summary"
+  ],
+  "text_transformation": "none; original text preserved",
+  "truncation": "none",
+  "source_files_modified": false,
+  "split_results": {
+    "train": {
+      "source_file": "data/raw/samsum-train.csv",
+      "output_file": "data\\processed\\samsum-train-processed.csv",
+      "source_rows": 14732,
+      "processed_rows": 14731,
+      "excluded_rows": 1
+    },
+    "validation": {
+      "source_file": "data/raw/samsum-validation.csv",
+      "output_file": "data\\processed\\samsum-validation-processed.csv",
+      "source_rows": 818,
+      "processed_rows": 818,
+      "excluded_rows": 0
+    },
+    "test": {
+      "source_file": "data/raw/samsum-test.csv",
+      "output_file": "data\\processed\\samsum-test-processed.csv",
+      "source_rows": 819,
+      "processed_rows": 819,
+      "excluded_rows": 0
+    }
+  },
+  "exclusions_file": "data\\processed\\exclusions.json"
+}

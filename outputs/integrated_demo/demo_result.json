@@ -1,12 +1,12 @@
 {
-  "sample_id": "13818513",
+  "sample_id": "13728867",
   "dataset_split": "train",
   "model": "Qwen/Qwen2.5-1.5B-Instruct",
-  "dialogue": "Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)",
+  "dialogue": "Olivia: Who are you voting for in this election? \r\nOliver: Liberals as always.\r\nOlivia: Me too!!\r\nOliver: Great",
   "dialogue_sha256": null,
   "generation": {
-    "raw_output": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
-    "extracted_json": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+    "raw_output": "{\n  \"summary\": \"Olivia and Oliver agree on their voting preferences.\",\n  \"key_points\": [\"Olivia votes for liberals\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
+    "extracted_json": "{\n  \"summary\": \"Olivia and Oliver agree on their voting preferences.\",\n  \"key_points\": [\"Olivia votes for liberals\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
     "parse_ok": true,
     "schema_valid": true,
     "validation_errors": [],
@@ -15,34 +15,28 @@
     "recovered": false,
     "used_fallback": false,
     "final_object": {
-      "summary": "Amanda baked cookies for Jerry.",
+      "summary": "Olivia and Oliver agree on their voting preferences.",
       "key_points": [
-        "Amanda baked cookies",
-        "Jerry wants cookies"
+        "Olivia votes for liberals"
       ],
       "decisions": [],
       "action_items": []
     },
-    "commitment_coverage_flags": [
-      "Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items."
-    ],
-    "generation_seconds": 10.522
+    "commitment_coverage_flags": [],
+    "generation_seconds": 23.13
   },
   "human_review_required": true,
   "commitment_coverage_check": {
     "type": "narrow_heuristic",
-    "flags": [
-      "Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items."
-    ]
+    "flags": []
   },
   "tool_request": {
     "tool_name": "validate_summary_output",
     "arguments": {
       "output": {
-        "summary": "Amanda baked cookies for Jerry.",
+        "summary": "Olivia and Oliver agree on their voting preferences.",
         "key_points": [
-          "Amanda baked cookies",
-          "Jerry wants cookies"
+          "Olivia votes for liberals"
         ],
         "decisions": [],
         "action_items": []
@@ -112,6 +106,6 @@
       "additionalProperties": false
     }
   },
-  "final_response": "Summary: Amanda baked cookies for Jerry.\nKey Points: \n- Amanda baked cookies\n- Jerry wants cookies\n\nDecisions: None identified\n\nAction Items: None identified\n\nValidation note: The output passed JSON Schema checks for structure only; this does not verify factual accuracy or completeness. Human review is required.\n\nCompleteness review required: Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items.",
-  "final_response_status": "generated_after_valid_tool_result_with_coverage_warning"
+  "final_response": "Summary: Olivia and Oliver agree on their voting preferences.\nKey Points: \n- Olivia votes for liberals\nDecisions: None\nAction Items: None\n\nValidation note: The output passed JSON Schema checks for structure only; this does not verify factual accuracy or completeness. Human review is required.",
+  "final_response_status": "generated_after_valid_tool_result"
 }

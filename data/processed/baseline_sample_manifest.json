@@ -1,0 +1,25 @@
+{
+  "experiment": "initial_baseline_smoke_test",
+  "date": "2026-10-16",
+  "dataset_split": "train",
+  "purpose": "Qualitative pipeline verification only; not a performance estimate.",
+  "test_split_used": false,
+  "validation_split_used_for_generation": false,
+  "examples": [
+    {
+      "id": "13818513",
+      "category": "simple request and agreement",
+      "selection_reason": "Check preservation of the key event and future action."
+    },
+    {
+      "id": "13681000",
+      "category": "advice and tentative action",
+      "selection_reason": "Check whether a suggestion is distinguished from a confirmed decision."
+    },
+    {
+      "id": "13728094",
+      "category": "longer multi-speaker discussion",
+      "selection_reason": "Check preservation of the main problem and advice without speaker confusion."
+    }
+  ]
+}
