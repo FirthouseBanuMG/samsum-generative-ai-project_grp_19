@@ -14,11 +14,11 @@ The project is an inference and evaluation prototype. It uses pretrained models;
 | Prompt experiments | `src/prompting/prompts.py` and `src/prompting/run_prompt_experiments.py` compare zero-shot, few-shot, role-based, and constraint-based prompting | Three training examples per strategy; manual rubric results are exploratory |
 | Length comparison | `src/prompting/run_summary_detail_comparison.py` compares concise and detailed prompts on the same three examples | `outputs/summary_detail_comparison/`; concise outputs were shorter and had higher ROUGE on this small sample, not proof of better factual quality |
 | Decoding experiments | `src/generation/run_decoding_experiments.py` compares greedy decoding with three sampling configurations | Fixed constraint prompt; sampling uses three seeds for each of the three training examples. More varied output is not necessarily more accurate. |
-| Model comparison | `src/evaluation/run_model_family_comparison_50.py` evaluates Qwen, FLAN-T5-base, and DistilBART-CNN on 50 test-split examples | `outputs/model_comparison_50_samples/`; inputs differ by model and the subset is no longer an untouched holdout |
+| Model comparison | `src/evaluation/run_model_family_comparison_50.py` evaluates Qwen, FLAN-T5-base, and DistilBART-CNN on seeded test-split examples; it records pre-truncation token counts and truncation flags, and supports excluding a previous manifest | `outputs/model_comparison_50_samples/`; inputs differ by model and the existing 50-example subset is no longer an untouched holdout |
 | Structured output | `src/structured_output/schema.py` defines required JSON fields; `run_structured_output.py` extracts/parses, validates, retries once, and flags fallback | `summary`, `key_points`, `decisions`, and `action_items`; schema validity is structural, not factual |
 | Coverage warning | `src/structured_output/coverage.py` flags a narrow pattern of missing first-person commitments | Warning does not repair output, block tool invocation, or guarantee completeness |
 | Tool/function workflow | `src/tool_calling/run_tool_calling.py` validates an allowlisted JSON request and generates a final response after a valid tool result | Application-level JSON protocol, not native model-specific tool-call parsing; invalid tool results block follow-up generation |
-| Integrated application | `src/integrated_demo/run_integrated_demo.py` loads a selected ID from the processed training split, generates structured output, runs validation, and saves the result | `outputs/integrated_demo/demo_result.json`; sample `13818513` demonstrates a missed promise that the heuristic warns about |
+| Integrated application | `src/integrated_demo/run_integrated_demo.py` accepts a training sample ID or supplied dialogue text/file, generates structured output, runs validation, and saves the result | `outputs/integrated_demo/demo_result.json`; sample `13818513` demonstrates a missed promise that the heuristic warns about |
 
 ## 2. Source layout
 
@@ -66,9 +66,17 @@ From the repository root, with the project environment and processed training CS
 .\.venv\Scripts\python.exe -m integrated_demo.run_integrated_demo --sample-id 13818513
 ```
 
-The CLI accepts a training-split sample ID; it does not accept arbitrary dialogue text. The demo loads Qwen, generates and validates structured JSON, runs the narrow coverage heuristic, and builds an allowlisted validation request in application code. Only schema-valid output that did not use fallback proceeds to the validator. A valid tool result is sent back to the model for a final response; a failed check blocks that follow-up. Coverage warnings are appended after successful generation and do not block tool use.
+The CLI accepts a training-split sample ID or a supplied dialogue using `--dialogue` or `--dialogue-file`. The demo loads Qwen, generates and validates structured JSON, runs the narrow coverage heuristic, and builds an allowlisted validation request in application code. Only schema-valid output that did not use fallback proceeds to the validator. A valid tool result is sent back to the model for a final response; a failed check blocks that follow-up. Coverage warnings are appended after successful generation and do not block tool use.
 
-The demo writes the full machine-readable record to `outputs/integrated_demo/demo_result.json`. The console renderer displays the summary, key points, decisions, action items, and review warnings as a readable table. Model weights may download on first run; CPU generation can take several minutes.
+The demo writes a machine-readable record to `outputs/integrated_demo/demo_result.json`. Training-split sample text is included; supplied text is omitted by default and represented by a SHA-256 fingerprint. The console renderer displays the summary, key points, decisions, action items, and review warnings as a readable table. Model weights may download on first run; CPU generation can take several minutes.
+
+The original sample-ID mode remains the default. To process a supplied dialogue locally, pass text or a UTF-8 file:
+
+```powershell
+.\.venv\Scripts\python.exe -m integrated_demo.run_integrated_demo --dialogue-file path\to\dialogue.txt
+```
+
+By default, the saved record omits user-supplied dialogue text and keeps only its SHA-256 fingerprint; use `--save-input` only when retaining the source text is appropriate. For a CUDA runtime, explicitly pass `--device cuda`; `--device auto` selects CUDA when available and otherwise CPU. CPU remains the default. On Colab or another hosted runtime, do not submit private conversations unless the data owner has approved that processing location.
 
 ## 5. Run automated tests
 
@@ -76,7 +84,7 @@ The demo writes the full machine-readable record to `outputs/integrated_demo/dem
 .\.venv\Scripts\python.exe -m pytest -q
 ```
 
-On 31 October 2026, all **45 tests passed**. The suite validates application logic offline; it does not load model weights or prove semantic factuality.
+The latest local run passed all **66 tests**. The suite validates application logic offline; it does not load model weights or prove semantic factuality.
 
 ## 6. Interpreting the evidence
 
@@ -84,8 +92,25 @@ On 31 October 2026, all **45 tests passed**. The suite validates application log
 - ROUGE measures lexical overlap with reference summaries, not factual accuracy, attribution, or action-item correctness.
 - The prompt rubric has only three examples per strategy.
 - The 50-sample model comparison used test-split examples and different input formats across models.
+- The comparison runner records the pre-truncation token count and a truncation flag for each generation; inspect flagged examples before interpreting their scores.
 - JSON Schema and the allowlisted tool validate structure. They do not determine whether claims are supported by the dialogue.
 - Human review against the source conversation is required before acting on generated summaries or action items.
+
+### Reserve a separate sample for final comparison and human review
+
+The existing 50-example test manifest records the subset already used for model selection. After model, prompt, and evaluation choices are frozen, create a disjoint run and separate human-review files with:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.run_model_family_comparison_50 --samples 50 --seed 2026 --exclude-manifest outputs\model_comparison_50_samples\sample_manifest.json
+```
+
+This writes to the new `outputs/final_evaluation/` directory, excludes every ID in the earlier manifest, and refuses to overwrite a non-empty reserved output directory. Reviewers should independently score the two blinded CSVs against the dialogue without seeing `review_key.json`. After completing every rating, summarize them with:
+
+```powershell
+.\.venv\Scripts\python.exe -m evaluation.summarize_human_reviews --reviewer-1 outputs\final_evaluation\human_review_reviewer_1.csv --reviewer-2 outputs\final_evaluation\human_review_reviewer_2.csv --review-key outputs\final_evaluation\review_key.json --output outputs\final_evaluation\human_review_summary.csv
+```
+
+The review summary reports mean scores and simple exact-agreement/mean-absolute-difference statistics; it is descriptive, not a chance-corrected reliability measure. Preparing or running this evaluation does not itself constitute completed human review. Keep evaluation outputs local unless dataset sharing rights have been established.
 
 ## 7. Verification record
 

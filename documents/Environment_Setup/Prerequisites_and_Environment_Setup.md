@@ -2,7 +2,7 @@
 
 This is the single current guide for the software, prerequisites, dataset setup, and commands needed to run the project on Windows.
 
-**Verification update (31 October 2026):** The documented dataset validation, raw-file integrity, processed-split validation, and leakage checks passed against the local files. The offline test suite passed all 45 tests. The model-backed demo is separate and requires the processed training data and downloaded model weights.
+**Verification update (31 October 2026):** The documented dataset validation, raw-file integrity, processed-split validation, and leakage checks passed against the local files. The latest offline test run passed all 66 tests. A separate fresh CPU model-backed run of the integrated CLI and notebook also completed; the run requires the processed training data and downloaded model weights.
 
 ## 1. What you need
 
@@ -133,6 +133,16 @@ Choose another ID that exists in `data\processed\samsum-train-processed.csv`:
 
 The demo loads the selected conversation, runs the pretrained Qwen model, parses and validates structured JSON, invokes the allowlisted validation function, and produces a final response when validation succeeds. The console and notebook present the summary, key points, decisions, action items, and review warnings in a readable table; the full machine-readable record is saved to `outputs\integrated_demo\demo_result.json`. The first run may download model weights and take several minutes on CPU. An internet connection and sufficient free disk space are needed for that download.
 
+The CLI preserves CPU as its default. To use an available CUDA GPU, pass `--device cuda`; `--device auto` selects CUDA when available and CPU otherwise. The integrated notebook uses `load_model(device="auto")`.
+
+The CLI can also take a supplied dialogue directly or from a UTF-8 text file:
+
+```powershell
+.\.venv\Scripts\python.exe -m integrated_demo.run_integrated_demo --dialogue-file path\to\dialogue.txt
+```
+
+For user-supplied dialogues, the saved result omits the original text by default and stores a SHA-256 fingerprint. Add `--save-input` only when retaining the source text is appropriate. A hosted notebook runtime processes text on that provider's machine; do not use private conversations there without authorization.
+
 Generated text can omit or invent details. JSON Schema checks structure, not factual accuracy; read the dialogue and review the warning before relying on an output.
 
 ## 7. Run tests
@@ -143,11 +153,11 @@ Run the automated test suite from the repository root:
 .\.venv\Scripts\python.exe -m pytest tests
 ```
 
-The tests cover offline validation and application logic; running this command does not run the full model-backed demo. Verification on 31 October 2026 completed with **45 tests passing**.
+The tests cover offline validation and application logic; running this command does not run the full model-backed demo. The latest verification completed with **66 tests passing**.
 
 ## 8. Optional: open the notebook or render the report
 
-To run the integrated notebook, open `notebooks\01_integrated_demo.ipynb` in VS Code, choose the project `.venv` kernel, and execute its cells in order. The processed dataset and model download are still required.
+To run the integrated notebook, open `notebooks\01_integrated_demo.ipynb` in VS Code, choose the project `.venv` kernel, and execute its cells in order. The processed dataset and model download are still required. In Colab, first provide the repository and processed dataset in the runtime; the notebook does not upload local files. It automatically uses CUDA only when the runtime's PyTorch installation reports CUDA as available, otherwise it uses CPU. The runtime may be temporary, so copy any outputs you need before it ends.
 
 To render the Markdown report to Word, install Pandoc separately if it is not already available, then run:
 

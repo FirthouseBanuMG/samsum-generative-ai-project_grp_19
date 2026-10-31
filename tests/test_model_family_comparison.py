@@ -61,5 +61,21 @@ class TestResultSaving(unittest.TestCase):
             comparison.save_results([])
 
 
+def test_input_truncation_metadata_records_long_prompts():
+    class FakeTokenizer:
+        def __call__(self, prompt, *, add_special_tokens, truncation):
+            assert add_special_tokens is True
+            assert truncation is False
+            return {"input_ids": list(range(comparison.MAX_INPUT_TOKENS + 1))}
+
+    token_count, truncated = comparison.input_truncation_metadata(
+        FakeTokenizer(),
+        "long prompt",
+    )
+
+    assert token_count == comparison.MAX_INPUT_TOKENS + 1
+    assert truncated is True
+
+
 if __name__ == "__main__":
     unittest.main()

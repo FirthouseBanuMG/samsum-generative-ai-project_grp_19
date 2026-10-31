@@ -56,6 +56,8 @@ This README is the Markdown comparison report, including the protocol, results, 
 - `outputs/model_comparison_50_samples/model_family_comparison.json`: Results in JSON format.
 - `outputs/model_comparison_50_samples/model_family_metrics.csv`: Aggregated model metrics.
 - `outputs/model_comparison_50_samples/sample_manifest.json`: Selected sample IDs and seed.
+- Each newly generated row also records its input token count before truncation and whether truncation was applied; older saved runs predate these fields.
+- The comparison runner uses CUDA with half precision when CUDA is available and otherwise runs on CPU.
 
 ## Limitations
 
@@ -82,3 +84,33 @@ python -m evaluation.run_model_family_comparison_50 --samples 50 --seed 42
 ```
 
 The run writes outputs to `outputs/model_comparison_50_samples/`.
+
+## Separate final sample and blinded human review
+
+The saved `sample_manifest.json` lists the 50 test IDs already used for model comparison/selection. Once model, prompt, and scoring decisions are frozen, create a disjoint comparison on a new sample and two independent review sheets:
+
+```powershell
+python -m evaluation.run_model_family_comparison_50 --samples 50 --seed 2026 --exclude-manifest outputs\model_comparison_50_samples\sample_manifest.json
+```
+
+With `--exclude-manifest`, the runner writes to `outputs/final_evaluation/` and fails rather than overwriting a non-empty directory. It records the excluded IDs and selected IDs in the new manifest. It also writes `human_review_reviewer_1.csv`, `human_review_reviewer_2.csv`, and `review_key.json`. Give reviewers only their review CSV; keep the key from them until scoring is complete.
+
+Review each generated summary against its dialogue without using the reference summary as an answer key. Score each item from 1 to 5:
+
+- **Factual support:** 1 = important unsupported claims; 3 = mixed support; 5 = all claims supported.
+- **Key-event coverage:** 1 = misses the central event; 3 = covers the main event but omits important information; 5 = covers the salient events.
+- **Speaker attribution:** 1 = materially wrong attribution; 3 = partly unclear or incorrect; 5 = correct throughout.
+
+Add specific examples in reviewer notes. Have both reviewers complete all rows independently. The summary utility reports per-model means, exact agreement, and mean absolute score difference; these are descriptive and not chance-corrected. Human annotations are not included in the repository by the runner. Do not claim this review is complete until both reviewers finish and results are checked.
+
+After both reviewers complete their CSVs, summarize and unblind the ratings with:
+
+```powershell
+python -m evaluation.summarize_human_reviews `
+  --reviewer-1 outputs\final_evaluation\human_review_reviewer_1.csv `
+  --reviewer-2 outputs\final_evaluation\human_review_reviewer_2.csv `
+  --review-key outputs\final_evaluation\review_key.json `
+  --output outputs\final_evaluation\human_review_summary.csv
+```
+
+Keep the review key private until both reviewers have submitted their ratings. The utility checks that the two files contain the same rows, validates ratings from 1 to 5, and reports pooled model means, exact agreement, and mean absolute differences.

@@ -3,6 +3,7 @@
   "dataset_split": "train",
   "model": "Qwen/Qwen2.5-1.5B-Instruct",
   "dialogue": "Amanda: I baked  cookies. Do you want some?\r\nJerry: Sure!\r\nAmanda: I'll bring you tomorrow :-)",
+  "dialogue_sha256": null,
   "generation": {
     "raw_output": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
     "extracted_json": "{\n  \"summary\": \"Amanda baked cookies for Jerry.\",\n  \"key_points\": [\"Amanda baked cookies\", \"Jerry wants cookies\"],\n  \"decisions\": [],\n  \"action_items\": []\n}",
@@ -25,7 +26,7 @@
     "commitment_coverage_flags": [
       "Amanda made an explicit first-person commitment (\"I'll bring you tomorrow :-)\") with no matching owner/action verb in action_items."
     ],
-    "generation_seconds": 19.234
+    "generation_seconds": 10.522
   },
   "human_review_required": true,
   "commitment_coverage_check": {

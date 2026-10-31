@@ -9,6 +9,7 @@ native model-specific tool calling. Run the demonstration with
 """
 
 import json
+import argparse
 import time
 
 from project_paths import PROJECT_ROOT
@@ -83,17 +84,22 @@ def execute_tool_call(request):
     return validate_summary_output(output)
 
 
-def load_model():
+def load_model(device="cpu"):
     # Import ML dependencies only when a model run is requested.
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 
+    from structured_output.run_structured_output import resolve_inference_device
+
+    resolved_device = resolve_inference_device(device)
+    dtype = torch.float16 if resolved_device == "cuda" else torch.float32
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        dtype=torch.float32,
+        torch_dtype=dtype,
         low_cpu_mem_usage=True,
     )
+    model.to(resolved_device)
     model.eval()
     return tokenizer, model
 
@@ -107,6 +113,7 @@ def generate_text(messages, tokenizer, model):
         add_generation_prompt=True,
     )
     inputs = tokenizer(prompt, return_tensors="pt")
+    inputs = inputs.to(model.device)
     with torch.inference_mode():
         output_ids = model.generate(
             **inputs,
@@ -275,6 +282,15 @@ def run_local_checks():
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--device",
+        choices=("cpu", "cuda", "auto"),
+        default="cpu",
+        help="Inference device (default: cpu; use cuda when available).",
+    )
+    args = parser.parse_args()
+
     run_local_checks()
 
     records = json.loads(BASELINE_PATH.read_text(encoding="utf-8"))
@@ -287,8 +303,8 @@ def main():
     if not isinstance(dialogue, str) or not dialogue.strip():
         raise ValueError("Baseline example has no usable dialogue.")
 
-    print(f"\nLoading {MODEL_NAME} on CPU...")
-    tokenizer, model = load_model()
+    print(f"\nLoading {MODEL_NAME} on {args.device.upper()}...")
+    tokenizer, model = load_model(args.device)
 
     start = time.time()
     raw_request = make_tool_request(dialogue, tokenizer, model)

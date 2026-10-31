@@ -236,7 +236,7 @@ The project implements the central workflow required for a small generative-AI s
 - [x] Cite the reported Kaggle source/version and disclose that the listed license is Unknown; do not claim redistribution rights or redistribute dataset files.
 - [x] Check that the in-text source references resolve to the numbered bibliography entries and that model/metric claims have references.
 - [x] The 29 October 2026 render was 14 pages total, with an 11-page body before references/appendices. Re-render after report content or layout changes to verify the submitted copy still meets the 10–15-page requirement.
-- [x] Offline test suite passed 45 tests on 31 October 2026; this check did not rerun model inference.
+- [x] Latest offline test suite passed 66 tests; this check did not rerun model inference.
 - [x] Disclose that the 50-sample test-split comparison is comparative evidence, not an untouched holdout; do not continue tuning on it.
 - [x] Use the standard VAE, GAN, and autoregressive Transformer family set as directed; avoid asserting that each was explicitly taught without course notes/slides.
 - [x] Execute the integrated notebook/demo in the project environment on CPU; inspect the saved result and commitment-warning output.

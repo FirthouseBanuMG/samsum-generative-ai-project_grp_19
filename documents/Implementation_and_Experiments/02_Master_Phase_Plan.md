@@ -28,9 +28,9 @@
 | 5. Decoding and model-family comparison | Compare greedy/sampling settings and feasible model configurations; explain model families | Decoding outputs, model metrics, architecture discussion | **Complete with limitations.** Qwen, FLAN-T5, and DistilBART compared on 50 test examples; test subset is not a pristine holdout and input formats differ. Standard VAE/GAN/autoregressive Transformer conceptual families are used without claiming verified lecture coverage. |
 | 6. Structured output and tool demo | Generate JSON; parse, validate, recover; demonstrate allowlisted function round trip | Schema, runner, tests, saved tool evidence | **Complete.** Application-level JSON tool protocol tested; it is not native model tool calling. |
 | 7. Evaluation and failure analysis | Apply criteria and document concrete failure examples | Scores, metrics, failure analysis, caveats | **Complete with limitations.** Evidence and failures documented; small qualitative samples do not establish general accuracy. |
-| 8. Integrated notebook/demo | Connect processed input, generation, coverage warning, tool, final response | Executed notebook, CLI, saved demo output | **Complete with limitation.** CLI and notebook rerun on CPU. The model still omits an explicit commitment; a narrow heuristic warns but does not repair it. |
+| 8. Integrated notebook/demo | Connect processed input, generation, coverage warning, tool, final response | Executed notebook, CLI, saved demo output | **Complete with limitation.** CLI and notebook ran successfully on CPU on 31 Oct. The model still omits an explicit commitment; a narrow heuristic warns but does not repair it. |
 | 9. Report and presentation | Prepare report, slide deck, and contribution forms | 10–15-page report body, 10-slide deck, four-member contribution template | **Mostly complete.** Report evidence/citations were reviewed; the last verified render (29 Oct) is 14 pages total with an 11-page body. Slide outline, proposed speaker split, and demo plan are ready; member confirmations and actual rehearsal/timing remain. |
-| 10. Final verification and closeout | Run tests/data checks/demo; verify report/deck and limitations | Test results, data checks, rendered page count, review checklist | **Mostly complete.** The offline suite passed 45 tests on 31 Oct. Raw integrity, processed validation, and leakage checks passed the same day. The last report page-count verification was 29 Oct (14 total pages; 11-page body); final team review remains. |
+| 10. Final verification and closeout | Run tests/data checks/demo; verify report/deck and limitations | Test results, data checks, rendered page count, review checklist | **Mostly complete.** The latest offline suite passed 66 tests. Raw integrity, processed validation, and leakage checks passed on 31 Oct. The last report page-count verification was 29 Oct (14 total pages; 11-page body); final team review remains. |
 | 11. Submission | Package and submit through course process | Submission confirmation | **Pending / team-owned.** Original deadline was 25 Oct 2026; no submission confirmation is recorded here. |
 
 ## 3. Current Status — Evidence Available
@@ -55,7 +55,7 @@
 - Integrated notebook and CLI completed a fresh CPU run; the narrow commitment warning is included in the output saved under `outputs/integrated_demo/`.
 - Python modules are grouped directly under `src/` by responsibility, tests are under top-level `tests/`, and runnable commands use those package modules.
 - Assignment report last rendered on 29 Oct to 14 pages total (11-page body excluding references/appendices); a 10-slide presentation deck and simplified four-member contribution template are present.
-- On 31 Oct, the offline test suite passed all 45 tests; raw dataset checksums matched the recorded local baseline, processed data validated, and cross-split exact ID/pair checks reported zero overlaps.
+- The latest offline test suite passed all 66 tests; raw dataset checksums matched the recorded local baseline, processed data validated, and cross-split exact ID/pair checks reported zero overlaps on 31 Oct.
 
 ### Still to verify or complete for submission
 
@@ -263,7 +263,7 @@ The Python source is grouped directly under `src/` (`data_processing`, `baseline
 
 **Exit criteria:** All mandatory deliverables have been checked and remaining limitations are documented.
 
-**Status:** Software and artifact checks are substantially complete: 45 offline tests passed and read-only raw/processed dataset and leakage checks passed on 31 Oct. The saved model-backed CLI/notebook evidence remains available; this check did not run fresh inference. The last verified report render (29 Oct) is 14 pages total with an 11-page body. Member confirmation, rehearsal, final team review, and submission confirmation remain.
+**Status:** Software and artifact checks are substantially complete: the latest offline run passed 66 tests, read-only raw/processed dataset and leakage checks passed, and the CLI and notebook completed a fresh CPU model-backed run on 31 Oct. The known commitment omission remains flagged, not repaired. The last verified report render (29 Oct) is 14 pages total with an 11-page body. Member confirmation, rehearsal, final team review, and submission confirmation remain.
 
 ### Phase 11 — Submission
 

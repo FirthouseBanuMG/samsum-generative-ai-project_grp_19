@@ -127,16 +127,16 @@ Required comparisons include:
 | Area | Implemented entry points | Current evidence and boundary |
 |---|---|---|
 | Data checks/preprocessing | `src/data_processing/` | Raw validation, profiling, SHA-256 check; separate processed files; 14,731/818/819 rows; processed validation and ID/exact-pair leakage checks pass |
-| Baseline/integrated runtime | `src/baseline/model_smoke_test.py`, `src/integrated_demo/run_integrated_demo.py` | Three baseline training examples; integrated CLI reads a requested sample ID from the processed training split; saved run for `13818513` includes a valid schema/tool result and an omission warning |
+| Baseline/integrated runtime | `src/baseline/model_smoke_test.py`, `src/integrated_demo/run_integrated_demo.py` | Three baseline training examples; integrated CLI reads a training sample ID or supplied dialogue text/file; CPU is the CLI default with optional CUDA/auto selection; saved run for `13818513` includes a valid schema/tool result and an omission warning |
 | Prompting/decoding | `src/prompting/`, `src/generation/` | Four prompt strategies, concise/detailed prompting, decoding outputs and logs |
 | Model comparison | `src/evaluation/run_model_family_comparison_50.py` | Qwen, FLAN-T5, DistilBART; 50 processed test examples. Not an untouched holdout and not an architecture-only comparison |
 | Structured result | `src/structured_output/` | JSON Schema, parse/retry/fallback, narrow commitment-coverage warning; warning does not prove or repair factual completeness |
 | Tool workflow | `src/tool_calling/run_tool_calling.py`, `src/integrated_demo/run_integrated_demo.py` | Standalone demonstration parses a model-generated application-level JSON request; integrated CLI builds the allowlisted validation request in application code. Both validate the tool result before the model follow-up |
-| Integration and verification | `notebooks/01_integrated_demo.ipynb`, `tests/` | Notebook/CLI evidence is saved; 45 offline tests passed on 31 October 2026. Tests do not load model weights or execute a fresh full inference run |
+| Integration and verification | `notebooks/01_integrated_demo.ipynb`, `tests/` | Notebook automatically selects CUDA when available and otherwise CPU; CLI remains CPU by default. Latest offline run passed 66 tests. Fresh notebook and CLI CPU inference completed on 31 Oct; tests themselves do not load model weights |
 
 ### Runtime sequence
 
-1. Read the selected training sample ID from `data/processed/samsum-train-processed.csv`; the CLI does not accept arbitrary dialogue text.
+1. Read a selected training sample ID from `data/processed/samsum-train-processed.csv`, or accept caller-supplied dialogue text/file through the CLI. User-supplied text is omitted from saved evidence by default.
 2. Construct the structured JSON prompt and run the pretrained Qwen causal LM.
 3. Extract/parse the JSON; retry once for malformed or schema-invalid output, then flag fallback.
 4. Run the narrow commitment-coverage heuristic. It flags some explicit first-person commitments missing from action items; it does not alter output or block the tool.
@@ -147,4 +147,4 @@ Required comparisons include:
 
 Raw CSVs are read only for audit, profiling, integrity verification, and preprocessing. Model workflows use processed CSVs or baseline results generated from processed training examples. The model-family comparison used a processed test subset; results are disclosed as comparative evidence and must not be described as a pristine holdout.
 
-**Status:** Architecture and documented data checks were reverified on 31 October 2026; the 45-test suite passed. The full model-backed run remains dependent on local weights/data and is represented by saved evidence rather than re-run as part of the offline test suite. Team-owned contribution sign-offs and presentation rehearsal remain outside the software architecture.
+**Status:** Architecture and documented data checks were reverified on 31 October 2026; the latest 66-test suite and a fresh CPU notebook/CLI run passed. The saved demo demonstrates schema/tool validation and still flags the known commitment omission. Team-owned contribution sign-offs and presentation rehearsal remain outside the software architecture.

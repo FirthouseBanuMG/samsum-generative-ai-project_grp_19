@@ -7,7 +7,6 @@ generations in CSV and JSON. GPU use is optional and enabled when available.
 
 import json
 import time
-from pathlib import Path
 
 import pandas as pd
 
@@ -88,10 +87,25 @@ def prepare_input(dialogue, input_format):
     raise ValueError(f"Unsupported input format: {input_format}")
 
 
+def input_truncation_metadata(tokenizer, prompt):
+    """Return original token count and whether max-input truncation will apply."""
+    encoded = tokenizer(
+        prompt,
+        add_special_tokens=True,
+        truncation=False,
+    )
+    input_token_count = len(encoded["input_ids"])
+    return input_token_count, input_token_count > MAX_INPUT_TOKENS
+
+
 def generate_summary(model, tokenizer, dialogue, config):
-    """Generate one summary and return it with the elapsed time."""
+    """Generate a summary and return text, time, input count, and truncation."""
     import torch
     prompt = prepare_input(dialogue, config["input_format"])
+    input_token_count, input_truncated = input_truncation_metadata(
+        tokenizer,
+        prompt,
+    )
 
     inputs = tokenizer(
         prompt,
@@ -135,7 +149,12 @@ def generate_summary(model, tokenizer, dialogue, config):
         skip_special_tokens=True,
     ).strip()
 
-    return summary, elapsed
+    return (
+        summary,
+        elapsed,
+        input_token_count,
+        input_truncated,
+    )
 
 
 
@@ -194,7 +213,7 @@ def run_comparison(samples=None, model_configs=None):
 
         try:
             for sample in samples:
-                summary, elapsed = generate_summary(
+                summary, elapsed, input_token_count, input_truncated = generate_summary(
                     model,
                     tokenizer,
                     sample["dialogue"],
@@ -213,6 +232,8 @@ def run_comparison(samples=None, model_configs=None):
                     ),
                     "generated_word_count": len(summary.split()),
                     "generation_seconds": round(elapsed, 3),
+                    "input_token_count_before_truncation": input_token_count,
+                    "input_truncated": input_truncated,
                     "max_new_tokens": MAX_NEW_TOKENS,
                     "do_sample": False,
                     "num_beams": 1,

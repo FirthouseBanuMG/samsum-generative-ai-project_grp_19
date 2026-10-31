@@ -48,8 +48,8 @@ Tool invocation is an application-level JSON protocol, not native model-specific
 | Model comparison | Three model configurations evaluated on the same 50 processed test dialogues; details in [Model Family Comparison](../Implementation_and_Experiments/Model_Family_Comparison/README.md) | These results are comparative/selection evidence, not an untouched final holdout; input formats differ |
 | Structured output | JSON Schema for summary, key points, decisions, and action items; parser, one repair attempt, fallback path, tests, and saved outputs | Schema validity does not establish semantic accuracy or completeness |
 | Tool/function workflow | Allowlisted validation function, tests, saved tool-result round trip and model follow-up | Application-level JSON protocol, not native model tool calling |
-| Integrated application | CLI and notebook run on CPU; saved output includes final response and a commitment-coverage warning | The heuristic is narrow and warns without repairing the omission |
-| Current verification | Raw integrity, processed-dataset validation, split leakage, and offline test suite rerun on 31 October 2026 | 45 automated tests passed; read-only data checks do not prove semantic near-duplicate absence or model factuality |
+| Integrated application | CLI and notebook run on CPU; the 31 October rerun produced structured output, a valid tool result, final response, and commitment-coverage warning | The heuristic is narrow and warns without repairing the omission |
+| Current verification | Raw integrity, processed-dataset validation, split leakage, and offline test suite rerun on 31 October 2026 | 66 automated tests passed; read-only data checks do not prove semantic near-duplicate absence or model factuality |
 | Evaluation and failure analysis | ROUGE comparison, human prompt criteria, and concrete qualitative failure cases recorded | Small samples; ROUGE is reference overlap, not factuality; no large-scale human factuality study |
 | Report and presentation | Technical report, 10-slide deck, speaker notes, and simplified contribution template prepared | Team contribution confirmations and actual rehearsal are still required |
 
@@ -108,9 +108,9 @@ The assignment evidence matrix maps each requirement to its evidence and status:
 
 Recorded verification (latest checks on 31 October 2026 unless otherwise dated):
 
-- 45 automated tests passed with `.\.venv\Scripts\python.exe -m pytest -q`.
+- 66 automated tests passed with `.\.venv\Scripts\python.exe -m pytest -q`.
 - Raw dataset hash verification, processed data validation, and cross-split ID/exact-pair checks passed. Raw hashes match the local 16 October baseline; this does not authenticate upstream provenance.
-- The integrated CLI/notebook model-backed example is saved in `outputs/integrated_demo/`. The 31 October offline test/data verification did not perform a fresh model inference run.
+- A fresh CPU model-backed run was completed on 31 October from both the integrated CLI and notebook. The CLI result is saved in `outputs/integrated_demo/demo_result.json`; it passed schema/tool validation and retained the known commitment-coverage warning. The notebook output confirms the structured-generation cell completed on CPU.
 - The report last rendered on 29 October to 14 pages total, with an 11-page body excluding references and appendices. Re-render after any content/layout changes.
 - The presentation deck contains 10 slides. Its planned slide timings total about 8 minutes 25 seconds; the proposed one-minute demo brings the target to about 9 minutes 25 seconds. The group has not yet recorded an actual timed rehearsal.
 

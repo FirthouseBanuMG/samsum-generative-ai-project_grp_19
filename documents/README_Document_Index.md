@@ -24,7 +24,7 @@ This is the central index for the SAMSum-based intelligent conversation summariz
 - The presentation speaking draft, slide source, and generated 10-slide PowerPoint are in `documents/`; a proposed speaker split and one-minute demo plan are ready for team confirmation.
 - Prompt and decoding experiments, structured output validation, tool demonstration, and model comparison now have implementation and saved evidence.
 - The SAMSum-specific concise-versus-detailed prompt comparison has also been run on the fixed baseline examples.
-- The offline test suite passed all 45 tests on 31 October 2026; no model inference was rerun during that verification. The integrated notebook/demo has saved CPU-run evidence.
+- The latest offline test suite passed all 66 tests. A separate fresh CPU run of the integrated CLI and notebook also completed on 31 October; the demo continues to flag the known commitment omission.
 - The report's last recorded render is 14 pages total with an 11-page body (29 October 2026); re-render after report content or layout changes. Final team approval, contribution confirmations, and presentation rehearsal remain.
 
 ## Recommended reading and review order

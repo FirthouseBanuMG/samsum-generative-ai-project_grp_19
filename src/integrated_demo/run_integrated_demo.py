@@ -6,7 +6,9 @@ Run with ``python -m integrated_demo.run_integrated_demo --sample-id <id>``.
 """
 
 import argparse
+import hashlib
 import json
+from pathlib import Path
 
 import pandas as pd
 
@@ -60,18 +62,42 @@ def load_dialogue(sample_id: str) -> str:
     return dialogue
 
 
-def run_demo(sample_id: str) -> dict:
-    """Generate, validate, and save one structured summary with tool result."""
-    dialogue = load_dialogue(sample_id)
-    tokenizer, model = load_model()
+def run_demo(
+    sample_id: str | None = None,
+    *,
+    dialogue: str | None = None,
+    device: str = "cpu",
+    save_input: bool = False,
+) -> dict:
+    """Generate, validate, and save a summary from a training example or text."""
+    if dialogue is not None:
+        if sample_id is not None:
+            raise ValueError("Provide either sample_id or dialogue, not both.")
+        if not isinstance(dialogue, str) or not dialogue.strip():
+            raise ValueError("Dialogue must be non-empty.")
+        dataset_split = "user_supplied"
+    else:
+        if sample_id is None:
+            raise ValueError("A training sample ID or dialogue is required.")
+        dialogue = load_dialogue(sample_id)
+        dataset_split = "train"
+
+    tokenizer, model = load_model(device)
     outcome = generate_structured(dialogue, tokenizer, model)
     coverage_flags = outcome["commitment_coverage_flags"]
 
     record = {
         "sample_id": sample_id,
-        "dataset_split": "train",
+        "dataset_split": dataset_split,
         "model": MODEL_NAME,
-        "dialogue": dialogue,
+        "dialogue": (
+            dialogue if dataset_split == "train" or save_input else None
+        ),
+        "dialogue_sha256": (
+            None
+            if dataset_split == "train"
+            else hashlib.sha256(dialogue.encode("utf-8")).hexdigest()
+        ),
         "generation": outcome,
         "human_review_required": True,
         "commitment_coverage_check": {
@@ -131,16 +157,56 @@ def run_demo(sample_id: str) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
+    inputs = parser.add_mutually_exclusive_group()
+    inputs.add_argument(
         "--sample-id",
-        default="13818513",
         help="Training-split dialogue ID (default: 13818513).",
+    )
+    inputs.add_argument("--dialogue", help="Summarize this supplied dialogue.")
+    inputs.add_argument(
+        "--dialogue-file",
+        type=Path,
+        help="Read a dialogue from this UTF-8 text file.",
+    )
+    parser.add_argument(
+        "--device",
+        choices=("cpu", "cuda", "auto"),
+        default="cpu",
+        help="Inference device (default: cpu; use cuda when available).",
+    )
+    parser.add_argument(
+        "--save-input",
+        action="store_true",
+        help="Include a user-supplied dialogue in the saved result file.",
     )
     args = parser.parse_args()
 
-    result = run_demo(str(args.sample_id))
+    if args.dialogue_file is not None:
+        if not args.dialogue_file.is_file():
+            raise FileNotFoundError(
+                f"Dialogue file not found: {args.dialogue_file}"
+            )
+        supplied_dialogue = args.dialogue_file.read_text(encoding="utf-8")
+        result = run_demo(
+            dialogue=supplied_dialogue,
+            device=args.device,
+            save_input=args.save_input,
+        )
+    elif args.dialogue is not None:
+        result = run_demo(
+            dialogue=args.dialogue,
+            device=args.device,
+            save_input=args.save_input,
+        )
+    else:
+        sample_id = args.sample_id or "13818513"
+        result = run_demo(sample_id=str(sample_id), device=args.device)
+
     generation = result["generation"]
-    print(f"Sample: {result['sample_id']} (train split)")
+    if result["sample_id"] is None:
+        print("Input: user-supplied dialogue")
+    else:
+        print(f"Sample: {result['sample_id']} (train split)")
     print(f"Model: {result['model']}")
     print(
         format_summary_for_review(

@@ -19,47 +19,76 @@ FILES = {
 
 EXPECTED_COLUMNS = {"id", "dialogue", "summary"}
 
-for split, filename in FILES.items():
-    path = DATA_DIR / filename
+
+def validate_raw_splits(data_dir: Path = DATA_DIR):
+    """Inspect all raw splits and raise when a file or required column is missing."""
+    failures = []
+
+    for split, filename in FILES.items():
+        path = data_dir / filename
+
+        print(f"\n{'=' * 55}")
+        print(f"SPLIT: {split.upper()}")
+        print(f"FILE: {filename}")
+
+        if not path.is_file():
+            failures.append(f"{split}: file not found: {path}")
+            print(f"ERROR: File not found: {path}")
+            continue
+
+        df = pd.read_csv(path, encoding="utf-8")
+
+        print(f"Rows: {len(df):,}")
+        print(f"Columns: {list(df.columns)}")
+        missing_columns = EXPECTED_COLUMNS - set(df.columns)
+        print(f"Expected columns present: {not missing_columns}")
+
+        if missing_columns:
+            failures.append(
+                f"{split}: missing required columns {sorted(missing_columns)}"
+            )
+            print(
+                "ERROR: Required columns are missing; "
+                "skipping further checks."
+            )
+            continue
+
+        print("\nMissing values:")
+        print(df[["id", "dialogue", "summary"]].isna().sum().to_string())
+
+        print("\nBlank dialogue rows:", int(
+            df["dialogue"].fillna("").astype(str).str.strip().eq("").sum()
+        ))
+        print("Blank summary rows:", int(
+            df["summary"].fillna("").astype(str).str.strip().eq("").sum()
+        ))
+        duplicate_ids = df["id"].dropna().duplicated()
+        print("Duplicate IDs:", int(duplicate_ids.sum()))
+        if df["id"].isna().any():
+            failures.append(f"{split}: missing IDs")
+        if duplicate_ids.any():
+            failures.append(f"{split}: duplicate IDs")
+
+        lengths = df["dialogue"].dropna().astype(str).str.len()
+        if not lengths.empty:
+            print(f"Dialogue length (characters): min={lengths.min()}, "
+                  f"median={lengths.median():.0f}, max={lengths.max()}")
+
+        if not df.empty:
+            print("\nFirst example:")
+            print("ID:", df.iloc[0]["id"])
+            print("Dialogue:", str(df.iloc[0]["dialogue"])[:350])
+            print("Reference summary:", str(df.iloc[0]["summary"])[:250])
 
     print(f"\n{'=' * 55}")
-    print(f"SPLIT: {split.upper()}")
-    print(f"FILE: {filename}")
+    if failures:
+        raise ValueError("Raw dataset validation failed:\n- " + "\n- ".join(failures))
+    print("Dataset validation inspection complete.")
 
-    if not path.exists():
-        print("ERROR: File not found.")
-        continue
 
-    df = pd.read_csv(path, encoding="utf-8")
+def main():
+    validate_raw_splits()
 
-    print(f"Rows: {len(df):,}")
-    print(f"Columns: {list(df.columns)}")
-    print(f"Expected columns present: {EXPECTED_COLUMNS.issubset(df.columns)}")
 
-    if not EXPECTED_COLUMNS.issubset(df.columns):
-        print("ERROR: Required columns are missing; skipping further checks.")
-        continue
-
-    print("\nMissing values:")
-    print(df[["id", "dialogue", "summary"]].isna().sum().to_string())
-
-    print("\nBlank dialogue rows:", int(
-        df["dialogue"].fillna("").astype(str).str.strip().eq("").sum()
-    ))
-    print("Blank summary rows:", int(
-        df["summary"].fillna("").astype(str).str.strip().eq("").sum()
-    ))
-    print("Duplicate IDs:", int(df["id"].duplicated().sum()))
-
-    lengths = df["dialogue"].dropna().astype(str).str.len()
-    if not lengths.empty:
-        print(f"Dialogue length (characters): min={lengths.min()}, "
-              f"median={lengths.median():.0f}, max={lengths.max()}")
-
-    print("\nFirst example:")
-    print("ID:", df.iloc[0]["id"])
-    print("Dialogue:", str(df.iloc[0]["dialogue"])[:350])
-    print("Reference summary:", str(df.iloc[0]["summary"])[:250])
-
-print(f"\n{'=' * 55}")
-print("Dataset validation inspection complete.")
+if __name__ == "__main__":
+    main()

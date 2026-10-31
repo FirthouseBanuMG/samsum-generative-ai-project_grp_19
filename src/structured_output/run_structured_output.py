@@ -73,17 +73,30 @@ def load_baseline_examples(file_path):
 # LOAD THE MODEL
 # --------------------------------------------------
 
-def load_model():
+def resolve_inference_device(device: str = "cpu") -> str:
+    """Resolve and validate the requested CPU, CUDA, or automatic device."""
+    if device not in {"cpu", "cuda", "auto"}:
+        raise ValueError("device must be one of: cpu, cuda, auto")
+    if device == "cuda" and not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested, but no CUDA device is available.")
+    if device == "auto":
+        return "cuda" if torch.cuda.is_available() else "cpu"
+    return device
 
+
+def load_model(device: str = "cpu"):
+    resolved_device = resolve_inference_device(device)
+    dtype = torch.float16 if resolved_device == "cuda" else torch.float32
     print("\nLoading tokenizer...")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-    print("Loading model on CPU...")
+    print(f"Loading model on {resolved_device.upper()}...")
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        torch_dtype=torch.float32,
+        torch_dtype=dtype,
         low_cpu_mem_usage=True,
     )
+    model.to(resolved_device)
     model.eval()
 
     print("Model loaded successfully.")
@@ -104,6 +117,7 @@ def generate(messages, tokenizer, model):
     )
 
     inputs = tokenizer(prompt, return_tensors="pt")
+    inputs = inputs.to(model.device)
 
     with torch.inference_mode():
         output_ids = model.generate(
